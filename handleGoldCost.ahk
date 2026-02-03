@@ -14,6 +14,8 @@
 #Include lib\excelUtils.ahk
 #Include lib\uiUtils.ahk
 #Include lib\stringUtils.ahk
+#Include lib\jsonUtils.ahk
+#Include lib\pdfUtils.ahk
 
 ; ============================================================================
 ; GLOBAL VARIABLES
@@ -25,10 +27,12 @@ global DataListView := ""
 global StatusText := ""
 global ProgressBar := ""
 global StartBtn := ""
-global LoadBtn := ""
+global LoadPdfBtn := ""
+global LoadExcelBtn := ""
 global StartDateEdit := ""
 global EndDateEdit := ""
-global ExcelData := []  ; Store loaded data
+global PriceData := []  ; Store loaded data (from PDF or Excel)
+global LoadedSource := ""  ; Track source: "pdf" or "excel"
 
 ; ============================================================================
 ; HOTKEYS
@@ -57,7 +61,8 @@ Esc:: {
 ; ============================================================================
 
 ShowMainGui() {
-    global MainGui, DataListView, StatusText, ProgressBar, StartBtn, LoadBtn, StartDateEdit, EndDateEdit, CONFIG
+    global MainGui, DataListView, StatusText, ProgressBar, StartBtn, LoadPdfBtn, LoadExcelBtn, StartDateEdit,
+        EndDateEdit, CONFIG
 
     ; Destroy existing GUI if open
     if (MainGui != "") {
@@ -91,13 +96,15 @@ ShowMainGui() {
 
     MainGui.SetFont("s10 norm", "Segoe UI")
     MainGui.Add("Text", "xm y48 w410 Center BackgroundTrans",
-        "Load an Excel file, review the data, then start the automation")
+        "Load a PDF or Excel file, review the data, then start")
 
     ; === Buttons Section (Centered) ===
-    ; Total button width: 120 + 15 + 120 + 15 + 80 = 350px
-    ; Center position: (410 - 350) / 2 = 30px from left margin
-    LoadBtn := MainGui.Add("Button", "x40 y95 w120 h30", "📂 Load Excel File")
-    LoadBtn.OnEvent("Click", OnLoadExcel)
+    ; PDF is the primary/faster option
+    LoadPdfBtn := MainGui.Add("Button", "x20 y95 w100 h30", "📄 Load PDF")
+    LoadPdfBtn.OnEvent("Click", OnLoadPDF)
+
+    LoadExcelBtn := MainGui.Add("Button", "x+10 y95 w100 h30", "📊 Load Excel")
+    LoadExcelBtn.OnEvent("Click", OnLoadExcel)
 
     StartBtn := MainGui.Add("Button", "x+15 y95 w120 h30 Disabled", "▶️ Start Automation")
     StartBtn.OnEvent("Click", OnStartAutomation)
@@ -128,11 +135,11 @@ ShowMainGui() {
     ProgressBar := MainGui.Add("Progress", "x+10 y430 w200 h20 cGreen", 0)
 
     ; === Status Bar ===
-    StatusText := MainGui.Add("Text", "xm y460 w280 h25 cGray", "Ready. Load an Excel file to begin.")
+    StatusText := MainGui.Add("Text", "xm y460 w280 h25 cGray", "Ready. Load a PDF or Excel file to begin.")
 
     ; === Config Info ===
     MainGui.SetFont("s8", "Segoe UI")
-    MainGui.Add("Text", "xm y485 cGray", "Sheet: " . CONFIG.SHEET_NAME)
+    MainGui.Add("Text", "xm y485 cGray", "PDF mode: faster | Excel sheet: " . CONFIG.SHEET_NAME)
 
     ; === Date Settings Section (Bottom Right, aligned with table margin) ===
     MainGui.SetFont("s9", "Segoe UI")
@@ -152,14 +159,93 @@ ShowMainGui() {
 ; GUI EVENT HANDLERS
 ; ============================================================================
 
-OnLoadExcel(*) {
-    global DataListView, ExcelData, StartBtn, CONFIG
+; Load from PDF (faster - no Excel COM overhead)
+OnLoadPDF(*) {
+    global DataListView, PriceData, StartBtn, LoadedSource
 
-    UpdateStatus("📂 Loading Excel file...")
+    ; Check if PDF parser is ready
+    parserStatus := CheckPDFParserReady()
+    if (!parserStatus.ready) {
+        UpdateStatus("❌ " . parserStatus.error)
+        ShowError(parserStatus.error)
+        return
+    }
+
+    ; Select PDF file
+    pdfPath := FileSelect(, , "Select Price Change PDF", "PDF Files (*.pdf)")
+    if (!pdfPath) {
+        UpdateStatus("⚠️ No file selected")
+        return
+    }
+
+    UpdateStatus("📄 Parsing PDF... (this may take a moment)")
 
     ; Clear existing data
     DataListView.Delete()
-    ExcelData := []
+    PriceData := []
+    LoadedSource := "pdf"
+
+    ; Parse the PDF
+    labels := ParsePDFFile(pdfPath)
+
+    if (labels.Length == 0) {
+        UpdateStatus("❌ No data found in PDF or parsing failed")
+        return
+    }
+
+    ; Load data into array and ListView
+    rowNum := 0
+    for label in labels {
+        ; Skip items without EAN or price
+        if (label.ean == "" || label.ean == "null" || label.price == "" || label.price == 0) {
+            continue
+        }
+
+        ; Skip separator labels (like "LABEL SEPERATOR" with price 9999)
+        if (label.price >= 9999) {
+            continue
+        }
+
+        rowNum++
+
+        ; Format the price
+        formatted_price := FormatNumber(label.price, 2)
+
+        ; Store in array
+        PriceData.Push({
+            row: rowNum,
+            ean: label.ean,
+            price: formatted_price,
+            description: label.HasProp("description") ? label.description : "",
+            status: "pending"
+        })
+
+        ; Add to ListView
+        DataListView.Add("", "⏳", rowNum, label.ean, formatted_price)
+    }
+
+    if (PriceData.Length == 0) {
+        UpdateStatus("❌ No valid price change items found in PDF")
+        return
+    }
+
+    ; Enable start button
+    StartBtn.Enabled := true
+
+    UpdateStatus("✅ Loaded " . PriceData.Length . " items from PDF. Ready to start!")
+    LogInfo("Loaded " . PriceData.Length . " items from PDF: " . pdfPath)
+}
+
+; Load from Excel (legacy method)
+OnLoadExcel(*) {
+    global DataListView, PriceData, StartBtn, CONFIG, LoadedSource
+
+    UpdateStatus("📊 Loading Excel file...")
+
+    ; Clear existing data
+    DataListView.Delete()
+    PriceData := []
+    LoadedSource := "excel"
 
     ; Start Excel session (will prompt for file)
     if (!StartExcelSession()) {
@@ -192,7 +278,7 @@ OnLoadExcel(*) {
         formatted_price := FormatNumber(new_price, 2)
 
         ; Store in array
-        ExcelData.Push({
+        PriceData.Push({
             row: currentRow,
             ean: ean_code,
             price: formatted_price,
@@ -206,15 +292,15 @@ OnLoadExcel(*) {
     ; Enable start button
     StartBtn.Enabled := true
 
-    UpdateStatus("✅ Loaded " . ExcelData.Length . " items. Ready to start!")
-    LogInfo("Loaded " . ExcelData.Length . " items from Excel")
+    UpdateStatus("✅ Loaded " . PriceData.Length . " items from Excel. Ready to start!")
+    LogInfo("Loaded " . PriceData.Length . " items from Excel")
 }
 
 OnStartAutomation(*) {
-    global IsRunning, ExcelData, CONFIG, MainGui
+    global IsRunning, PriceData, CONFIG, MainGui, LoadedSource
 
-    if (ExcelData.Length == 0) {
-        UpdateStatus("❌ No data loaded. Please load an Excel file first.")
+    if (PriceData.Length == 0) {
+        UpdateStatus("❌ No data loaded. Please load a PDF or Excel file first.")
         return
     }
 
@@ -222,7 +308,9 @@ OnStartAutomation(*) {
     MainGui.Opt("-AlwaysOnTop")
 
     ; Confirm before starting
-    result := MsgBox("Start automation for " . ExcelData.Length . " items?`n`nMake sure the Gold window is open!",
+    sourceInfo := LoadedSource == "pdf" ? " (from PDF)" : " (from Excel)"
+    result := MsgBox("Start automation for " . PriceData.Length . " items" . sourceInfo .
+        "?`n`nMake sure the Gold window is open!",
         "Confirm Start", "YesNo Icon?")
 
     if (result != "Yes") {
@@ -255,7 +343,7 @@ OnStartAutomation(*) {
     Sleep(CONFIG.DELAYS.SHORT)
 
     ; Process each row
-    totalItems := ExcelData.Length
+    totalItems := PriceData.Length
     successCount := 0
     failCount := 0
 
@@ -265,18 +353,18 @@ OnStartAutomation(*) {
         }
 
         index := A_Index
-        item := ExcelData[index]
+        item := PriceData[index]
 
         UpdateProgress(index, totalItems)
         UpdateListViewStatus(index, "🔄")  ; Processing
 
         if (ProcessSinglePriceChangeFromGui(item, index, totalItems)) {
             UpdateListViewStatus(index, "✅")  ; Success
-            ExcelData[index].status := "done"
+            PriceData[index].status := "done"
             successCount++
         } else {
             UpdateListViewStatus(index, "❌")  ; Failed
-            ExcelData[index].status := "failed"
+            PriceData[index].status := "failed"
             failCount++
         }
     }
@@ -301,14 +389,17 @@ OnStartAutomation(*) {
 }
 
 OnCloseGui(*) {
-    global MainGui, IsRunning
+    global MainGui, IsRunning, LoadedSource
 
     if (IsRunning) {
         MsgBox("Cannot close while automation is running!`nPress ESC to abort first.")
         return
     }
 
-    EndExcelSession()
+    ; Only end Excel session if we loaded from Excel
+    if (LoadedSource == "excel") {
+        EndExcelSession()
+    }
     MainGui.Destroy()
 }
 
@@ -342,9 +433,10 @@ UpdateListViewStatus(rowIndex, status) {
 }
 
 EnableButtons(enable) {
-    global StartBtn, LoadBtn
+    global StartBtn, LoadPdfBtn, LoadExcelBtn
     StartBtn.Enabled := enable
-    LoadBtn.Enabled := enable
+    LoadPdfBtn.Enabled := enable
+    LoadExcelBtn.Enabled := enable
 }
 
 ; Move GUI to bottom-right corner (compact mode for automation)
