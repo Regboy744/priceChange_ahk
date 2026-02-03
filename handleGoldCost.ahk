@@ -26,6 +26,8 @@ global StatusText := ""
 global ProgressBar := ""
 global StartBtn := ""
 global LoadBtn := ""
+global StartDateEdit := ""
+global EndDateEdit := ""
 global ExcelData := []  ; Store loaded data
 
 ; ============================================================================
@@ -55,7 +57,7 @@ Esc:: {
 ; ============================================================================
 
 ShowMainGui() {
-    global MainGui, DataListView, StatusText, ProgressBar, StartBtn, LoadBtn, CONFIG
+    global MainGui, DataListView, StatusText, ProgressBar, StartBtn, LoadBtn, StartDateEdit, EndDateEdit, CONFIG
 
     ; Destroy existing GUI if open
     if (MainGui != "") {
@@ -64,33 +66,50 @@ ShowMainGui() {
 
     ; Create main window (AlwaysOnTop keeps it visible during automation)
     MainGui := Gui("+Resize +AlwaysOnTop", "Gold Price Change Tool")
-    MainGui.SetFont("s10", "Segoe UI")
-    MainGui.BackColor := "FFFFFF"
 
-    ; === Header Section ===
+    ; Set custom icon (tray, GUI title bar, and taskbar)
+    iconPath := A_ScriptDir . "\icon\labelPriceChange.ico"
+    if FileExist(iconPath) {
+        TraySetIcon(iconPath)  ; System tray icon
+        ; Load and set icon for GUI window (title bar + taskbar)
+        hIconSmall := LoadPicture(iconPath, "w16 h16 Icon1", &imgType)
+        hIconBig := LoadPicture(iconPath, "w32 h32 Icon1", &imgType)
+        SendMessage(0x0080, 0, hIconSmall, MainGui)  ; WM_SETICON, ICON_SMALL
+        SendMessage(0x0080, 1, hIconBig, MainGui)    ; WM_SETICON, ICON_BIG
+    }
+
+    MainGui.SetFont("s10", "Segoe UI")
+
+    ; === Header Section with background ===
+    ; Add a smooth background panel for the header
+    MainGui.Add("Text", "x0 y0 w450 h80 BackgroundF0F4F8")
+
+    ; Add chart icon image (centered with text)
+    MainGui.Add("Picture", "x55 y10 w36 h36 BackgroundTrans", A_ScriptDir . "\icon\chart_accept_12944.png")
     MainGui.SetFont("s14 bold", "Segoe UI")
-    MainGui.Add("Text", "xm y10 w410 Center cBlue", "📊 Gold Price Change Automation")
+    MainGui.Add("Text", "x+8 yp+5 cBlack BackgroundTrans", "Gold Price Change Automation")
 
     MainGui.SetFont("s10 norm", "Segoe UI")
-    MainGui.Add("Text", "xm y40 w410 Center", "Load an Excel file, review the data, then start the automation")
+    MainGui.Add("Text", "xm y48 w410 Center BackgroundTrans",
+        "Load an Excel file, review the data, then start the automation")
 
     ; === Buttons Section (Centered) ===
     ; Total button width: 120 + 15 + 120 + 15 + 80 = 350px
     ; Center position: (410 - 350) / 2 = 30px from left margin
-    LoadBtn := MainGui.Add("Button", "x40 y70 w120 h30", "📂 Load Excel File")
+    LoadBtn := MainGui.Add("Button", "x40 y95 w120 h30", "📂 Load Excel File")
     LoadBtn.OnEvent("Click", OnLoadExcel)
 
-    StartBtn := MainGui.Add("Button", "x+15 y70 w120 h30 Disabled", "▶️ Start Automation")
+    StartBtn := MainGui.Add("Button", "x+15 y95 w120 h30 Disabled", "▶️ Start Automation")
     StartBtn.OnEvent("Click", OnStartAutomation)
 
-    MainGui.Add("Button", "x+15 y70 w80 h30", "❌ Close").OnEvent("Click", OnCloseGui)
+    MainGui.Add("Button", "x+15 y95 w80 h30", "❌ Close").OnEvent("Click", OnCloseGui)
 
     ; === Data Table Section ===
     MainGui.SetFont("s9", "Segoe UI")
-    MainGui.Add("Text", "xm y110", "Data Preview:")
+    MainGui.Add("Text", "xm y140", "Data Preview:")
 
     ; ListView with columns: Status, Row, EAN Code, New Price
-    DataListView := MainGui.Add("ListView", "xm y130 w410 h300 Grid +Report -LV0x10",
+    DataListView := MainGui.Add("ListView", "xm y160 w410 h260 Grid -Theme",
         ["Status", "Row", "EAN Code", "New Price"])
 
     ; Set column widths based on content size (total ~390px for 410px ListView with scrollbar)
@@ -105,22 +124,28 @@ ShowMainGui() {
     DataListView.ModifyCol(4, "Center")
 
     ; === Progress Section ===
-    MainGui.Add("Text", "xm y440", "Progress:")
-    ProgressBar := MainGui.Add("Progress", "x+10 y440 w300 h20 cGreen", 0)
+    MainGui.Add("Text", "xm y430", "Progress:")
+    ProgressBar := MainGui.Add("Progress", "x+10 y430 w200 h20 cGreen", 0)
 
     ; === Status Bar ===
-    StatusText := MainGui.Add("Text", "xm y470 w410 h25 cGray", "Ready. Load an Excel file to begin.")
+    StatusText := MainGui.Add("Text", "xm y460 w280 h25 cGray", "Ready. Load an Excel file to begin.")
 
     ; === Config Info ===
     MainGui.SetFont("s8", "Segoe UI")
-    MainGui.Add("Text", "xm y495 cGray",
-        "Sheet: " . CONFIG.SHEET_NAME . " | Start Date: " . CONFIG.START_DATE_NEW_PRICE)
+    MainGui.Add("Text", "xm y485 cGray", "Sheet: " . CONFIG.SHEET_NAME)
+
+    ; === Date Settings Section (Bottom Right, aligned with table margin) ===
+    MainGui.SetFont("s9", "Segoe UI")
+    MainGui.Add("Text", "x290 y432", "Start Date:")
+    StartDateEdit := MainGui.Add("Edit", "x355 y430 w65 h22 Limit8 Center", "")
+    MainGui.Add("Text", "x295 y462", "End Date:")
+    EndDateEdit := MainGui.Add("Edit", "x355 y460 w65 h22 Limit8 Center", "")
 
     ; Handle window close
     MainGui.OnEvent("Close", OnCloseGui)
 
     ; Show the GUI
-    MainGui.Show("w450 h520")
+    MainGui.Show("w435 h510")
 }
 
 ; ============================================================================
@@ -351,16 +376,20 @@ MoveGuiToCenter() {
 ; ============================================================================
 
 ProcessSinglePriceChangeFromGui(item, index, total) {
-    global CONFIG
+    global CONFIG, StartDateEdit, EndDateEdit
 
     LogInfo("Processing item " . index . "/" . total)
     UpdateStatus("Processing: " . item.ean . " → " . item.price)
 
+    ; Get dates from GUI inputs
+    startDate := (StartDateEdit != "") ? StartDateEdit.Text : ""
+    endDate := (EndDateEdit != "") ? EndDateEdit.Text : ""
+
     ; Step 1: Set start date (only on first item)
-    if (index == 1 && !SetStartDate(CONFIG.START_DATE_NEW_PRICE)) {
+    if (index == 1 && !SetStartDate(startDate)) {
         return false
     }
-    Sleep(CONFIG.DELAYS.SHORT)
+    Sleep(CONFIG.DELAYS.MEDIUM)
 
     ; Step 2: Enter article code and search
     if (!EnterArticleCode(item.ean)) {
@@ -373,7 +402,7 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     }
 
     ; Step 4: Set end date if specified
-    if (!SetEndDate(CONFIG.END_DATE_NEW_PRICE)) {
+    if (!SetEndDate(endDate)) {
         return false
     }
     Sleep(CONFIG.DELAYS.MEDIUM)

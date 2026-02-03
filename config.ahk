@@ -8,9 +8,6 @@
 global CONFIG := {
     ; === SHEET SETTINGS ===
     SHEET_NAME: "IMPULSE",
-    ; === DATE SETTINGS ===
-    START_DATE_NEW_PRICE: "31/01/26",
-    END_DATE_NEW_PRICE: "",  ; Leave empty ("") for regular price change
     ; === WINDOW SETTINGS ===
     WINDOW_TITLE: "GOLD PRD - \\Remote",
     ; === UI COORDINATES ===

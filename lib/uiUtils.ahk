@@ -35,7 +35,7 @@ SetFieldValue(x, y, value) {
         A_Clipboard := value
         Sleep(CONFIG.DELAYS.TINY)
         Send("^v")
-        Sleep(CONFIG.DELAYS.SHORT)
+        Sleep(CONFIG.DELAYS.MEDIUM)
 
         LogDebug("Set field value at (" . x . "," . y . "): " . value)
         return true
