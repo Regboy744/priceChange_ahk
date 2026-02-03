@@ -8,8 +8,6 @@
 ; Parse a PDF file and return the labels array
 ; Returns an array of objects with: description, price, ean, page
 ParsePDFFile(pdfPath) {
-    global CONFIG
-
     if (!FileExist(pdfPath)) {
         LogError("PDF file not found: " . pdfPath)
         return []
@@ -33,8 +31,9 @@ ParsePDFFile(pdfPath) {
     }
 
     ; Build the command to run the parser
-    ; Using node to run the compiled TypeScript
-    cmd := 'node "' . distIndex . '" "' . pdfPath . '" "' . outputFile . '"'
+    ; Using cmd /c with cd /d to ensure proper Windows path handling
+    ; This mimics: npm run parse -- "pricechange.pdf" "output.json"
+    cmd := A_ComSpec . ' /c cd /d "' . parserDir . '" && node "dist\index.js" "' . pdfPath . '" "' . outputFile . '"'
 
     LogInfo("Running PDF parser: " . cmd)
 

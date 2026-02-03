@@ -99,17 +99,17 @@ ShowMainGui() {
         "Load a PDF or Excel file, review the data, then start")
 
     ; === Buttons Section (Centered) ===
-    ; PDF is the primary/faster option
-    LoadPdfBtn := MainGui.Add("Button", "x20 y95 w100 h30", "📄 Load PDF")
+    ; Buttons sized to fit: 90 + 5 + 90 + 5 + 100 + 5 + 70 = 365px (fits in 410px)
+    LoadPdfBtn := MainGui.Add("Button", "x25 y95 w90 h28", "📄 PDF")
     LoadPdfBtn.OnEvent("Click", OnLoadPDF)
 
-    LoadExcelBtn := MainGui.Add("Button", "x+10 y95 w100 h30", "📊 Load Excel")
+    LoadExcelBtn := MainGui.Add("Button", "x+5 y95 w90 h28", "📊 Excel")
     LoadExcelBtn.OnEvent("Click", OnLoadExcel)
 
-    StartBtn := MainGui.Add("Button", "x+15 y95 w120 h30 Disabled", "▶️ Start Automation")
+    StartBtn := MainGui.Add("Button", "x+5 y95 w105 h28 Disabled", "▶️ Start")
     StartBtn.OnEvent("Click", OnStartAutomation)
 
-    MainGui.Add("Button", "x+15 y95 w80 h30", "❌ Close").OnEvent("Click", OnCloseGui)
+    MainGui.Add("Button", "x+5 y95 w70 h28", "❌ Close").OnEvent("Click", OnCloseGui)
 
     ; === Data Table Section ===
     MainGui.SetFont("s9", "Segoe UI")
