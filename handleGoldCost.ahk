@@ -117,7 +117,7 @@ ShowMainGui() {
 
     ; ListView with columns: Status, Row, EAN Code, New Price
     DataListView := MainGui.Add("ListView", "xm y160 w410 h260 Grid -Theme",
-        ["Status", "Row", "EAN Code", "New Price"])
+        ["Status", "Row", "EAN Code", "Price Change"])
 
     ; Set column widths based on content size (total ~390px for 410px ListView with scrollbar)
     ; Status: small icons, Row: 2-3 digits, EAN: 13 digits, Price: 4-5 chars
