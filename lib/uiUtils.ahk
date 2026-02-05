@@ -5,7 +5,13 @@
 ; Functions for UI automation (clicks, clipboard, windows)
 ; ============================================================================
 
-; Click at specific coordinates
+/**
+ * Click at specific screen coordinates
+ * @param x - X coordinate (pixels from left of screen)
+ * @param y - Y coordinate (pixels from top of screen)
+ * @returns true if click succeeded, false if failed
+ * @example ClickAt(100, 200)  ; Clicks at position 100,200
+ */
 ClickAt(x, y) {
     global CONFIG
 
@@ -23,7 +29,14 @@ ClickAt(x, y) {
     }
 }
 
-; Generic function to set a field value at coordinates
+/**
+ * Click on a field and set its value using clipboard paste
+ * @param x     - X coordinate of the field
+ * @param y     - Y coordinate of the field
+ * @param value - Text value to paste into the field
+ * @returns true if succeeded, false if failed
+ * @example SetFieldValue(300, 150, "12345")  ; Clicks and pastes "12345"
+ */
 SetFieldValue(x, y, value) {
     global CONFIG
 
@@ -45,7 +58,12 @@ SetFieldValue(x, y, value) {
     }
 }
 
-; Set the start date of new price
+/**
+ * Set the start date field in GOLD application
+ * @param startDate - Date string in format "DD/MM/YY" (e.g., "04/02/26")
+ * @returns true if succeeded, false if failed
+ * @example SetStartDate("04/02/26")  ; Sets start date to Feb 4, 2026
+ */
 SetStartDate(startDate) {
     global CONFIG
 
@@ -65,7 +83,13 @@ SetStartDate(startDate) {
     }
 }
 
-; Set the end date of new price
+/**
+ * Set the end date field in GOLD application (presses Tab then types)
+ * @param endDate - Date string in format "DD/MM/YY" (e.g., "31/12/26"), or empty to skip
+ * @returns true if succeeded (or skipped), false if failed
+ * @example SetEndDate("31/12/26")  ; Sets end date to Dec 31, 2026
+ * @example SetEndDate("")          ; Skips setting end date
+ */
 SetEndDate(endDate) {
     global CONFIG
 
@@ -89,7 +113,14 @@ SetEndDate(endDate) {
     }
 }
 
-; Flexible click function that can either just click or click and send text
+/**
+ * Click at coordinates and optionally type text (selects all first with Ctrl+A)
+ * @param x     - X coordinate to click
+ * @param y     - Y coordinate to click
+ * @param value - (Optional) Text to type after clicking. Default: "" (just click)
+ * @example ClickAndType(100, 200, "Hello")  ; Clicks, selects all, types "Hello"
+ * @example ClickAndType(100, 200)           ; Just clicks and selects all
+ */
 ClickAndType(x, y, value := "") {
     global CONFIG
 
@@ -108,7 +139,12 @@ ClickAndType(x, y, value := "") {
     }
 }
 
-; Activate the target window
+/**
+ * Activate the GOLD application window (brings it to front)
+ * Uses CONFIG.WINDOW_TITLE to find the window
+ * @returns true if window activated, false if failed
+ * @example ActivateTargetWindow()  ; Activates GOLD PRD window
+ */
 ActivateTargetWindow() {
     global CONFIG
 
@@ -123,7 +159,13 @@ ActivateTargetWindow() {
     }
 }
 
-; Enter article code and search
+/**
+ * Enter an EAN/article code and trigger search in GOLD
+ * Presses Alt+R, clicks article field, types code, then Alt+T to search
+ * @param eanCode - The EAN/barcode to search for (e.g., "5391509393140")
+ * @returns true if succeeded, false if failed
+ * @example EnterArticleCode("5391509393140")  ; Searches for this EAN
+ */
 EnterArticleCode(eanCode) {
     global CONFIG
 
@@ -146,7 +188,12 @@ EnterArticleCode(eanCode) {
     }
 }
 
-; Enter new price
+/**
+ * Enter a new price value in the price field
+ * @param newPrice - Price as string with decimal (e.g., "2.38" or "10.99")
+ * @returns true if succeeded, false if failed
+ * @example EnterNewPrice("2.38")  ; Enters price 2.38
+ */
 EnterNewPrice(newPrice) {
     global CONFIG
 
@@ -169,6 +216,11 @@ EnterNewPrice(newPrice) {
     }
 }
 
+/**
+ * Save the new price by pressing Tab then Alt+S
+ * @returns true if succeeded, false if failed
+ * @example SaveNewPrice()  ; Saves the current price entry
+ */
 SaveNewPrice() {
     global CONFIG
 
@@ -191,6 +243,12 @@ SaveNewPrice() {
 ; Global variable to track the overlay
 global WarningOverlay := ""
 
+/**
+ * Show a red warning overlay at top of screen during automation
+ * Displays "AUTOMATION IN PROGRESS" message
+ * Call HideWorkingOverlay() to remove it
+ * @example ShowWorkingOverlay()  ; Shows the warning banner
+ */
 ShowWorkingOverlay() {
     global WarningOverlay
 
@@ -211,10 +269,163 @@ ShowWorkingOverlay() {
     WarningOverlay.Show("x0 y0 w" . A_ScreenWidth . " h150 NoActivate")
 }
 
+/**
+ * Hide and destroy the warning overlay
+ * Safe to call even if overlay is not showing
+ * @example HideWorkingOverlay()  ; Removes the warning banner
+ */
 HideWorkingOverlay() {
     global WarningOverlay
     if (WarningOverlay != "") {
         WarningOverlay.Destroy()
         WarningOverlay := ""
     }
+}
+
+; ============================================================================
+; LOADING/SPINNER DETECTION
+; Functions to wait for UI elements to appear/disappear by monitoring pixel color
+; ============================================================================
+
+/**
+ * Wait for a specific color to DISAPPEAR from a coordinate
+ * Use this when waiting for loading spinners/overlays to go away
+ * 
+ * @param x             - X coordinate to monitor (pixels from left of screen)
+ * @param y             - Y coordinate to monitor (pixels from top of screen)
+ * @param targetColor   - Color to wait for it to disappear (hex string like "EBEBEB" or "0xEBEBEB")
+ * @param timeout       - (Optional) Max wait time in milliseconds. Default: 30000 (30 seconds)
+ * @param checkInterval - (Optional) How often to check in milliseconds. Default: 100 (0.1 seconds)
+ * @returns true if color disappeared, false if timeout reached
+ * 
+ * @example WaitForColorToDisappear(575, 380, "EBEBEB")              ; Wait up to 30s, check every 100ms
+ * @example WaitForColorToDisappear(575, 380, "EBEBEB", 10000)       ; Wait up to 10s
+ * @example WaitForColorToDisappear(575, 380, "EBEBEB", 60000, 200)  ; Wait up to 60s, check every 200ms
+ */
+WaitForColorToDisappear(x, y, targetColor, timeout := 30000, checkInterval := 100) {
+    ; Normalize the target color (remove 0x prefix if present)
+    if (SubStr(targetColor, 1, 2) == "0x") {
+        targetColor := SubStr(targetColor, 3)
+    }
+    targetColor := StrUpper(targetColor)
+
+    LogDebug("Waiting for color " . targetColor . " to disappear at (" . x . "," . y . ")")
+    startTime := A_TickCount
+
+    while (A_TickCount - startTime < timeout) {
+        try {
+            currentColor := PixelGetColor(x, y)
+            currentColorHex := StrUpper(SubStr(currentColor, 3))
+
+            if (currentColorHex != targetColor) {
+                LogDebug("Color changed from " . targetColor . " to " . currentColorHex . " - loading complete")
+                SoundBeep(1000, 200)
+                SoundBeep(1500, 200)
+                Sleep(200)  ; Small buffer to ensure UI is stable
+                return true
+            }
+        } catch as e {
+            LogError("PixelGetColor failed: " . e.Message)
+        }
+
+        Sleep(checkInterval)
+    }
+
+    LogError("Timeout waiting for color to disappear at (" . x . "," . y . ")")
+    return false
+}
+
+/**
+ * Wait for a specific color to APPEAR at a coordinate
+ * Use this when waiting for a UI element/button to become ready
+ * 
+ * @param x             - X coordinate to monitor (pixels from left of screen)
+ * @param y             - Y coordinate to monitor (pixels from top of screen)
+ * @param targetColor   - Color to wait for it to appear (hex string like "4CAF50" or "0x4CAF50")
+ * @param timeout       - (Optional) Max wait time in milliseconds. Default: 30000 (30 seconds)
+ * @param checkInterval - (Optional) How often to check in milliseconds. Default: 100 (0.1 seconds)
+ * @returns true if color appeared, false if timeout reached
+ * 
+ * @example WaitForColorToAppear(100, 200, "4CAF50")         ; Wait for green button
+ * @example WaitForColorToAppear(100, 200, "FFFFFF", 5000)   ; Wait up to 5s for white
+ */
+WaitForColorToAppear(x, y, targetColor, timeout := 30000, checkInterval := 100) {
+    ; Normalize the target color (remove 0x prefix if present)
+    if (SubStr(targetColor, 1, 2) == "0x") {
+        targetColor := SubStr(targetColor, 3)
+    }
+    targetColor := StrUpper(targetColor)
+
+    LogDebug("Waiting for color " . targetColor . " to appear at (" . x . "," . y . ")")
+    startTime := A_TickCount
+
+    while (A_TickCount - startTime < timeout) {
+        try {
+            currentColor := PixelGetColor(x, y)
+            currentColorHex := StrUpper(SubStr(currentColor, 3))
+
+            if (currentColorHex == targetColor) {
+                LogDebug("Color " . targetColor . " appeared - element ready")
+                SoundBeep(1000, 200)
+                SoundBeep(1500, 200)
+                Sleep(200)  ; Small buffer to ensure UI is stable
+                return true
+            }
+        } catch as e {
+            LogError("PixelGetColor failed: " . e.Message)
+        }
+
+        Sleep(checkInterval)
+    }
+
+    LogError("Timeout waiting for color to appear at (" . x . "," . y . ")")
+    return false
+}
+
+/**
+ * Wait for ANY color change at a coordinate
+ * Use this when you don't know the exact color but want to detect when something changes
+ * Good for animated spinners where the color keeps changing
+ * 
+ * @param x             - X coordinate to monitor (pixels from left of screen)
+ * @param y             - Y coordinate to monitor (pixels from top of screen)
+ * @param timeout       - (Optional) Max wait time in milliseconds. Default: 30000 (30 seconds)
+ * @param checkInterval - (Optional) How often to check in milliseconds. Default: 100 (0.1 seconds)
+ * @returns true if color changed, false if timeout reached
+ * 
+ * @example WaitForColorChange(575, 380)          ; Wait for any change at spinner location
+ * @example WaitForColorChange(575, 380, 15000)   ; Wait up to 15 seconds
+ */
+WaitForColorChange(x, y, timeout := 30000, checkInterval := 100) {
+    ; Get the initial color
+    try {
+        initialColor := PixelGetColor(x, y)
+    } catch as e {
+        LogError("Failed to get initial color: " . e.Message)
+        return false
+    }
+
+    LogDebug("Waiting for color change from " . initialColor . " at (" . x . "," . y . ")")
+    startTime := A_TickCount
+
+    while (A_TickCount - startTime < timeout) {
+        try {
+            currentColor := PixelGetColor(x, y)
+
+            if (currentColor != initialColor) {
+                LogDebug("Color changed from " . initialColor . " to " . currentColor)
+                SoundBeep(1000, 200)
+                SoundBeep(1500, 200)
+                Sleep(200)  ; Small buffer to ensure UI is stable
+                return true
+            }
+        } catch as e {
+            LogError("PixelGetColor failed: " . e.Message)
+        }
+
+        Sleep(checkInterval)
+    }
+
+    LogError("Timeout waiting for color change at (" . x . "," . y . ")")
+    return false
 }

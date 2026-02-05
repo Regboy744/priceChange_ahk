@@ -100,8 +100,8 @@ ShowMainGui() {
 
     ; === Buttons Section (Centered) ===
     ; Buttons sized to fit: 90 + 5 + 90 + 5 + 100 + 5 + 70 = 365px (fits in 410px)
-    LoadPdfBtn := MainGui.Add("Button", "x25 y95 w90 h28", "📄 PDF")
-    LoadPdfBtn.OnEvent("Click", OnLoadPDF)
+    LoadPdfBtn := MainGui.Add("Button", "x25 y95 w90 h28", "📄 PDF ▼")
+    LoadPdfBtn.OnEvent("Click", OnPdfButtonClick)
 
     LoadExcelBtn := MainGui.Add("Button", "x+5 y95 w90 h28", "📊 Excel")
     LoadExcelBtn.OnEvent("Click", OnLoadExcel)
@@ -158,6 +158,79 @@ ShowMainGui() {
 ; ============================================================================
 ; GUI EVENT HANDLERS
 ; ============================================================================
+
+; PDF button click - show context menu with options
+OnPdfButtonClick(*) {
+    global LoadPdfBtn, MainGui
+
+    ; Create popup menu
+    pdfMenu := Menu()
+    pdfMenu.Add("📊 Parse for Price Change", OnLoadPDF)
+    pdfMenu.Add("💾 Export to Excel File", OnLoadPDFForExcel)
+
+    ; Get button position and convert to screen coordinates
+    LoadPdfBtn.GetPos(&btnX, &btnY, &btnW, &btnH)
+    WinGetPos(&winX, &winY, , , MainGui)
+
+    ; Show menu below the button
+    pdfMenu.Show(winX + btnX, winY + btnY + btnH + 30)
+}
+
+; Load PDF and export to Excel
+OnLoadPDFForExcel(*) {
+    global MainGui
+
+    ; Check if PDF parser is ready
+    parserStatus := CheckPDFParserReady()
+    if (!parserStatus.ready) {
+        UpdateStatus("❌ " . parserStatus.error)
+        ShowError(parserStatus.error)
+        return
+    }
+
+    ; Select PDF file
+    pdfPath := FileSelect(, , "Select Price Change PDF", "PDF Files (*.pdf)")
+    if (!pdfPath) {
+        UpdateStatus("⚠️ No file selected")
+        return
+    }
+
+    UpdateStatus("📄 Parsing PDF for Excel export...")
+
+    ; Parse the PDF
+    labels := ParsePDFFile(pdfPath)
+
+    if (labels.Length == 0) {
+        UpdateStatus("❌ No data found in PDF or parsing failed")
+        return
+    }
+
+    UpdateStatus("💾 Exporting " . labels.Length . " items to Excel...")
+
+    ; Export to Excel
+    result := ExportLabelsToExcel(labels)
+
+    if (result.success) {
+        UpdateStatus("✅ Exported " . result.count . " items to Excel!")
+
+        ; Temporarily disable AlwaysOnTop for MsgBox
+        MainGui.Opt("-AlwaysOnTop")
+
+        ; Ask if user wants to open the file
+        openResult := MsgBox("Successfully exported " . result.count . " items!`n`n" .
+            "File saved to:`n" . result.path . "`n`nOpen the file now?",
+            "Export Complete", "YesNo Icon!")
+
+        if (openResult == "Yes") {
+            try Run(result.path)
+        }
+
+        MainGui.Opt("+AlwaysOnTop")
+    } else {
+        UpdateStatus("❌ Export failed: " . result.error)
+        ShowError("Failed to export to Excel:`n" . result.error)
+    }
+}
 
 ; Load from PDF (faster - no Excel COM overhead)
 OnLoadPDF(*) {

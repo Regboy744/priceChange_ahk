@@ -215,3 +215,114 @@ CloseAllExcelSafely() {
         MsgBox("No Excel instances were running.")
     }
 }
+
+; ============================================================================
+; EXPORT FUNCTIONS
+; ============================================================================
+
+; Export parsed PDF data to a new Excel file
+; labels: Array of objects with {description, price, ean, page}
+; Returns: object with {success, count, path} or {success, error}
+ExportLabelsToExcel(labels, outputPath := "") {
+    if (labels.Length == 0) {
+        LogError("No labels to export")
+        return { success: false, error: "No labels to export" }
+    }
+
+    ; If no output path provided, prompt user
+    if (outputPath == "") {
+        outputPath := FileSelect("S", A_Desktop . "\price_change_export.xlsx",
+            "Save Excel File", "Excel Files (*.xlsx)")
+        if (!outputPath) {
+            LogWarn("No output file selected for Excel export")
+            return { success: false, error: "No output file selected" }
+        }
+        ; Ensure .xlsx extension
+        if (!RegExMatch(outputPath, "i)\.xlsx$")) {
+            outputPath .= ".xlsx"
+        }
+    }
+
+    try {
+        LogInfo("Exporting " . labels.Length . " labels to Excel: " . outputPath)
+
+        ; Create new Excel application
+        xl := ComObject("Excel.Application")
+        xl.Visible := false
+        xl.DisplayAlerts := false
+
+        ; Create new workbook
+        wb := xl.Workbooks.Add()
+        ws := wb.Sheets(1)
+        ws.Name := "Price Change"
+
+        ; Add headers
+        headers := ["Row", "EAN Code", "Description", "New Price", "Page"]
+        loop headers.Length {
+            ws.Cells(1, A_Index).Value := headers[A_Index]
+            ws.Cells(1, A_Index).Font.Bold := true
+        }
+
+        ; Add data
+        rowNum := 2
+        validCount := 0
+        for label in labels {
+            ; Skip invalid entries
+            if (!label.HasProp("ean") || label.ean == "" || label.ean == "null") {
+                continue
+            }
+            if (!label.HasProp("price") || label.price == "" || label.price == 0 || label.price >= 9999) {
+                continue
+            }
+
+            validCount++
+            ws.Cells(rowNum, 1).Value := validCount  ; Row number
+            ws.Cells(rowNum, 2).Value := "'" . label.ean  ; EAN as text (prefix with ')
+            ws.Cells(rowNum, 3).Value := label.HasProp("description") ? label.description : ""
+            ws.Cells(rowNum, 4).Value := label.price
+            ws.Cells(rowNum, 5).Value := label.HasProp("page") ? label.page : ""
+            rowNum++
+        }
+
+        ; Format columns
+        ws.Columns("A:A").ColumnWidth := 8     ; Row
+        ws.Columns("B:B").ColumnWidth := 18    ; EAN Code
+        ws.Columns("C:C").ColumnWidth := 40    ; Description
+        ws.Columns("D:D").ColumnWidth := 12    ; Price
+        ws.Columns("E:E").ColumnWidth := 8     ; Page
+
+        ; Format price column as currency
+        ws.Columns("D:D").NumberFormat := "#,##0.00"
+
+        ; Add autofilter to headers
+        ws.Range("A1:E1").AutoFilter()
+
+        ; Delete existing file if it exists
+        if (FileExist(outputPath)) {
+            try FileDelete(outputPath)
+        }
+
+        ; Save as xlsx (51 = xlOpenXMLWorkbook)
+        wb.SaveAs(outputPath, 51)
+
+        ; Close and cleanup
+        wb.Close(false)
+        xl.Quit()
+
+        LogInfo("Successfully exported " . validCount . " items to Excel")
+        return { success: true, count: validCount, path: outputPath }
+
+    } catch as e {
+        LogError("Failed to export to Excel: " . e.Message)
+
+        ; Cleanup on error
+        try {
+            if (IsSet(wb) && wb != "")
+                wb.Close(false)
+            if (IsSet(xl) && xl != "")
+                xl.Quit()
+        }
+
+        return { success: false, error: e.Message }
+    }
+}
