@@ -1,0 +1,6 @@
+[2026-02-19 10:19:00] [INFO] Running PDF parser: C:\WINDOWS\system32\cmd.exe /c cd /d "C:\Users\Backoffice\Documents\Gilberto\Hotkey\office_scripts\gold - PriceChange\tools\pdfParser" && node "dist\index.js" "C:\Users\Backoffice\Downloads\PC2.pdf" "C:\Users\Backoffice\Documents\Gilberto\Hotkey\office_scripts\gold - PriceChange\tools\pdfParser\temp_output.json"
+[2026-02-19 10:19:02] [INFO] Parsed 255 labels from PDF
+[2026-02-19 10:19:02] [INFO] Loaded 253 items from PDF: C:\Users\Backoffice\Downloads\PC2.pdf
+[2026-02-19 10:27:52] [WARN] No file selected for Excel session
+[2026-02-19 10:28:46] [INFO] Ending Excel session
+[2026-02-19 10:28:46] [INFO] Excel session ended successfully

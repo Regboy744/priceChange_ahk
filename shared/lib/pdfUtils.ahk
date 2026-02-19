@@ -19,14 +19,14 @@ ParsePDFFile(pdfPath) {
         return []
     }
 
-    parserDir := ProjectPath("pdfParser")
+    parserDir := ProjectPath("tools\pdfParser")
     outputFile := parserDir . "\temp_output.json"
     distIndex := parserDir . "\dist\index.js"
 
     ; Ensure parser is built
     if (!FileExist(distIndex)) {
-        LogError("PDF parser not built. Run 'npm run build' in pdfParser folder.")
-        ShowError("PDF parser not built!`n`nPlease run:`ncd pdfParser`nnpm run build")
+        LogError("PDF parser not built. Run 'npm run build' in tools/pdfParser folder.")
+        ShowError("PDF parser not built!`n`nPlease run:`ncd tools/pdfParser`nnpm run build")
         return []
     }
 
@@ -88,7 +88,7 @@ CheckNodeInstalled() {
  * @returns {Object}  { ready: bool, error: string }
  */
 CheckPDFParserReady() {
-    parserDir := ProjectPath("pdfParser")
+    parserDir := ProjectPath("tools\pdfParser")
     distIndex := parserDir . "\dist\index.js"
     packageJson := parserDir . "\package.json"
 
@@ -96,7 +96,7 @@ CheckPDFParserReady() {
         return { ready: false, error: "PDF parser not found" }
 
     if (!FileExist(distIndex))
-        return { ready: false, error: "PDF parser not built. Run 'npm run build' in pdfParser folder." }
+        return { ready: false, error: "PDF parser not built. Run 'npm run build' in tools/pdfParser folder." }
 
     if (!CheckNodeInstalled())
         return { ready: false, error: "Node.js not installed" }

@@ -131,10 +131,9 @@ OnPdfButtonClick(*) {
     pdfMenu.Add("📊 Parse for Price Change", OnLoadPDF)
     pdfMenu.Add("💾 Export to Excel File", OnLoadPDFForExcel)
 
+    ; Position menu directly below the PDF button (client-area coords)
     LoadPdfBtn.GetPos(&btnX, &btnY, &btnW, &btnH)
-    WinGetPos(&winX, &winY, , , MainGui)
-
-    pdfMenu.Show(winX + btnX, winY + btnY + btnH + 30)
+    pdfMenu.Show(btnX, btnY + btnH)
 }
 
 ; ── Load PDF → Excel export ───────────────────────────────────────────────
