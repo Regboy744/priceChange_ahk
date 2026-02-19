@@ -1,17 +1,21 @@
 #Requires AutoHotkey >=v2.0
+#Include paths.ahk
 
 ; ============================================================================
-; CONFIGURATION FILE
-; Central location for all configurable parameters
+; CONFIGURATION
+; Central location for all configurable parameters.
+; Every feature and library reads from this single CONFIG object.
 ; ============================================================================
 
 global CONFIG := {
+    ; --- Project root (auto-detected) ---
+    ROOT_DIR: GetProjectRoot(),
     ; === SHEET SETTINGS ===
     SHEET_NAME: "IMPULSE",
     ; === WINDOW SETTINGS ===
     WINDOW_TITLE: "GOLD PRD - \\Remote",
     ; === UI COORDINATES ===
-    ; Centralized coordinates for easy maintenance when UI changes
+    ; Centralized coordinates for easy maintenance when UI layout changes
     COORDS: {
         START_DATE: { x: 269, y: 205 },
         ARTICLE_CODE: { x: 349, y: 136 },

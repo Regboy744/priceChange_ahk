@@ -2,7 +2,8 @@
 
 ; ============================================================================
 ; LOGGER UTILITY
-; Centralized logging mechanism for debugging and audit trail
+; Centralized logging mechanism for debugging and audit trail.
+; Writes timestamped entries to CONFIG.LOG_FILE in the project root.
 ; ============================================================================
 
 ; Log levels
@@ -13,7 +14,12 @@ global LOG_LEVEL := {
     ERROR: "ERROR"
 }
 
-; Main logging function
+/**
+ * Write a single log line to the project log file.
+ * 
+ * @param message  Human-readable message
+ * @param level    One of LOG_LEVEL.* (default: "INFO")
+ */
 LogMessage(message, level := "INFO") {
     global CONFIG
 
@@ -23,16 +29,18 @@ LogMessage(message, level := "INFO") {
     timestamp := FormatTime(, "yyyy-MM-dd HH:mm:ss")
     logLine := "[" . timestamp . "] [" . level . "] " . message . "`n"
 
-    ; Append to log file
-    logPath := A_ScriptDir . "\" . CONFIG.LOG_FILE
+    rootDir := CONFIG.HasProp("ROOT_DIR") ? CONFIG.ROOT_DIR : A_ScriptDir
+    logPath := rootDir . "\" . CONFIG.LOG_FILE
+
     try {
         FileAppend(logLine, logPath)
     } catch {
-        ; Silently fail if logging fails
+        ; Silently fail — never break automation because of logging
     }
 }
 
-; Convenience functions for different log levels
+; ── Convenience wrappers ──────────────────────────────────────────────────
+
 LogDebug(message) {
     LogMessage(message, LOG_LEVEL.DEBUG)
 }
@@ -49,19 +57,18 @@ LogError(message) {
     LogMessage(message, LOG_LEVEL.ERROR)
 }
 
-; Show error to user and log it
+; ── User-facing dialogs that also log ─────────────────────────────────────
+
 ShowError(message, title := "Error") {
     LogError(message)
     MsgBox(message, title, "Icon!")
 }
 
-; Show warning to user and log it
 ShowWarning(message, title := "Warning") {
     LogWarn(message)
     MsgBox(message, title, "Icon!")
 }
 
-; Show info to user and log it
 ShowInfo(message, title := "Information") {
     LogInfo(message)
     MsgBox(message, title, "Iconi")

@@ -2,19 +2,44 @@
 
 ; ============================================================================
 ; JSON UTILITIES
-; Simple JSON parser for reading parsed PDF output
+; Recursive-descent JSON parser for reading parsed PDF output.
+; Supports: objects, arrays, strings, numbers, booleans, null.
 ; ============================================================================
 
-; Parse JSON string into AHK object
-; Supports: objects, arrays, strings, numbers, booleans, null
-ParseJSON(jsonStr) {
-    ; Clean the string
-    jsonStr := Trim(jsonStr)
+; ── Public API ────────────────────────────────────────────────────────────
 
-    ; Use recursive descent parsing
+/**
+ * Parse a JSON string into an AHK object/array.
+ * @param jsonStr  Raw JSON text
+ * @returns        AHK Object, Array, String, Number, or ""
+ */
+ParseJSON(jsonStr) {
+    jsonStr := Trim(jsonStr)
     pos := 1
     return _ParseValue(&pos, jsonStr)
 }
+
+/**
+ * Read a JSON file from disk and return the parsed result.
+ * @param filePath  Absolute path to the .json file
+ * @returns         Parsed object, or "" on failure
+ */
+ReadJSONFile(filePath) {
+    if (!FileExist(filePath)) {
+        _JsonLogError("JSON file not found: " . filePath)
+        return ""
+    }
+
+    try {
+        content := FileRead(filePath, "UTF-8")
+        return ParseJSON(content)
+    } catch as e {
+        _JsonLogError("Failed to read JSON file: " . e.Message)
+        return ""
+    }
+}
+
+; ── Internal parser ───────────────────────────────────────────────────────
 
 _ParseValue(&pos, str) {
     _SkipWhitespace(&pos, str)
@@ -46,13 +71,13 @@ _ParseString(&pos, str) {
 
     pos++  ; Skip opening quote
     result := ""
-    backslash := "\"  ; Store backslash in variable for comparison
+    backslash := "\"
 
     while (pos <= StrLen(str)) {
         char := SubStr(str, pos, 1)
 
         if (char == '"') {
-            pos++  ; Skip closing quote
+            pos++
             return result
         }
 
@@ -74,7 +99,6 @@ _ParseString(&pos, str) {
             else if (nextChar == '/')
                 result .= '/'
             else if (nextChar == 'u') {
-                ; Unicode escape \uXXXX
                 hexCode := SubStr(str, pos + 1, 4)
                 if (StrLen(hexCode) == 4) {
                     try {
@@ -100,22 +124,18 @@ _ParseString(&pos, str) {
 _ParseNumber(&pos, str) {
     start := pos
 
-    ; Handle negative
     if (SubStr(str, pos, 1) == '-')
         pos++
 
-    ; Integer part
     while (pos <= StrLen(str) && _IsDigit(SubStr(str, pos, 1)))
         pos++
 
-    ; Decimal part
     if (SubStr(str, pos, 1) == '.') {
         pos++
         while (pos <= StrLen(str) && _IsDigit(SubStr(str, pos, 1)))
             pos++
     }
 
-    ; Exponent part
     expChar := SubStr(str, pos, 1)
     if (expChar == 'e' || expChar == 'E') {
         pos++
@@ -158,12 +178,11 @@ _ParseArray(&pos, str) {
     if (SubStr(str, pos, 1) != '[')
         return []
 
-    pos++  ; Skip opening bracket
+    pos++
     arr := []
 
     _SkipWhitespace(&pos, str)
 
-    ; Empty array
     if (SubStr(str, pos, 1) == ']') {
         pos++
         return arr
@@ -195,12 +214,11 @@ _ParseObject(&pos, str) {
     if (SubStr(str, pos, 1) != '{')
         return {}
 
-    pos++  ; Skip opening brace
+    pos++
     obj := {}
 
     _SkipWhitespace(&pos, str)
 
-    ; Empty object
     if (SubStr(str, pos, 1) == '}') {
         pos++
         return obj
@@ -209,24 +227,18 @@ _ParseObject(&pos, str) {
     loop {
         _SkipWhitespace(&pos, str)
 
-        ; Parse key
         key := _ParseString(&pos, str)
-
         if (key == "")
             break
 
         _SkipWhitespace(&pos, str)
 
-        ; Skip colon
         if (SubStr(str, pos, 1) == ':')
             pos++
 
         _SkipWhitespace(&pos, str)
 
-        ; Parse value
         value := _ParseValue(&pos, str)
-
-        ; Use bracket notation for safety
         obj.%key% := value
 
         _SkipWhitespace(&pos, str)
@@ -260,28 +272,10 @@ _IsDigit(char) {
     return code >= 48 && code <= 57  ; ASCII 0-9
 }
 
-; ============================================================================
-; FILE READING
-; ============================================================================
+; ── Helpers ───────────────────────────────────────────────────────────────
 
-; Helper to safely log errors (LogError may not be available)
+/** Safe logger call — LogError may not be available in all include orders. */
 _JsonLogError(msg) {
     if IsSet(LogError)
         LogError(msg)
-}
-
-; Read and parse a JSON file
-ReadJSONFile(filePath) {
-    if (!FileExist(filePath)) {
-        _JsonLogError("JSON file not found: " . filePath)
-        return ""
-    }
-
-    try {
-        content := FileRead(filePath, "UTF-8")
-        return ParseJSON(content)
-    } catch as e {
-        _JsonLogError("Failed to read JSON file: " . e.Message)
-        return ""
-    }
 }

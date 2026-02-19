@@ -2,42 +2,43 @@
 
 ; ============================================================================
 ; PDF UTILITIES
-; Functions to parse PDF files using the TypeScript pdfParser
+; Shells out to the TypeScript pdfParser to extract label data from PDFs.
+; Requires Node.js and a built pdfParser (npm run build).
 ; ============================================================================
 
-; Parse a PDF file and return the labels array
-; Returns an array of objects with: description, price, ean, page
+/**
+ * Parse a PDF file and return an array of label objects.
+ * Each label has: description, price, ean, page.
+ * 
+ * @param pdfPath  Absolute path to the PDF
+ * @returns {Array} Array of label objects (empty on failure)
+ */
 ParsePDFFile(pdfPath) {
     if (!FileExist(pdfPath)) {
         LogError("PDF file not found: " . pdfPath)
         return []
     }
 
-    ; Define paths
-    parserDir := A_ScriptDir . "\pdfParser"
+    parserDir := ProjectPath("pdfParser")
     outputFile := parserDir . "\temp_output.json"
     distIndex := parserDir . "\dist\index.js"
 
-    ; Check if parser is built
+    ; Ensure parser is built
     if (!FileExist(distIndex)) {
         LogError("PDF parser not built. Run 'npm run build' in pdfParser folder.")
         ShowError("PDF parser not built!`n`nPlease run:`ncd pdfParser`nnpm run build")
         return []
     }
 
-    ; Delete old output file if exists
+    ; Remove stale output
     if (FileExist(outputFile)) {
         try FileDelete(outputFile)
     }
 
-    ; Build the command to run the parser
-    ; Using cmd /c with cd /d to ensure proper Windows path handling
-    ; This mimics: npm run parse -- "pricechange.pdf" "output.json"
+    ; Execute the Node.js parser
     cmd := A_ComSpec . ' /c cd /d "' . parserDir . '" && node "dist\index.js" "' . pdfPath . '" "' . outputFile . '"'
-
     LogInfo("Running PDF parser: " . cmd)
 
-    ; Run the parser and wait for completion
     try {
         RunWait(cmd, parserDir, "Hide")
     } catch as e {
@@ -46,14 +47,13 @@ ParsePDFFile(pdfPath) {
         return []
     }
 
-    ; Check if output was created
+    ; Read result
     if (!FileExist(outputFile)) {
         LogError("PDF parser did not create output file")
-        ShowError("PDF parsing failed - no output generated")
+        ShowError("PDF parsing failed — no output generated")
         return []
     }
 
-    ; Read and parse the JSON output
     jsonData := ReadJSONFile(outputFile)
 
     if (jsonData == "") {
@@ -61,7 +61,6 @@ ParsePDFFile(pdfPath) {
         return []
     }
 
-    ; Extract labels array
     if (!jsonData.HasProp("labels")) {
         LogError("JSON output missing 'labels' property")
         return []
@@ -69,14 +68,12 @@ ParsePDFFile(pdfPath) {
 
     labels := jsonData.labels
     LogInfo("Parsed " . labels.Length . " labels from PDF")
-
-    ; Clean up temp file (optional - keep for debugging)
-    ; try FileDelete(outputFile)
-
     return labels
 }
 
-; Check if Node.js is available
+; ── Readiness checks ──────────────────────────────────────────────────────
+
+/** @returns true if Node.js is on PATH */
 CheckNodeInstalled() {
     try {
         result := RunWait('node --version', , "Hide")
@@ -86,26 +83,23 @@ CheckNodeInstalled() {
     }
 }
 
-; Check if the PDF parser is ready to use
+/**
+ * Verify that the PDF parser exists and is built.
+ * @returns {Object}  { ready: bool, error: string }
+ */
 CheckPDFParserReady() {
-    parserDir := A_ScriptDir . "\pdfParser"
+    parserDir := ProjectPath("pdfParser")
     distIndex := parserDir . "\dist\index.js"
     packageJson := parserDir . "\package.json"
 
-    ; Check if parser exists
-    if (!FileExist(packageJson)) {
+    if (!FileExist(packageJson))
         return { ready: false, error: "PDF parser not found" }
-    }
 
-    ; Check if built
-    if (!FileExist(distIndex)) {
+    if (!FileExist(distIndex))
         return { ready: false, error: "PDF parser not built. Run 'npm run build' in pdfParser folder." }
-    }
 
-    ; Check Node.js
-    if (!CheckNodeInstalled()) {
+    if (!CheckNodeInstalled())
         return { ready: false, error: "Node.js not installed" }
-    }
 
     return { ready: true, error: "" }
 }

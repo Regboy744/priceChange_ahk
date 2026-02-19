@@ -1,31 +1,29 @@
 #Requires AutoHotkey >=v2.0
 
-; Include stringUtils for CalculateCostPrice function
+; Depends on CalculateCostPrice() from stringUtils
 #Include stringUtils.ahk
 
 ; ============================================================================
 ; CSV UTILITIES
-; Functions for parsing GOLD clipboard data and saving to CSV
+; Parse GOLD clipboard data and append to a CSV export file.
 ; ============================================================================
 
-global CSV_FILE_PATH := A_ScriptDir . "\gold_export.csv"
+global CSV_FILE_PATH := ProjectPath("gold_export.csv")
 global CSV_INITIALIZED := false
 
+; ── File management ───────────────────────────────────────────────────────
+
 /**
- * Initialize CSV file with headers (call once at start of session)
- * @param filePath - (Optional) Path to CSV file. Default: gold_export.csv in script folder
- * @returns true if succeeded, false if failed
- * @example InitializeCsvFile()  ; Creates/overwrites CSV with headers
+ * Create (or overwrite) the CSV with header row.
+ * Call once at the start of an export session.
  */
 InitializeCsvFile(filePath := "") {
     global CSV_FILE_PATH, CSV_INITIALIZED
 
-    if (filePath != "") {
+    if (filePath != "")
         CSV_FILE_PATH := filePath
-    }
 
     try {
-        ; Create header row
         headers :=
             "Department,SubDepartment,Section,FamilyGroup,ArticleCode,Description,NetworkPrice,ImplementedPrice,NewPrice,NewPriceEnd,VatCode,VatRate,Margin,CostPrice,ReasonCode,PriceListCode"
 
@@ -42,34 +40,44 @@ InitializeCsvFile(filePath := "") {
     }
 }
 
+/** Return the path currently in use. */
+GetCsvFilePath() {
+    global CSV_FILE_PATH
+    return CSV_FILE_PATH
+}
+
+/** Reset the initialized flag so the next append re-creates the file. */
+ResetCsvFile() {
+    global CSV_INITIALIZED
+    CSV_INITIALIZED := false
+}
+
+; ── Clipboard → CSV ──────────────────────────────────────────────────────
+
 /**
- * Parse clipboard data from GOLD and append to CSV file
- * @param department - The department name (e.g., "D0024 - GROCERY - IMPULSE")
- * @param subDepartment - The sub-department name (e.g., "S0001 - IMPULSE CONFECTIONERY")
- * @param section - The section name (e.g., "C0001 - CHOCOLATE")
- * @param familyGroup - The family group code (e.g., "F0001")
- * @param clipboardText - (Optional) Text to parse. Default: current clipboard content
- * @returns Number of items added, or -1 if failed
- * @example AppendClipboardToCsv("D0024 - GROCERY", "S0001 - IMPULSE", "C0001 - CHOCOLATE", "F0001")
+ * Parse GOLD clipboard text and append rows to the CSV.
+ * 
+ * @param department    e.g. "D0024 - GROCERY - IMPULSE"
+ * @param subDepartment e.g. "S0001 - IMPULSE CONFECTIONERY"
+ * @param section       e.g. "C0001 - CHOCOLATE"
+ * @param familyGroup   e.g. "F0001"
+ * @param clipboardText (Optional) Raw text; defaults to A_Clipboard
+ * @returns Number of items added, or -1 on error
  */
 AppendClipboardToCsv(department, subDepartment, section, familyGroup, clipboardText := "") {
     global CSV_FILE_PATH, CSV_INITIALIZED
 
-    ; Auto-initialize if not done yet
-    if (!CSV_INITIALIZED) {
+    if (!CSV_INITIALIZED)
         InitializeCsvFile()
-    }
 
-    if (clipboardText == "") {
+    if (clipboardText == "")
         clipboardText := A_Clipboard
-    }
 
     if (clipboardText == "") {
         LogError("Clipboard is empty")
         return -1
     }
 
-    ; Parse the clipboard data
     items := ParseGoldData(clipboardText)
 
     if (items.Length == 0) {
@@ -78,11 +86,9 @@ AppendClipboardToCsv(department, subDepartment, section, familyGroup, clipboardT
     }
 
     try {
-        ; Append to CSV file
         file := FileOpen(CSV_FILE_PATH, "a", "UTF-8")
 
         for item in items {
-            ; Calculate cost price from ImplementedPrice, VatRate and Margin (4 decimal places)
             costPrice := CalculateCostPrice(item.implementedPrice, item.vatRate, item.margin, 4)
 
             line := EscapeCsvField(department) . ","
@@ -106,8 +112,8 @@ AppendClipboardToCsv(department, subDepartment, section, familyGroup, clipboardT
         }
 
         file.Close()
-        LogDebug("Added " . items.Length . " items to CSV for: " . department . " > " . subDepartment . " > " .
-            section . " > " . familyGroup)
+        LogDebug("Added " . items.Length . " items to CSV for: "
+            . department . " > " . subDepartment . " > " . section . " > " . familyGroup)
         return items.Length
 
     } catch as e {
@@ -116,11 +122,14 @@ AppendClipboardToCsv(department, subDepartment, section, familyGroup, clipboardT
     }
 }
 
+; ── GOLD data parser ─────────────────────────────────────────────────────
+
 /**
- * Parse GOLD clipboard data into array of item objects
- * @param clipboardText - Tab-separated text from GOLD
- * @param hasHeader - (Optional) Whether first row is header. Default: true
- * @returns Array of item objects
+ * Parse tab-separated GOLD clipboard text into an array of item objects.
+ * 
+ * @param clipboardText  Raw text (tab-separated columns, newline-separated rows)
+ * @param hasHeader      Whether the first row is a header (default: true)
+ * @returns {Array}      Array of item objects
  */
 ParseGoldData(clipboardText, hasHeader := true) {
     lines := StrSplit(clipboardText, "`n", "`r")
@@ -128,29 +137,21 @@ ParseGoldData(clipboardText, hasHeader := true) {
     startIndex := hasHeader ? 2 : 1
 
     loop lines.Length {
-        if (A_Index < startIndex) {
+        if (A_Index < startIndex)
             continue
-        }
 
         line := Trim(lines[A_Index])
-
-        if (line == "") {
+        if (line == "")
             continue
-        }
 
         columns := StrSplit(line, "`t")
-
-        if (columns.Length < 1 || Trim(columns[1]) == "") {
+        if (columns.Length < 1 || Trim(columns[1]) == "")
             continue
-        }
 
-        ; Parse margin to check if we should skip this item
+        ; Skip rows with zero margin
         marginValue := columns.Length >= 9 ? ParsePriceValue(columns[9]) : 0
-
-        ; Skip items where margin is 0
-        if (marginValue == 0) {
+        if (marginValue == 0)
             continue
-        }
 
         item := {
             articleCode: columns.Length >= 1 ? Trim(columns[1]) : "",
@@ -172,36 +173,31 @@ ParseGoldData(clipboardText, hasHeader := true) {
     return items
 }
 
+; ── Price string → Number ─────────────────────────────────────────────────
+
 /**
- * Parse a price string to number
- * @param priceStr - Price string (e.g., "2.38" or "10,99")
- * @returns Number value, or 0 if invalid
+ * Normalise a price string (handles comma/dot decimals) and return a Number.
  */
 ParsePriceValue(priceStr) {
     priceStr := Trim(priceStr)
-    if (priceStr == "") {
+    if (priceStr == "")
         return 0
-    }
 
-    ; Normalize common numeric formats from GOLD exports
-    ; - remove spaces/currency/percent decorations
-    ; - support both decimal comma and decimal dot
     priceStr := RegExReplace(priceStr, "[^\d,\.\-]", "")
 
-    if (priceStr == "" || priceStr == "-" || priceStr == "." || priceStr == ",") {
+    if (priceStr == "" || priceStr == "-" || priceStr == "." || priceStr == ",")
         return 0
-    }
 
     hasComma := InStr(priceStr, ",")
     hasDot := InStr(priceStr, ".")
 
     if (hasComma && hasDot) {
-        ; If comma appears after dot, assume dot is thousands separator and comma is decimal
         if (hasComma > hasDot) {
+            ; Dot = thousands, Comma = decimal  (e.g. 1.234,56)
             priceStr := StrReplace(priceStr, ".", "")
             priceStr := StrReplace(priceStr, ",", ".")
         } else {
-            ; Otherwise assume comma is thousands separator
+            ; Comma = thousands  (e.g. 1,234.56)
             priceStr := StrReplace(priceStr, ",", "")
         }
     } else if (hasComma) {
@@ -215,38 +211,16 @@ ParsePriceValue(priceStr) {
     }
 }
 
-/**
- * Escape a field for CSV (handles commas, quotes, newlines)
- * @param field - The field value to escape
- * @returns Escaped field value
- */
+; ── CSV helpers ───────────────────────────────────────────────────────────
+
+/** Escape a value for CSV output (RFC 4180). */
 EscapeCsvField(field) {
     field := String(field)
 
-    ; If field contains comma, quote, or newline, wrap in quotes
     if (InStr(field, ",") || InStr(field, '"') || InStr(field, "`n") || InStr(field, "`r")) {
-        ; Double any existing quotes
         field := StrReplace(field, '"', '""')
-        ; Wrap in quotes
         field := '"' . field . '"'
     }
 
     return field
-}
-
-/**
- * Get the current CSV file path
- * @returns The path to the CSV file
- */
-GetCsvFilePath() {
-    global CSV_FILE_PATH
-    return CSV_FILE_PATH
-}
-
-/**
- * Reset CSV tracking (useful if you want to start a new file)
- */
-ResetCsvFile() {
-    global CSV_INITIALIZED
-    CSV_INITIALIZED := false
 }
