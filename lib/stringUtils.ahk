@@ -94,6 +94,6 @@ GetPriceExVat(sellingPrice, vatRate, decimalPlaces := 2) {
  * @example GetVatAmount(12.30, 23)  ; Returns 2.30
  */
 GetVatAmount(sellingPrice, vatRate, decimalPlaces := 2) {
-    priceExVat := GetPriceExVat(sellingPrice, vatRate, decimalPlaces + 2)
+    priceExVat := GetPriceExVat(sellingPrice, vatRate, decimalPlaces + 3)
     return Round(sellingPrice - priceExVat, decimalPlaces)
 }

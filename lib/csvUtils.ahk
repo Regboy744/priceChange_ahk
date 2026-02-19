@@ -27,7 +27,7 @@ InitializeCsvFile(filePath := "") {
     try {
         ; Create header row
         headers :=
-            "Section,ArticleCode,Description,NetworkPrice,ImplementedPrice,NewPrice,NewPriceEnd,VatCode,VatRate,Margin,CostPrice,ReasonCode,PriceListCode"
+            "Department,SubDepartment,Section,FamilyGroup,ArticleCode,Description,NetworkPrice,ImplementedPrice,NewPrice,NewPriceEnd,VatCode,VatRate,Margin,CostPrice,ReasonCode,PriceListCode"
 
         file := FileOpen(CSV_FILE_PATH, "w", "UTF-8")
         file.WriteLine(headers)
@@ -44,12 +44,15 @@ InitializeCsvFile(filePath := "") {
 
 /**
  * Parse clipboard data from GOLD and append to CSV file
- * @param sectionCode - The section code to include in each row (e.g., "C0082")
+ * @param department - The department name (e.g., "D0024 - GROCERY - IMPULSE")
+ * @param subDepartment - The sub-department name (e.g., "S0001 - IMPULSE CONFECTIONERY")
+ * @param section - The section name (e.g., "C0001 - CHOCOLATE")
+ * @param familyGroup - The family group code (e.g., "F0001")
  * @param clipboardText - (Optional) Text to parse. Default: current clipboard content
  * @returns Number of items added, or -1 if failed
- * @example AppendClipboardToCsv("C0082")  ; Parses clipboard and appends with section code
+ * @example AppendClipboardToCsv("D0024 - GROCERY", "S0001 - IMPULSE", "C0001 - CHOCOLATE", "F0001")
  */
-AppendClipboardToCsv(sectionCode, clipboardText := "") {
+AppendClipboardToCsv(department, subDepartment, section, familyGroup, clipboardText := "") {
     global CSV_FILE_PATH, CSV_INITIALIZED
 
     ; Auto-initialize if not done yet
@@ -70,7 +73,7 @@ AppendClipboardToCsv(sectionCode, clipboardText := "") {
     items := ParseGoldData(clipboardText)
 
     if (items.Length == 0) {
-        LogDebug("No valid items found in clipboard for section: " . sectionCode)
+        LogDebug("No valid items found in clipboard for family group: " . familyGroup)
         return 0
     }
 
@@ -82,7 +85,10 @@ AppendClipboardToCsv(sectionCode, clipboardText := "") {
             ; Calculate cost price from ImplementedPrice, VatRate and Margin (4 decimal places)
             costPrice := CalculateCostPrice(item.implementedPrice, item.vatRate, item.margin, 4)
 
-            line := EscapeCsvField(sectionCode) . ","
+            line := EscapeCsvField(department) . ","
+            line .= EscapeCsvField(subDepartment) . ","
+            line .= EscapeCsvField(section) . ","
+            line .= EscapeCsvField(familyGroup) . ","
             line .= EscapeCsvField(item.articleCode) . ","
             line .= EscapeCsvField(item.description) . ","
             line .= item.networkPrice . ","
@@ -100,7 +106,8 @@ AppendClipboardToCsv(sectionCode, clipboardText := "") {
         }
 
         file.Close()
-        LogDebug("Added " . items.Length . " items to CSV for section: " . sectionCode)
+        LogDebug("Added " . items.Length . " items to CSV for: " . department . " > " . subDepartment . " > " .
+            section . " > " . familyGroup)
         return items.Length
 
     } catch as e {
@@ -175,6 +182,32 @@ ParsePriceValue(priceStr) {
     if (priceStr == "") {
         return 0
     }
+
+    ; Normalize common numeric formats from GOLD exports
+    ; - remove spaces/currency/percent decorations
+    ; - support both decimal comma and decimal dot
+    priceStr := RegExReplace(priceStr, "[^\d,\.\-]", "")
+
+    if (priceStr == "" || priceStr == "-" || priceStr == "." || priceStr == ",") {
+        return 0
+    }
+
+    hasComma := InStr(priceStr, ",")
+    hasDot := InStr(priceStr, ".")
+
+    if (hasComma && hasDot) {
+        ; If comma appears after dot, assume dot is thousands separator and comma is decimal
+        if (hasComma > hasDot) {
+            priceStr := StrReplace(priceStr, ".", "")
+            priceStr := StrReplace(priceStr, ",", ".")
+        } else {
+            ; Otherwise assume comma is thousands separator
+            priceStr := StrReplace(priceStr, ",", "")
+        }
+    } else if (hasComma) {
+        priceStr := StrReplace(priceStr, ",", ".")
+    }
+
     try {
         return Number(priceStr)
     } catch {

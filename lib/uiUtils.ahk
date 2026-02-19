@@ -5,6 +5,34 @@
 ; Functions for UI automation (clicks, clipboard, windows)
 ; ============================================================================
 
+; ── Global pause flag ──
+global IsPaused := false
+
+/**
+ * Toggle pause state. Bind this to a hotkey in the main script.
+ */
+TogglePause() {
+    global IsPaused
+    if (IsPaused) {
+        IsPaused := false
+        ToolTip("▶ Resumed")
+        SetTimer(() => ToolTip(), -1500)
+    } else {
+        IsPaused := true
+        ToolTip("⏸ Paused – press Esc again to resume")
+    }
+}
+
+/**
+ * Blocks execution while IsPaused is true.
+ * Call this at every checkpoint inside the main loop.
+ */
+WaitIfPaused() {
+    global IsPaused
+    while (IsPaused)
+        Sleep(200)
+}
+
 /**
  * Click at specific screen coordinates
  * @param x - X coordinate (pixels from left of screen)
@@ -157,6 +185,68 @@ ActivateTargetWindow() {
         LogError("Failed to activate window: " . e.Message)
         return false
     }
+}
+
+/**
+ * Check if the GOLD LOCAL SALES PRICE window is currently active
+ * Uses partial title match to handle dynamic date/time in title
+ * @param titlePattern - (Optional) Pattern to match. Default: "G.O.L.D. - LOCAL SALES PRICE"
+ * @returns true if the window is active, false otherwise
+ * @example IsGoldWindowActive()  ; Checks if GOLD window is active
+ * @example IsGoldWindowActive("SIMPLIFIED INPUT")  ; Checks for specific window type
+ */
+IsGoldWindowActive(titlePattern := "G.O.L.D. - LOCAL SALES PRICE SIMPLIFIED INPUT") {
+    try {
+        ; Method 1: Check active window title
+        activeTitle := WinGetTitle("A")
+        if (InStr(activeTitle, titlePattern)) {
+            LogDebug("IsGoldWindowActive: matched active title '" . activeTitle . "'")
+            return true
+        }
+
+        ; Method 2: Use WinExist to search ALL windows (not just active)
+        ; This catches cases where the error dialog stole focus or the window isn't foreground
+        if (WinExist("ahk_name *" . titlePattern . "*") || WinExist(titlePattern)) {
+            LogDebug("IsGoldWindowActive: matched via WinExist")
+            return true
+        }
+
+        ; Method 3: Enumerate windows with partial title match
+        ; WinExist may fail with partial matches, so do a manual search
+        for hwnd in WinGetList() {
+            try {
+                title := WinGetTitle(hwnd)
+                if (InStr(title, titlePattern)) {
+                    LogDebug("IsGoldWindowActive: found via enumeration '" . title . "'")
+                    return true
+                }
+            }
+        }
+
+        return false
+    } catch as e {
+        LogError("Failed to check window: " . e.Message)
+        return false
+    }
+}
+
+/**
+ * Wait for GOLD window to be active, with timeout
+ * @param titlePattern - (Optional) Pattern to match. Default: "G.O.L.D. - LOCAL SALES PRICE"
+ * @param timeout - (Optional) Timeout in milliseconds. Default: 10000 (10 seconds)
+ * @returns true if window became active, false if timeout
+ * @example WaitForGoldWindow()  ; Waits up to 10s for GOLD window
+ */
+WaitForGoldWindow(titlePattern := "G.O.L.D. - LOCAL SALES PRICE", timeout := 10000) {
+    startTime := A_TickCount
+    while (A_TickCount - startTime < timeout) {
+        if (IsGoldWindowActive(titlePattern)) {
+            return true
+        }
+        Sleep(200)
+    }
+    LogDebug("Timeout waiting for GOLD window: " . titlePattern)
+    return false
 }
 
 /**
