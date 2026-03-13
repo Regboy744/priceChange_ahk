@@ -19,8 +19,7 @@ global CONFIG := {
     COORDS: {
         START_DATE: { x: 269, y: 205 },
         ARTICLE_CODE: { x: 349, y: 136 },
-        NEW_PRICE: { x: 537, y: 290 },
-        SAVE_NEW_PRICE: { x: 395, y: -78 }
+        NEW_PRICE: { x: 537, y: 290 }
     },
     ; === TIMING DELAYS (milliseconds) ===
     DELAYS: {
@@ -28,7 +27,6 @@ global CONFIG := {
         SHORT: 333,
         MEDIUM: 500,
         LONG: 1000,
-        CLIPBOARD_WAIT: 2000,
         SEARCH_WAIT: 3000,
         PAGE_LOAD: 2000
     },

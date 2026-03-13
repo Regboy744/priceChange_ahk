@@ -283,18 +283,6 @@ IsGoldWindowActive(titlePattern := "G.O.L.D. - LOCAL SALES PRICE SIMPLIFIED INPU
     }
 }
 
-/** Wait up to timeout ms for a GOLD window to become active. */
-WaitForGoldWindow(titlePattern := "G.O.L.D. - LOCAL SALES PRICE", timeout := 10000) {
-    startTime := A_TickCount
-    while (A_TickCount - startTime < timeout) {
-        if (IsGoldWindowActive(titlePattern))
-            return true
-        Sleep(200)
-    }
-    LogDebug("Timeout waiting for GOLD window: " . titlePattern)
-    return false
-}
-
 ; ── Overlay ───────────────────────────────────────────────────────────────
 global WarningOverlay := ""
 global ProgressOverlay := ""
@@ -404,74 +392,5 @@ WaitForColorToDisappear(x, y, targetColor, timeout := 30000, checkInterval := 10
     }
 
     LogError("Timeout waiting for color to disappear at (" . x . "," . y . ")")
-    return false
-}
-
-/**
- * Wait for a colour to APPEAR at (x, y).
- * Typical use: wait for a button/element to become ready.
- */
-WaitForColorToAppear(x, y, targetColor, timeout := 30000, checkInterval := 100) {
-    if (SubStr(targetColor, 1, 2) == "0x")
-        targetColor := SubStr(targetColor, 3)
-    targetColor := StrUpper(targetColor)
-
-    LogDebug("Waiting for color " . targetColor . " to appear at (" . x . "," . y . ")")
-    startTime := A_TickCount
-
-    while (A_TickCount - startTime < timeout) {
-        try {
-            currentColor := PixelGetColor(x, y)
-            currentColorHex := StrUpper(SubStr(currentColor, 3))
-
-            if (currentColorHex == targetColor) {
-                LogDebug("Color " . targetColor . " appeared — element ready")
-                SoundBeep(1000, 200)
-                SoundBeep(1500, 200)
-                Sleep(200)
-                return true
-            }
-        } catch as e {
-            LogError("PixelGetColor failed: " . e.Message)
-        }
-        Sleep(checkInterval)
-    }
-
-    LogError("Timeout waiting for color to appear at (" . x . "," . y . ")")
-    return false
-}
-
-/**
- * Wait for ANY colour change at (x, y).
- * Useful for animated spinners where the exact colour is unknown.
- */
-WaitForColorChange(x, y, timeout := 30000, checkInterval := 100) {
-    try {
-        initialColor := PixelGetColor(x, y)
-    } catch as e {
-        LogError("Failed to get initial color: " . e.Message)
-        return false
-    }
-
-    LogDebug("Waiting for color change from " . initialColor . " at (" . x . "," . y . ")")
-    startTime := A_TickCount
-
-    while (A_TickCount - startTime < timeout) {
-        try {
-            currentColor := PixelGetColor(x, y)
-            if (currentColor != initialColor) {
-                LogDebug("Color changed from " . initialColor . " to " . currentColor)
-                SoundBeep(1000, 200)
-                SoundBeep(1500, 200)
-                Sleep(200)
-                return true
-            }
-        } catch as e {
-            LogError("PixelGetColor failed: " . e.Message)
-        }
-        Sleep(checkInterval)
-    }
-
-    LogError("Timeout waiting for color change at (" . x . "," . y . ")")
     return false
 }

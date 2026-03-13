@@ -8,7 +8,6 @@
 ; ── Session state ─────────────────────────────────────────────────────────
 global xl_session := ""
 global wb_session := ""
-global current_file := ""
 
 ; ── Session management ────────────────────────────────────────────────────
 
@@ -20,7 +19,7 @@ global current_file := ""
  * @returns true on success
  */
 StartExcelSession(filePath := "") {
-    global xl_session, wb_session, current_file
+    global xl_session, wb_session
 
     if (xl_session != "")
         EndExcelSession()
@@ -42,7 +41,6 @@ StartExcelSession(filePath := "") {
         xl_session.ScreenUpdating := false
 
         wb_session := xl_session.Workbooks.Open(filePath)
-        current_file := filePath
 
         LogInfo("Excel session started successfully")
         return true
@@ -110,48 +108,10 @@ GetExcelRowCount(sheetName, column, startRow := 1) {
 }
 
 /**
- * Write a value to a cell with optional auto-save.
- */
-PasteExcelData(sheetName, column, row, dataValue, autoSave := false) {
-    global xl_session, wb_session
-
-    if (xl_session == "" || wb_session == "") {
-        LogError("No Excel session active when trying to paste data")
-        ShowError("No Excel session active! Start session first.")
-        return false
-    }
-
-    try {
-        ws := wb_session.Sheets(sheetName)
-
-        if (ws.ProtectContents) {
-            LogError("Sheet '" . sheetName . "' is protected")
-            ShowError("Sheet '" . sheetName . "' is protected! Cannot paste.")
-            return false
-        }
-
-        ws.Cells(row, column).Value := dataValue
-        LogDebug("Pasted to " . sheetName . "[" . row . "," . column . "]: " . dataValue)
-
-        if (autoSave) {
-            wb_session.Save()
-            LogDebug("Workbook saved")
-        }
-
-        return true
-
-    } catch as e {
-        LogError("Paste failed: " . e.message)
-        ShowError("Paste failed: " . e.message)
-        return false
-    }
-}
-
-/**
  * Close the current workbook and quit Excel.
  */
 EndExcelSession() {
-    global xl_session, wb_session, current_file
+    global xl_session, wb_session
 
     try {
         LogInfo("Ending Excel session")
@@ -166,7 +126,6 @@ EndExcelSession() {
             xl_session := ""
         }
 
-        current_file := ""
         LogInfo("Excel session ended successfully")
 
     } catch as e {

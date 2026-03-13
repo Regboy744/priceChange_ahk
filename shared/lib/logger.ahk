@@ -63,13 +63,3 @@ ShowError(message, title := "Error") {
     LogError(message)
     MsgBox(message, title, "Icon!")
 }
-
-ShowWarning(message, title := "Warning") {
-    LogWarn(message)
-    MsgBox(message, title, "Icon!")
-}
-
-ShowInfo(message, title := "Information") {
-    LogInfo(message)
-    MsgBox(message, title, "Iconi")
-}

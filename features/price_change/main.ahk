@@ -53,11 +53,6 @@ AbortPriceChangeAutomation() {
     ResetMergeState()
 }
 
-; ── Legacy alias (kept for backward compatibility) ────────────────────────
-RunPriceChangeWorkflow() {
-    ShowMainGui()
-}
-
 ; ── Auto-start when run directly ──────────────────────────────────────────
 if (A_LineFile == A_ScriptFullPath) {
     RegisterPriceChangeHotkeys()

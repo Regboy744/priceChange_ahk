@@ -46,12 +46,6 @@ GetCsvFilePath() {
     return CSV_FILE_PATH
 }
 
-/** Reset the initialized flag so the next append re-creates the file. */
-ResetCsvFile() {
-    global CSV_INITIALIZED
-    CSV_INITIALIZED := false
-}
-
 ; ── Clipboard → CSV ──────────────────────────────────────────────────────
 
 /**
