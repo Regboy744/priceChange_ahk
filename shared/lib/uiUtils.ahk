@@ -141,6 +141,31 @@ SetEndDate(endDate) {
 }
 
 /**
+ * Set the Reason Code field (4 X Tab then type). Empty string = skip.
+ */
+SetReasonCode(reasonCode) {
+    global CONFIG
+
+    if (reasonCode == "") {
+        LogDebug("Reason Code is empty, skipping")
+        return true
+    }
+
+    try {
+        Send("{Tab 4}")
+        Sleep(CONFIG.DELAYS.SHORT)
+        SendText(reasonCode)
+        Sleep(CONFIG.DELAYS.LONG)
+        LogInfo("Reason Code set to: " . reasonCode)
+        return true
+    } catch as e {
+        LogError("Failed to set Reason Code: " . e.Message)
+        return false
+    }
+}
+
+
+/**
  * Enter an EAN code and trigger search (Alt+R → type → Alt+T).
  */
 EnterArticleCode(eanCode) {

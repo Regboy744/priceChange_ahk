@@ -14,21 +14,21 @@
 
 /**
  * Process a single price-change row.
- *
+ * 
  * @param item   Object with .ean and .price
  * @param index  1-based position in the batch
  * @param total  Total items in the batch
  * @returns true on success
  */
 ProcessSinglePriceChangeFromGui(item, index, total) {
-    global CONFIG, StartDateEdit, EndDateEdit
+    global CONFIG, StartDateEdit, EndDateEdit, ReasonCodeDDL
 
     LogInfo("Processing item " . index . "/" . total)
     UpdateStatus("Processing: " . item.ean . " → " . item.price)
 
     ; Get dates from GUI inputs
     startDate := (StartDateEdit != "") ? StartDateEdit.Text : ""
-    endDate   := (EndDateEdit   != "") ? EndDateEdit.Text   : ""
+    endDate := (EndDateEdit != "") ? EndDateEdit.Text : ""
 
     ; Step 1: Set start date (first item only)
     if (index == 1 && !SetStartDate(startDate))
@@ -48,17 +48,27 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
         return false
     Sleep(CONFIG.DELAYS.MEDIUM)
 
-    ; Step 5: Save the change
+    ; Step 5: Set Reason Code (if specified)
+    reasonCodes := [0, 1, 2, 900]
+    selectedIndex := (ReasonCodeDDL != "") ? ReasonCodeDDL.Value : 1
+    reasonCode := reasonCodes[selectedIndex]
+    if (reasonCode == 0)
+        reasonCode := ""  ; 0 = "Do not copy" → skip
+    if (!SetReasonCode(reasonCode))
+        return false
+    Sleep(CONFIG.DELAYS.MEDIUM)
+
+    ; Step 6: Save the change
     if (!SaveNewPrice())
         return false
     Sleep(CONFIG.DELAYS.PAGE_LOAD)
 
-    ; Step 6: Close "Till download lot number" OK button
+    ; Step 7: Close "Till download lot number" OK button
     if (!ClickAt(134, 90))
         return false
     Sleep(CONFIG.DELAYS.PAGE_LOAD)
 
-    ; Step 7: Close "Immediate Till Download" without downloading
+    ; Step 8: Close "Immediate Till Download" without downloading
     if (!ClickAt(230, 123))
         return false
     Sleep(CONFIG.DELAYS.PAGE_LOAD)

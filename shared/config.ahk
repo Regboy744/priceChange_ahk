@@ -34,7 +34,7 @@ global CONFIG := {
     ; Column indexes in the source sheet
     COLUMNS: {
         EAN_CODE: 1,
-        NEW_PRICE: 5
+        NEW_PRICE: 2
     },
     ; === LOGGING ===
     LOG_ENABLED: true,

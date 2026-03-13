@@ -25,6 +25,7 @@ global LoadPdfBtn := ""
 global LoadExcelBtn := ""
 global StartDateEdit := ""
 global EndDateEdit := ""
+global ReasonCodeDDL := ""
 global PriceData := []    ; Array of {row, ean, price, description?, status}
 global LoadedSource := ""    ; "pdf" | "excel"
 
@@ -114,8 +115,13 @@ ShowMainGui() {
     MainGui.Add("Text", "x295 y462", "End Date:")
     EndDateEdit := MainGui.Add("Edit", "x355 y460 w65 h22 Limit8 Center", "")
 
+    ; ── Reason Code dropdown ──
+    MainGui.Add("Text", "x274 y495", "Reason Code:")
+    ReasonCodeDDL := MainGui.Add("DropDownList", "x355 y490 w65 Choose1",
+        ["      0", "      1", "      2", "     900"])
+
     MainGui.OnEvent("Close", OnCloseGui)
-    MainGui.Show("w435 h510")
+    MainGui.Show("w435 h530")
 }
 
 ; ============================================================================
