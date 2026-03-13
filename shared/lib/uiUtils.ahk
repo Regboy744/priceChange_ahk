@@ -20,7 +20,7 @@ TogglePause() {
         SetTimer(() => ToolTip(), -1500)
     } else {
         IsPaused := true
-        ToolTip("⏸ Paused – press Esc again to resume")
+        ToolTip("⏸ Paused – press F4 again to resume")
     }
 }
 
@@ -83,6 +83,8 @@ ClickAndType(x, y, value := "") {
     Click(x, y)
     Sleep(CONFIG.DELAYS.TINY)
     Send("^a")
+    Sleep(300)
+    Send("{Delete}")
     Sleep(CONFIG.DELAYS.SHORT)
 
     if (value != "") {
@@ -213,6 +215,38 @@ ActivateTargetWindow() {
 }
 
 /**
+ * Ensure the GOLD RDP window is in focus before sending clicks/keys.
+ * Re-activates it up to maxRetries times if another window stole focus.
+ * @returns 0 = already focused, 1 = recovered focus, -1 = failed
+ */
+EnsureGoldFocus(maxRetries := 3) {
+    global CONFIG
+    activeTitle := ""
+    loop maxRetries {
+        try {
+            activeTitle := WinGetTitle("A")
+            if (InStr(activeTitle, CONFIG.WINDOW_TITLE)) {
+                if (A_Index > 1) {
+                    LogDebug("EnsureGoldFocus: recovered on attempt #" . A_Index)
+                    return 1   ; focus was lost but recovered
+                }
+                return 0       ; already focused — no intervention
+            }
+        }
+
+        LogDebug("EnsureGoldFocus: wrong window '" . activeTitle
+            . "', re-activating (" . A_Index . "/" . maxRetries . ")")
+        try {
+            WinActivate(CONFIG.WINDOW_TITLE)
+        }
+        Sleep(1500)
+    }
+
+    LogError("EnsureGoldFocus: FAILED after " . maxRetries . " attempts")
+    return -1
+}
+
+/**
  * Check whether the GOLD window matching titlePattern is active.
  * Uses three detection methods for reliability.
  */
@@ -263,6 +297,8 @@ WaitForGoldWindow(titlePattern := "G.O.L.D. - LOCAL SALES PRICE", timeout := 100
 
 ; ── Overlay ───────────────────────────────────────────────────────────────
 global WarningOverlay := ""
+global ProgressOverlay := ""
+global ProgressOverlayText := ""
 
 /** Show a full-width red "AUTOMATION IN PROGRESS" banner at the top of the screen. */
 ShowWorkingOverlay() {
@@ -286,6 +322,44 @@ HideWorkingOverlay() {
     if (WarningOverlay != "") {
         WarningOverlay.Destroy()
         WarningOverlay := ""
+    }
+}
+
+/**
+ * Show (or update) a click-through progress bar pinned to the bottom of the screen.
+ * Safe to call repeatedly — the first call creates the GUI, subsequent calls
+ * just update the text without flicker.
+ */
+ShowProgressOverlay(text) {
+    global ProgressOverlay, ProgressOverlayText
+
+    overlayH := 80
+    yPos := A_ScreenHeight - overlayH
+
+    if (ProgressOverlay == "") {
+        ProgressOverlay := Gui("+AlwaysOnTop -Caption +ToolWindow")
+        ProgressOverlay.BackColor := "1a1a2e"
+        ProgressOverlay.SetFont("s14 bold", "Arial")
+        ProgressOverlayText := ProgressOverlay.Add("Text",
+            "cWhite Center w" . A_ScreenWidth . " h" . overlayH, text)
+
+        ProgressOverlay.Opt("+E0x20")           ; Click-through
+        WinSetTransparent(200, ProgressOverlay)
+
+        ProgressOverlay.Show("x0 y" . yPos . " w" . A_ScreenWidth
+            . " h" . overlayH . " NoActivate")
+    } else {
+        ProgressOverlayText.Value := text
+    }
+}
+
+/** Remove the progress overlay (safe to call when not showing). */
+HideProgressOverlay() {
+    global ProgressOverlay, ProgressOverlayText
+    if (ProgressOverlay != "") {
+        ProgressOverlay.Destroy()
+        ProgressOverlay := ""
+        ProgressOverlayText := ""
     }
 }
 

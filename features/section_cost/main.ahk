@@ -7,7 +7,7 @@
 ; (or the thin root launcher) is the only thing you need to run.
 ;
 ; Hotkeys:
-;   Esc → Toggle Pause / Resume
+;   F4  → Toggle Pause / Resume
 ;   F1  → Start the Section Cost Export
 ; ============================================================================
 
@@ -25,7 +25,7 @@
 ; ── Hotkey registration ───────────────────────────────────────────────────
 
 RegisterSectionCostHotkeys() {
-    Hotkey("Esc", (*) => TogglePause(), "On")
+    Hotkey("F4", (*) => TogglePause(), "On")
     Hotkey("F1", (*) => RunSectionCostExport(), "On")
 }
 
