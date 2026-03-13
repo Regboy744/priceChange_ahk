@@ -9,6 +9,7 @@
 ; Hotkeys:
 ;   F1  → Open Price Change GUI
 ;   F2  → Force-close all Excel instances
+;   F3  → Merge Labels (2-press: prices table → changed labels → CSV)
 ;   Esc → Abort running automation
 ; ============================================================================
 
@@ -16,6 +17,7 @@
 #Include ..\..\shared\config.ahk
 #Include ..\..\shared\lib\logger.ahk
 #Include ..\..\shared\lib\stringUtils.ahk
+#Include ..\..\shared\lib\csvUtils.ahk
 #Include ..\..\shared\lib\excelUtils.ahk
 #Include ..\..\shared\lib\uiUtils.ahk
 #Include ..\..\shared\lib\jsonUtils.ahk
@@ -24,6 +26,7 @@
 ; ── Feature modules ───────────────────────────────────────────────────────
 #Include processing.ahk
 #Include gui.ahk
+#Include merge_labels.ahk
 
 ; ── State ─────────────────────────────────────────────────────────────────
 global IsRunning := false
@@ -33,6 +36,7 @@ global IsRunning := false
 RegisterPriceChangeHotkeys() {
     Hotkey("F1", (*) => ShowMainGui(), "On")
     Hotkey("F2", (*) => CloseAllExcelSafely(), "On")
+    Hotkey("F3", (*) => HandleMergeLabelHotkey(), "On")
     Hotkey("Esc", (*) => AbortPriceChangeAutomation(), "On")
 }
 
@@ -45,6 +49,8 @@ AbortPriceChangeAutomation() {
         UpdateStatus("⚠️ Automation aborted by user!")
         EnableButtons(true)
     }
+    ; Always reset the merge-label state machine on Esc
+    ResetMergeState()
 }
 
 ; ── Legacy alias (kept for backward compatibility) ────────────────────────

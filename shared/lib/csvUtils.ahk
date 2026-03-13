@@ -224,3 +224,94 @@ EscapeCsvField(field) {
 
     return field
 }
+
+; ── Generic tab-delimited parser ──────────────────────────────────────────
+
+/**
+ * Parse tab-delimited text (with a header row) into an array of Map objects.
+ * Each Map is keyed by the column headers from the first row.
+ * 
+ * @param text       Raw tab-separated text (e.g. from clipboard)
+ * @param delimiter  Column separator (default: Tab)
+ * @returns {Array}  Array of Map objects, one per data row
+ */
+ParseTabDelimited(text, delimiter := "`t") {
+    lines := StrSplit(text, "`n", "`r")
+    results := []
+
+    if (lines.Length < 2)
+        return results
+
+    ; ── Parse header row ──────────────────────────────────────────────
+    headers := StrSplit(lines[1], delimiter)
+    headerCount := headers.Length
+
+    loop headerCount
+        headers[A_Index] := Trim(headers[A_Index])
+
+    ; ── Parse data rows ───────────────────────────────────────────────
+    loop lines.Length - 1 {
+        rowIndex := A_Index + 1
+        line := Trim(lines[rowIndex])
+        if (line == "")
+            continue
+
+        columns := StrSplit(line, delimiter)
+        row := Map()
+
+        loop headerCount {
+            key := headers[A_Index]
+            value := columns.Length >= A_Index ? Trim(columns[A_Index]) : ""
+            row[key] := value
+        }
+
+        results.Push(row)
+    }
+
+    return results
+}
+
+; ── Structured CSV file writer ────────────────────────────────────────────
+
+/**
+ * Write an array of Map/Object rows to a CSV file with the given headers.
+ * Uses RFC 4180 escaping via EscapeCsvField().
+ * 
+ * @param filePath   Absolute path to the output file (overwritten)
+ * @param headers    Array of column header strings (also used as Map keys)
+ * @param rows       Array of Map objects keyed by header names
+ * @returns {Boolean} true on success, false on error
+ */
+WriteCsvFile(filePath, headers, rows) {
+    try {
+        file := FileOpen(filePath, "w", "UTF-8")
+
+        ; ── Header line ───────────────────────────────────────────────
+        headerLine := ""
+        for i, h in headers {
+            if (i > 1)
+                headerLine .= ","
+            headerLine .= EscapeCsvField(h)
+        }
+        file.WriteLine(headerLine)
+
+        ; ── Data lines ────────────────────────────────────────────────
+        for row in rows {
+            line := ""
+            for i, h in headers {
+                if (i > 1)
+                    line .= ","
+                value := row.Has(h) ? row[h] : ""
+                line .= EscapeCsvField(value)
+            }
+            file.WriteLine(line)
+        }
+
+        file.Close()
+        return true
+
+    } catch as e {
+        LogError("WriteCsvFile failed: " . e.Message)
+        return false
+    }
+}
