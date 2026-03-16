@@ -1,7 +1,7 @@
 categories := Map(
     "D0024 - GROCERY -  IMPULSE", Map(
         "S0001 - IMPULSE CONFECTIONERY", Map(
-            "C0001 - CHOCOLATE", ["F0001", "F0002", "F0004", "F0005", "F0006", "F0007"],
+            "C0001 - CHOCOLATE", ["F0699", "F0001", "F0002", "F0004", "F0005", "F0006", "F0007"],
             "C0002 - SUGAR CONFECTIONERY", ["F0008", "F0009", "F0010", "F0011", "F0012", "F0013"],
             "C0003 - CHEWING GUM", ["F0014", "F0015", "F0016"],
             "C0004 - MINTS", ["F0017", "F0018", "F0019", "F0020"],
