@@ -240,16 +240,75 @@ ActivateTargetWindow() {
 }
 
 /**
+ * Find the first top-level GOLD window whose title contains titlePattern.
+ * Returns its HWND, or 0 if none was found.
+ */
+FindGoldWindow(titlePattern := "G.O.L.D. - LOCAL SALES PRICE SIMPLIFIED INPUT -") {
+    try {
+        for hwnd in WinGetList() {
+            try {
+                title := WinGetTitle(hwnd)
+                if (InStr(title, titlePattern))
+                    return hwnd
+            }
+        }
+    } catch as e {
+        LogError("FindGoldWindow failed: " . e.Message)
+    }
+
+    return 0
+}
+
+/**
+ * Dismiss a GOLD modal dialog if one is already open.
+ * Returns 1 if dismissed, 0 if none was present, -1 if dismissal failed.
+ */
+DismissGoldDialogIfPresent(titlePattern := "G.O.L.D. - LOCAL SALES PRICE SIMPLIFIED INPUT -", okX := 131, okY := 90) {
+    dialogHwnd := FindGoldWindow(titlePattern)
+    if (!dialogHwnd)
+        return 0
+
+    title := ""
+    try title := WinGetTitle("ahk_id " . dialogHwnd)
+
+    try WinActivate("ahk_id " . dialogHwnd)
+    Sleep(500)
+
+    ; Try the dialog's default button first, then fall back to the known OK coordinate.
+    Send("{Enter}")
+    Sleep(500)
+
+    if (FindGoldWindow(titlePattern)) {
+        Click(okX, okY)
+        Sleep(1000)
+    }
+
+    if (FindGoldWindow(titlePattern)) {
+        LogError("DismissGoldDialogIfPresent: dialog still present '" . title . "'")
+        return -1
+    }
+
+    LogDebug("DismissGoldDialogIfPresent: dismissed '" . title . "'")
+    return 1
+}
+
+/**
  * Ensure the GOLD RDP window is in focus before sending clicks/keys.
  * Re-activates it up to maxRetries times if another window stole focus.
- * @returns 0 = already focused, 1 = recovered focus, -1 = failed
+ * @returns 0 = already focused, 1 = recovered focus,
+ *          2 = GOLD modal dialog active, -1 = failed
  */
 EnsureGoldFocus(maxRetries := 3) {
     global CONFIG
+    goldDialogTitle := "G.O.L.D. - LOCAL SALES PRICE SIMPLIFIED INPUT -"
     activeTitle := ""
     loop maxRetries {
         try {
             activeTitle := WinGetTitle("A")
+            if (InStr(activeTitle, goldDialogTitle)) {
+                LogDebug("EnsureGoldFocus: GOLD dialog active '" . activeTitle . "'")
+                return 2
+            }
             if (InStr(activeTitle, CONFIG.WINDOW_TITLE)) {
                 if (A_Index > 1) {
                     LogDebug("EnsureGoldFocus: recovered on attempt #" . A_Index)
@@ -272,33 +331,14 @@ EnsureGoldFocus(maxRetries := 3) {
 }
 
 /**
- * Check whether the GOLD window matching titlePattern is active.
- * Uses three detection methods for reliability.
+ * Check whether the active window title contains titlePattern.
  */
 IsGoldWindowActive(titlePattern := "G.O.L.D. - LOCAL SALES PRICE SIMPLIFIED INPUT") {
     try {
-        ; Method 1: active window title
         activeTitle := WinGetTitle("A")
         if (InStr(activeTitle, titlePattern)) {
             LogDebug("IsGoldWindowActive: matched active title '" . activeTitle . "'")
             return true
-        }
-
-        ; Method 2: WinExist
-        if (WinExist("ahk_name *" . titlePattern . "*") || WinExist(titlePattern)) {
-            LogDebug("IsGoldWindowActive: matched via WinExist")
-            return true
-        }
-
-        ; Method 3: enumerate all windows
-        for hwnd in WinGetList() {
-            try {
-                title := WinGetTitle(hwnd)
-                if (InStr(title, titlePattern)) {
-                    LogDebug("IsGoldWindowActive: found via enumeration '" . title . "'")
-                    return true
-                }
-            }
         }
 
         return false
