@@ -8,6 +8,7 @@
 ; Dependencies (provided by the includer — main.ahk):
 ;   CONFIG, StartDateEdit, EndDateEdit,
 ;   LogInfo, UpdateStatus,
+;   WaitIfPaused,
 ;   SetStartDate, EnterArticleCode, EnterNewPrice, SetEndDate,
 ;   SaveNewPrice, ClickAt
 ; ============================================================================
@@ -23,6 +24,8 @@
 ProcessSinglePriceChangeFromGui(item, index, total) {
     global CONFIG, StartDateEdit, EndDateEdit, ReasonCodeDDL
 
+    WaitIfPaused()
+
     LogInfo("Processing item " . index . "/" . total)
     UpdateStatus("Processing: " . item.ean . " → " . item.price)
 
@@ -34,19 +37,24 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     if (index == 1 && !SetStartDate(startDate))
         return false
     Sleep(CONFIG.DELAYS.MEDIUM)
+    WaitIfPaused()
 
     ; Step 2: Enter article code and search
+    ; TODO: Remove the waiting based on the time and add the one based ont the color/window/ends
     if (!EnterArticleCode(item.ean))
         return false
+    WaitIfPaused()
 
     ; Step 3: Enter new price
     if (!EnterNewPrice(item.price))
         return false
+    WaitIfPaused()
 
     ; Step 4: Set end date (if specified)
     if (!SetEndDate(endDate))
         return false
     Sleep(CONFIG.DELAYS.MEDIUM)
+    WaitIfPaused()
 
     ; Step 5: Set Reason Code (if specified)
     reasonCodes := [0, 1, 2, 900]
@@ -57,16 +65,19 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     if (!SetReasonCode(reasonCode))
         return false
     Sleep(CONFIG.DELAYS.MEDIUM)
+    WaitIfPaused()
 
     ; Step 6: Save the change
     if (!SaveNewPrice())
         return false
     Sleep(CONFIG.DELAYS.PAGE_LOAD)
+    WaitIfPaused()
 
     ; Step 7: Close "Till download lot number" OK button
     if (!ClickAt(134, 90))
         return false
     Sleep(CONFIG.DELAYS.PAGE_LOAD)
+    WaitIfPaused()
 
     ; Step 8: Close "Immediate Till Download" without downloading
     if (!ClickAt(230, 123))

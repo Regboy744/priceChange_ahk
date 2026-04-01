@@ -7,6 +7,7 @@
 ; (or the thin root launcher) is the only thing you need to run.
 ;
 ; Hotkeys:
+;   F4  → Toggle Pause / Resume
 ;   F1  → Open Price Change GUI
 ;   F2  → Force-close all Excel instances
 ;   F3  → Merge Labels (2-press: prices table → changed labels → CSV)
@@ -34,6 +35,7 @@ global IsRunning := false
 ; ── Hotkey registration ───────────────────────────────────────────────────
 
 RegisterPriceChangeHotkeys() {
+    Hotkey("F4", (*) => TogglePause(), "On")
     Hotkey("F1", (*) => ShowMainGui(), "On")
     Hotkey("F2", (*) => CloseAllExcelSafely(), "On")
     Hotkey("F3", (*) => HandleMergeLabelHotkey(), "On")

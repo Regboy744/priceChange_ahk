@@ -57,13 +57,28 @@ ClickAt(x, y) {
  */
 SetFieldValue(x, y, value) {
     global CONFIG
+    savedClipboard := ""
+    clipboardBackedUp := false
+
+    try {
+        savedClipboard := ClipboardAll()
+        clipboardBackedUp := true
+    } catch as e {
+        LogWarn("Failed to back up clipboard before setting field at ("
+            . x . "," . y . "): " . e.Message)
+    }
+
     try {
         Click(x, y)
         Sleep(CONFIG.DELAYS.SHORT)
         Send("^a")
         Sleep(CONFIG.DELAYS.TINY)
-        A_Clipboard := value
+        A_Clipboard := ""
         Sleep(CONFIG.DELAYS.TINY)
+        A_Clipboard := value
+        if (!ClipWait(1))
+            LogWarn("Clipboard update timed out before pasting field value at ("
+                . x . "," . y . ")")
         Send("^v")
         Sleep(CONFIG.DELAYS.MEDIUM)
         LogDebug("Set field value at (" . x . "," . y . "): " . value)
@@ -71,6 +86,14 @@ SetFieldValue(x, y, value) {
     } catch as e {
         LogError("Failed to set field value: " . e.Message)
         return false
+    } finally {
+        if (clipboardBackedUp) {
+            try A_Clipboard := savedClipboard
+            catch as e {
+                LogWarn("Failed to restore clipboard after setting field at ("
+                    . x . "," . y . "): " . e.Message)
+            }
+        }
     }
 }
 
@@ -92,6 +115,43 @@ ClickAndType(x, y, value := "") {
         LogDebug("Clicked and typed at (" . x . "," . y . "): " . value)
     } else {
         LogDebug("Clicked at (" . x . "," . y . ")")
+    }
+}
+
+/**
+ * Re-focus a field in GOLD, clear any existing text, then type a replacement.
+ * Extra click/settle time helps when Citrix lags behind the automation.
+ */
+FocusAndReplaceField(x, y, value, settleDelay := 0) {
+    global CONFIG
+
+    try {
+        focusResult := EnsureGoldFocus()
+        if (focusResult == 2) {
+            LogError("GOLD dialog blocked field input at (" . x . "," . y . ")")
+            return false
+        }
+        if (focusResult == -1) {
+            LogError("Could not focus GOLD before field input at (" . x . "," . y . ")")
+            return false
+        }
+
+        Click(x, y)
+        Sleep(CONFIG.DELAYS.SHORT)
+        Click(x, y)
+        Sleep(settleDelay ? settleDelay : CONFIG.DELAYS.SHORT)
+        Send("^a")
+        Sleep(CONFIG.DELAYS.SHORT)
+        Send("{Delete}")
+        Sleep(CONFIG.DELAYS.SHORT)
+        SendText(value)
+        Sleep(CONFIG.DELAYS.MEDIUM)
+        LogDebug("Focused and replaced field at (" . x . "," . y . "): " . value)
+        return true
+    } catch as e {
+        LogError("Failed to focus and replace field at (" . x . "," . y . "): "
+            . e.Message)
+        return false
     }
 }
 
@@ -171,6 +231,16 @@ SetReasonCode(reasonCode) {
 EnterArticleCode(eanCode) {
     global CONFIG
     try {
+        focusResult := EnsureGoldFocus()
+        if (focusResult == 2) {
+            LogError("GOLD dialog blocked article-code entry")
+            return false
+        }
+        if (focusResult == -1) {
+            LogError("Could not focus GOLD before entering article code")
+            return false
+        }
+
         Send("!r")
         Sleep 100
         coords := CONFIG.COORDS.ARTICLE_CODE
@@ -193,10 +263,8 @@ EnterNewPrice(newPrice) {
     global CONFIG
     try {
         coords := CONFIG.COORDS.NEW_PRICE
-        Click(coords.x, coords.y)
-        Sleep(CONFIG.DELAYS.PAGE_LOAD)
-        SendText(newPrice)
-        Sleep(CONFIG.DELAYS.SHORT)
+        if (!FocusAndReplaceField(coords.x, coords.y, newPrice, CONFIG.DELAYS.PAGE_LOAD))
+            return false
         LogInfo("Entered new price: " . newPrice)
         return true
     } catch as e {

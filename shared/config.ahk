@@ -27,7 +27,7 @@ global CONFIG := {
         SHORT: 333,
         MEDIUM: 500,
         LONG: 1000,
-        SEARCH_WAIT: 3000,
+        SEARCH_WAIT: 4000,
         PAGE_LOAD: 2000
     },
     ; === EXCEL COLUMNS ===

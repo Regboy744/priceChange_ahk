@@ -281,6 +281,10 @@ OnLoadExcel(*) {
         ean_code := GetExcelData(CONFIG.SHEET_NAME, CONFIG.COLUMNS.EAN_CODE, currentRow)
         new_price := GetExcelData(CONFIG.SHEET_NAME, CONFIG.COLUMNS.NEW_PRICE, currentRow)
 
+        ; Convert ean_code to text and remove any decimal places (e.g., "1234500.0" → "1234500")
+        if (ean_code != "")
+            ean_code := String(Integer(ean_code))
+
         if (ean_code == "")
             continue
 
