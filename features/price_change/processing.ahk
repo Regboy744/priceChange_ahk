@@ -10,7 +10,7 @@
 ;   LogInfo, UpdateStatus,
 ;   WaitIfPaused,
 ;   SetStartDate, EnterArticleCode, EnterNewPrice, SetEndDate,
-;   SaveNewPrice, ClickAt
+;   SaveNewPrice, ClickAt, WaitForGoldSpinnerToFinish
 ; ============================================================================
 
 /**
@@ -40,8 +40,10 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     WaitIfPaused()
 
     ; Step 2: Enter article code and search
-    ; TODO: Remove the waiting based on the time and add the one based ont the color/window/ends
     if (!EnterArticleCode(item.ean))
+        return false
+    WaitIfPaused()
+    if (!WaitForGoldSpinnerToFinish())
         return false
     WaitIfPaused()
 

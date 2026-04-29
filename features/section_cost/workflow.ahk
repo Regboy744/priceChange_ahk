@@ -8,7 +8,7 @@
 ; Dependencies (provided by the includer — main.ahk):
 ;   categories (Map), CONFIG,
 ;   ClickAndType, LogDebug, LogError, IsGoldWindowActive,
-;   DismissGoldDialogIfPresent, EnsureGoldFocus, WaitForColorToDisappear,
+;   DismissGoldDialogIfPresent, EnsureGoldFocus, WaitForGoldSpinnerToFinish,
 ;   AppendClipboardToCsv, WaitIfPaused, InitializeCsvFile, GetCsvFilePath
 ; ============================================================================
 
@@ -150,8 +150,8 @@ RunSectionCostExport() {
 
                             WaitIfPaused()
 
-                            ; Wait for the spinner to disappear (30 min timeout)
-                            if (!WaitForColorToDisappear(623, 653, "CCCCCC", 1800000, 200)) {
+                            ; Wait for the GOLD spinner to finish (30 min timeout)
+                            if (!WaitForGoldSpinnerToFinish()) {
                                 LogDebug("Error waiting for spinner — skipping " . familyGroup)
                                 familySkipped := true
                                 PushSkippedFamilyGroup(skippedFamilyGroups, familyGroup)

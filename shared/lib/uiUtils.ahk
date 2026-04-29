@@ -247,7 +247,6 @@ EnterArticleCode(eanCode) {
         ClickAndType(coords.x, coords.y, eanCode)
         Sleep(CONFIG.DELAYS.LONG)
         Send("!t")
-        Sleep(CONFIG.DELAYS.SEARCH_WAIT)
         LogInfo("Searched for article: " . eanCode)
         return true
     } catch as e {
@@ -526,4 +525,38 @@ WaitForColorToDisappear(x, y, targetColor, timeout := 30000, checkInterval := 10
 
     LogError("Timeout waiting for color to disappear at (" . x . "," . y . ")")
     return false
+}
+
+/**
+ * Wait for the GOLD spinner to finish.
+ * Gives the spinner a brief chance to appear so callers do not race it.
+ *
+ * @param timeout        Milliseconds to wait for spinner completion
+ * @param checkInterval  Polling interval ms
+ * @param appearTimeout  Milliseconds to wait for spinner to appear first
+ * @returns true if the spinner finished or never appeared
+ */
+WaitForGoldSpinnerToFinish(timeout := 1800000, checkInterval := 200, appearTimeout := 1000) {
+    spinnerX := 623
+    spinnerY := 653
+    spinnerColor := "CCCCCC"
+
+    LogDebug("Waiting for GOLD spinner to finish at (" . spinnerX . "," . spinnerY . ")")
+    appearStart := A_TickCount
+
+    while (A_TickCount - appearStart < appearTimeout) {
+        try {
+            currentColor := PixelGetColor(spinnerX, spinnerY)
+            currentColorHex := StrUpper(SubStr(currentColor, 3))
+
+            if (currentColorHex == spinnerColor)
+                return WaitForColorToDisappear(spinnerX, spinnerY, spinnerColor, timeout, checkInterval)
+        } catch as e {
+            LogError("PixelGetColor failed while waiting for GOLD spinner: " . e.Message)
+        }
+        Sleep(checkInterval)
+    }
+
+    LogDebug("GOLD spinner did not appear within " . appearTimeout . " ms — continuing")
+    return true
 }
