@@ -7,10 +7,11 @@
 ;
 ; Dependencies (provided by the includer — main.ahk):
 ;   CONFIG, StartDateEdit, EndDateEdit,
-;   LogInfo, UpdateStatus,
+;   LogInfo, LogWarn, LogError, UpdateStatus,
 ;   WaitIfPaused,
 ;   SetStartDate, EnterArticleCode, EnterNewPrice, SetEndDate,
-;   SaveNewPrice, ClickAt, WaitForGoldSpinnerToFinish
+;   SaveNewPrice, ClickAt, WaitForGoldSpinnerToFinish,
+;   DismissGoldDialogIfPresent, ActivateTargetWindow
 ; ============================================================================
 
 /**
@@ -19,7 +20,7 @@
  * @param item   Object with .ean and .price
  * @param index  1-based position in the batch
  * @param total  Total items in the batch
- * @returns true on success
+ * @returns "success", "not_found", or "error"
  */
 ProcessSinglePriceChangeFromGui(item, index, total) {
     global CONFIG, StartDateEdit, EndDateEdit, ReasonCodeDDL
@@ -29,32 +30,45 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     LogInfo("Processing item " . index . "/" . total)
     UpdateStatus("Processing: " . item.ean . " → " . item.price)
 
+    ; Clear any leftover modal so one bad item does not poison the next one.
+    if (!ClearPriceChangeDialogIfPresent(item.ean, index))
+        return "error"
+
     ; Get dates from GUI inputs
     startDate := (StartDateEdit != "") ? StartDateEdit.Text : ""
     endDate := (EndDateEdit != "") ? EndDateEdit.Text : ""
 
     ; Step 1: Set start date (first item only)
     if (index == 1 && !SetStartDate(startDate))
-        return false
+        return "error"
     Sleep(CONFIG.DELAYS.MEDIUM)
     WaitIfPaused()
 
     ; Step 2: Enter article code and search
     if (!EnterArticleCode(item.ean))
-        return false
+        return "error"
     WaitIfPaused()
     if (!WaitForGoldSpinnerToFinish())
-        return false
+        return "error"
     WaitIfPaused()
 
+    searchOutcome := HandlePriceChangeSearchDialog(item)
+    if (searchOutcome != "clear")
+        return searchOutcome
+
     ; Step 3: Enter new price
-    if (!EnterNewPrice(item.price))
-        return false
+    if (!EnterNewPrice(item.price)) {
+        ; The not-found popup can appear slightly late, just as price entry starts.
+        lateSearchOutcome := HandlePriceChangeSearchDialog(item, 0, 0)
+        if (lateSearchOutcome != "clear")
+            return lateSearchOutcome
+        return "error"
+    }
     WaitIfPaused()
 
     ; Step 4: Set end date (if specified)
     if (!SetEndDate(endDate))
-        return false
+        return "error"
     Sleep(CONFIG.DELAYS.MEDIUM)
     WaitIfPaused()
 
@@ -65,27 +79,119 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     if (reasonCode == 0)
         reasonCode := ""  ; 0 = "Do not copy" → skip
     if (!SetReasonCode(reasonCode))
-        return false
+        return "error"
     Sleep(CONFIG.DELAYS.MEDIUM)
     WaitIfPaused()
 
     ; Step 6: Save the change
     if (!SaveNewPrice())
-        return false
+        return "error"
     Sleep(CONFIG.DELAYS.PAGE_LOAD)
     WaitIfPaused()
 
-    ; Step 7: Close "Till download lot number" OK button
+    ; Step 7: Wait for "Till download lot number", click OK, then confirm it closed
+    lotDlgHwnd := WaitForGoldDialog()
+    if (!lotDlgHwnd) {
+        LogError("Till download lot number dialog never appeared for " . item.ean)
+        UpdateStatus("❌ Lot number dialog missing for " . item.ean)
+        return "error"
+    }
+    try WinActivate("ahk_id " . lotDlgHwnd)
+    Sleep(CONFIG.DELAYS.SHORT)
     if (!ClickAt(134, 90))
-        return false
-    Sleep(CONFIG.DELAYS.PAGE_LOAD)
+        return "error"
+    if (!WaitForGoldDialogToClose(lotDlgHwnd)) {
+        LogError("Till download lot number dialog did not close for " . item.ean)
+        UpdateStatus("❌ Lot number dialog still open for " . item.ean)
+        return "error"
+    }
     WaitIfPaused()
 
-    ; Step 8: Close "Immediate Till Download" without downloading
+    ; Step 8: Wait for "Immediate Till Download", click No, then confirm it closed
+    tillDlgHwnd := WaitForGoldDialog(, , "IMMEDIATE TILL DOWNLOAD")
+    if (!tillDlgHwnd) {
+        LogError("Immediate Till Download dialog never appeared for " . item.ean)
+        UpdateStatus("❌ Till download dialog missing for " . item.ean)
+        return "error"
+    }
+    try WinActivate("ahk_id " . tillDlgHwnd)
+    Sleep(CONFIG.DELAYS.SHORT)
     if (!ClickAt(230, 123))
-        return false
-    Sleep(CONFIG.DELAYS.PAGE_LOAD)
+        return "error"
+    if (!WaitForGoldDialogToClose(tillDlgHwnd)) {
+        LogError("Immediate Till Download dialog did not close for " . item.ean)
+        UpdateStatus("❌ Till download dialog still open for " . item.ean)
+        return "error"
+    }
 
     LogInfo("Successfully processed item " . index)
+    return "success"
+}
+
+ClearPriceChangeDialogIfPresent(eanCode, index) {
+    global CONFIG
+
+    coords := CONFIG.COORDS.PRICE_CHANGE_DIALOG_OK
+    dismissResult := DismissGoldDialogIfPresent(, coords.x, coords.y)
+
+    if (dismissResult == -1) {
+        LogError("Failed to dismiss stale GOLD dialog before item "
+            . index . " (" . eanCode . ")")
+        UpdateStatus("❌ Could not clear GOLD popup before " . eanCode)
+        return false
+    }
+
+    if (dismissResult == 1) {
+        LogWarn("Cleared stale GOLD dialog before processing article " . eanCode)
+        Sleep(CONFIG.DELAYS.MEDIUM)
+        if (!ActivateTargetWindow()) {
+            LogError("Failed to reactivate GOLD after clearing stale dialog for "
+                . eanCode)
+            UpdateStatus("❌ Could not reactivate GOLD after clearing popup")
+            return false
+        }
+        Sleep(CONFIG.DELAYS.MEDIUM)
+    }
+
     return true
+}
+
+HandlePriceChangeSearchDialog(item, pollTimeout := 1200, pollInterval := 200) {
+    global CONFIG
+
+    coords := CONFIG.COORDS.PRICE_CHANGE_DIALOG_OK
+    startTime := A_TickCount
+
+    loop {
+        WaitIfPaused()
+
+        dismissResult := DismissGoldDialogIfPresent(, coords.x, coords.y)
+        if (dismissResult == -1) {
+            LogError("Could not close GOLD not-found popup for article " . item.ean)
+            UpdateStatus("❌ Could not close GOLD popup for " . item.ean)
+            return "error"
+        }
+
+        if (dismissResult == 1) {
+            LogWarn("Article not found in GOLD — skipping " . item.ean)
+            UpdateStatus("⚠️ Not found in GOLD: " . item.ean . " — continuing")
+
+            Sleep(CONFIG.DELAYS.MEDIUM)
+            if (!ActivateTargetWindow()) {
+                LogError("Failed to reactivate GOLD after not-found popup for "
+                    . item.ean)
+                UpdateStatus("❌ Could not reactivate GOLD after popup")
+                return "error"
+            }
+            Sleep(CONFIG.DELAYS.LONG)
+            return "not_found"
+        }
+
+        if (A_TickCount - startTime >= pollTimeout)
+            break
+
+        Sleep(Max(pollInterval, 1))
+    }
+
+    return "clear"
 }

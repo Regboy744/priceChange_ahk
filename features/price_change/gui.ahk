@@ -349,6 +349,7 @@ OnStartAutomation(*) {
 
     totalItems := PriceData.Length
     successCount := 0
+    notFoundCount := 0
     failCount := 0
 
     loop totalItems {
@@ -361,10 +362,16 @@ OnStartAutomation(*) {
         UpdateProgress(index, totalItems)
         UpdateListViewStatus(index, "🔄")
 
-        if (ProcessSinglePriceChangeFromGui(item, index, totalItems)) {
+        itemResult := ProcessSinglePriceChangeFromGui(item, index, totalItems)
+
+        if (itemResult == "success") {
             UpdateListViewStatus(index, "✅")
             PriceData[index].status := "done"
             successCount++
+        } else if (itemResult == "not_found") {
+            UpdateListViewStatus(index, "⚠️")
+            PriceData[index].status := "not_found"
+            notFoundCount++
         } else {
             UpdateListViewStatus(index, "❌")
             PriceData[index].status := "failed"
@@ -377,14 +384,17 @@ OnStartAutomation(*) {
     EnableButtons(true)
     IsRunning := false
 
-    UpdateStatus("🎉 Completed! Success: " . successCount . " | Failed: " . failCount)
+    UpdateStatus("🎉 Completed! Success: " . successCount . " | Not found: "
+        . notFoundCount . " | Failed: " . failCount)
     UpdateProgress(totalItems, totalItems)
 
-    LogInfo("=== Price Change Workflow Completed ===")
+    LogInfo("=== Price Change Workflow Completed | Success: " . successCount
+        . " | Not found: " . notFoundCount . " | Failed: " . failCount . " ===")
 
     MoveGuiToCenter()
     MainGui.Opt("-AlwaysOnTop")
-    MsgBox("Price change completed!`n`n✅ Success: " . successCount . "`n❌ Failed: " . failCount)
+    MsgBox("Price change completed!`n`n✅ Success: " . successCount
+        . "`n⚠️ Not found: " . notFoundCount . "`n❌ Failed: " . failCount)
     MainGui.Opt("+AlwaysOnTop")
 }
 

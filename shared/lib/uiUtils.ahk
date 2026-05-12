@@ -327,6 +327,51 @@ FindGoldWindow(titlePattern := "G.O.L.D. - LOCAL SALES PRICE SIMPLIFIED INPUT -"
 }
 
 /**
+ * Poll until a GOLD modal dialog whose title contains titlePattern appears.
+ * @returns HWND of the dialog, or 0 if it never appeared before the timeout.
+ */
+WaitForGoldDialog(timeout := 4000, pollInterval := 200, titlePattern := "G.O.L.D. - LOCAL SALES PRICE SIMPLIFIED INPUT -") {
+    startTime := A_TickCount
+    loop {
+        WaitIfPaused()
+        hwnd := FindGoldWindow(titlePattern)
+        if (hwnd) {
+            LogDebug("WaitForGoldDialog: dialog appeared (hwnd=" . hwnd . ")")
+            return hwnd
+        }
+        if (A_TickCount - startTime >= timeout)
+            break
+        Sleep(Max(pollInterval, 1))
+    }
+
+    LogWarn("WaitForGoldDialog: timed out after " . timeout . " ms waiting for '"
+        . titlePattern . "'")
+    return 0
+}
+
+/**
+ * Poll until a specific dialog HWND no longer exists.
+ * @returns true if the dialog closed before the timeout, false otherwise.
+ */
+WaitForGoldDialogToClose(hwnd, timeout := 4000, pollInterval := 200) {
+    startTime := A_TickCount
+    loop {
+        WaitIfPaused()
+        if (!WinExist("ahk_id " . hwnd)) {
+            LogDebug("WaitForGoldDialogToClose: dialog closed (hwnd=" . hwnd . ")")
+            return true
+        }
+        if (A_TickCount - startTime >= timeout)
+            break
+        Sleep(Max(pollInterval, 1))
+    }
+
+    LogWarn("WaitForGoldDialogToClose: hwnd=" . hwnd . " still open after "
+        . timeout . " ms")
+    return false
+}
+
+/**
  * Dismiss a GOLD modal dialog if one is already open.
  * Returns 1 if dismissed, 0 if none was present, -1 if dismissal failed.
  */
