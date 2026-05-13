@@ -38,10 +38,9 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     startDate := (StartDateEdit != "") ? StartDateEdit.Text : ""
     endDate := (EndDateEdit != "") ? EndDateEdit.Text : ""
 
-    ; Step 1: Set start date (first item only)
+    ; Step 1: Set start date (first item only). SetStartDate already settles internally.
     if (index == 1 && !SetStartDate(startDate))
         return "error"
-    Sleep(CONFIG.DELAYS.MEDIUM)
     WaitIfPaused()
 
     ; Step 2: Enter article code and search
@@ -66,10 +65,9 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     }
     WaitIfPaused()
 
-    ; Step 4: Set end date (if specified)
+    ; Step 4: Set end date (if specified). SetEndDate already settles internally.
     if (!SetEndDate(endDate))
         return "error"
-    Sleep(CONFIG.DELAYS.MEDIUM)
     WaitIfPaused()
 
     ; Step 5: Set Reason Code (if specified)
@@ -80,13 +78,12 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
         reasonCode := ""  ; 0 = "Do not copy" → skip
     if (!SetReasonCode(reasonCode))
         return "error"
-    Sleep(CONFIG.DELAYS.MEDIUM)
     WaitIfPaused()
 
-    ; Step 6: Save the change
+    ; Step 6: Save the change. SaveNewPrice already waits PAGE_LOAD;
+    ; Step 7's WaitForGoldDialog will then poll for the next modal.
     if (!SaveNewPrice())
         return "error"
-    Sleep(CONFIG.DELAYS.PAGE_LOAD)
     WaitIfPaused()
 
     ; Step 7: Wait for "Till download lot number", click OK, then confirm it closed
