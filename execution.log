@@ -47821,3 +47821,1054 @@
 [2026-05-13 10:50:37] [INFO] Ending Excel session
 [2026-05-13 10:50:37] [ERROR] Error closing Excel: (0x800706BA) The RPC server is unavailable.
 [2026-05-13 10:50:37] [ERROR] Error closing Excel: (0x800706BA) The RPC server is unavailable.
+[2026-05-14 16:02:04] [INFO] Ending Excel session
+[2026-05-14 16:02:04] [INFO] Excel session ended successfully
+[2026-05-14 16:03:55] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:03:57] [INFO] Excel session started successfully
+[2026-05-14 16:03:57] [INFO] Row count in 1: 24
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[2,1]: 19854501019.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[3,1]: 5019854501057.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[4,1]: 5019854501156.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[5,1]: 5019854501170.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[6,1]: 5019854501187.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[7,1]: 5019854501194.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[8,1]: 5019854501231.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[9,1]: 5019854501248.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[10,1]: 5019854501408.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[11,1]: 5019854501422.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[12,1]: 5019854501439.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[13,1]: 5019854501521.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[14,1]: 5019854501897.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[15,1]: 5019854501958.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[16,1]: 5019854502306.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[17,1]: 5019854502719.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[18,1]: 5019854502979.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[19,1]: 5019854503136.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[20,1]: 5019854503419.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[21,1]: 5019854507950.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[22,1]: 5027785801139.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[23,1]: 5390438175025.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[24,1]: 5391523841825.0
+[2026-05-14 16:03:57] [DEBUG] Got value from 1[25,1]: 9770269259648.0
+[2026-05-14 16:03:57] [INFO] Unlink: loaded 24 items from Excel
+[2026-05-14 16:04:16] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:04:17] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:04:18] [INFO] Unlink: processing item 1/24 (EAN 19854501019)
+[2026-05-14 16:04:19] [DEBUG] Set field value at (225,173): 19854501019
+[2026-05-14 16:04:19] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:04:19] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-14 16:04:19] [DEBUG] Color changed from CCCCCC to FFFFFF — loading complete
+[2026-05-14 16:04:20] [DEBUG] Waiting for color CCCCFF to appear at (366,332)
+[2026-05-14 16:04:24] [WARN] Timeout waiting for color CCCCFF at (366,332)
+[2026-05-14 16:04:24] [WARN] Unlink: product row never highlighted for 19854501019
+[2026-05-14 16:04:39] [INFO] Ending Excel session
+[2026-05-14 16:04:39] [INFO] Excel session ended successfully
+[2026-05-14 16:04:41] [INFO] Unlink: processing item 2/24 (EAN 5019854501057)
+[2026-05-14 16:06:00] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:06:02] [INFO] Excel session started successfully
+[2026-05-14 16:06:02] [INFO] Row count in 1: 23
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-14 16:06:02] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-14 16:06:02] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-14 16:06:06] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:06:07] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:06:07] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-14 16:06:09] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-14 16:06:09] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:06:10] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:06:10] [DEBUG] Waiting for color CCCCFF to appear at (366,332)
+[2026-05-14 16:06:14] [WARN] Timeout waiting for color CCCCFF at (366,332)
+[2026-05-14 16:06:14] [WARN] Unlink: product row never highlighted for 5019854501057
+[2026-05-14 16:06:14] [INFO] Unlink: processing item 2/23 (EAN 5019854501156)
+[2026-05-14 16:06:15] [DEBUG] Set field value at (225,173): 5019854501156
+[2026-05-14 16:06:15] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:06:16] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-14 16:06:16] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-14 16:06:17] [DEBUG] Waiting for color CCCCFF to appear at (366,332)
+[2026-05-14 16:06:21] [WARN] Timeout waiting for color CCCCFF at (366,332)
+[2026-05-14 16:06:21] [WARN] Unlink: product row never highlighted for 5019854501156
+[2026-05-14 16:06:21] [INFO] Unlink: processing item 3/23 (EAN 5019854501170)
+[2026-05-14 16:06:22] [DEBUG] Set field value at (225,173): 5019854501170
+[2026-05-14 16:06:22] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:06:22] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-14 16:06:22] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-14 16:06:23] [DEBUG] Waiting for color CCCCFF to appear at (366,332)
+[2026-05-14 16:06:27] [WARN] Timeout waiting for color CCCCFF at (366,332)
+[2026-05-14 16:06:27] [WARN] Unlink: product row never highlighted for 5019854501170
+[2026-05-14 16:06:27] [INFO] Unlink: processing item 4/23 (EAN 5019854501187)
+[2026-05-14 16:06:28] [DEBUG] Set field value at (225,173): 5019854501187
+[2026-05-14 16:06:28] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:06:28] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-14 16:06:29] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-14 16:06:29] [DEBUG] Waiting for color CCCCFF to appear at (366,332)
+[2026-05-14 16:06:33] [WARN] Timeout waiting for color CCCCFF at (366,332)
+[2026-05-14 16:06:33] [WARN] Unlink: product row never highlighted for 5019854501187
+[2026-05-14 16:06:33] [INFO] === Unlink Workflow Completed | Success: 0 | Not found: 4 | Failed: 0 ===
+[2026-05-14 16:06:37] [INFO] Ending Excel session
+[2026-05-14 16:06:37] [INFO] Excel session ended successfully
+[2026-05-14 16:11:34] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:11:36] [INFO] Excel session started successfully
+[2026-05-14 16:11:36] [INFO] Row count in 1: 23
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-14 16:11:36] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-14 16:11:36] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-14 16:11:39] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:11:39] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:11:40] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-14 16:11:41] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-14 16:11:41] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:11:42] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:11:42] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-14 16:11:43] [DEBUG] Clicked at (366,332)
+[2026-05-14 16:11:45] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:11:47] [WARN] Unlink: 'Printable' coordinates are not configured — skipping
+[2026-05-14 16:11:47] [WARN] Unlink: 'Scale download' coordinates are not configured — skipping
+[2026-05-14 16:11:48] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:11:50] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:11:50] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-14 16:11:50] [INFO] === Unlink Workflow Completed | Success: 1 | Not found: 0 | Failed: 0 ===
+[2026-05-14 16:11:53] [INFO] Ending Excel session
+[2026-05-14 16:11:53] [INFO] Excel session ended successfully
+[2026-05-14 16:13:32] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:13:33] [INFO] Excel session started successfully
+[2026-05-14 16:13:33] [INFO] Row count in 1: 23
+[2026-05-14 16:13:33] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-14 16:13:33] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-14 16:13:33] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-14 16:13:33] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-14 16:13:34] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-14 16:13:34] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-14 16:13:40] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:13:40] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:13:41] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-14 16:13:42] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-14 16:13:42] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:13:42] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-14 16:13:42] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-14 16:13:43] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-14 16:13:44] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:13:46] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:13:48] [WARN] Unlink: 'Printable' coordinates are not configured — skipping
+[2026-05-14 16:13:48] [WARN] Unlink: 'Scale download' coordinates are not configured — skipping
+[2026-05-14 16:13:49] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:13:51] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:13:51] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-14 16:13:51] [INFO] Unlink: processing item 2/23 (EAN 5019854501156)
+[2026-05-14 16:13:52] [DEBUG] Set field value at (225,173): 5019854501156
+[2026-05-14 16:13:52] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:13:53] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:13:53] [DEBUG] Step 4: pixel at product row = BAE4E3 (reference CCCCFF)
+[2026-05-14 16:13:54] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:13:56] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:13:58] [WARN] Unlink: 'Printable' coordinates are not configured — skipping
+[2026-05-14 16:13:58] [WARN] Unlink: 'Scale download' coordinates are not configured — skipping
+[2026-05-14 16:13:59] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:14:01] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:14:01] [INFO] Unlink: successfully processed item 2 (5019854501156)
+[2026-05-14 16:14:01] [INFO] === Unlink Workflow Completed | Success: 2 | Not found: 0 | Failed: 0 ===
+[2026-05-14 16:14:04] [INFO] Ending Excel session
+[2026-05-14 16:14:04] [INFO] Excel session ended successfully
+[2026-05-14 16:18:52] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:18:54] [INFO] Excel session started successfully
+[2026-05-14 16:18:54] [INFO] Row count in 1: 23
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-14 16:18:54] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-14 16:18:54] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-14 16:19:18] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:19:19] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:19:19] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-14 16:19:20] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-14 16:19:20] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:19:22] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:19:22] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-14 16:19:22] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:19:25] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:19:27] [DEBUG] IsCheckboxChecked(234,399): pixel=000600 empty=FFFFFF -> CHECKED
+[2026-05-14 16:19:27] [DEBUG] Clicked at (234,399)
+[2026-05-14 16:19:27] [INFO] Unlink: unchecked 'Printable'
+[2026-05-14 16:19:28] [WARN] Unlink: 'Scale download' coordinates are not configured — skipping
+[2026-05-14 16:19:28] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:19:30] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:19:30] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-14 16:19:30] [INFO] Unlink: processing item 2/23 (EAN 5019854501156)
+[2026-05-14 16:19:31] [DEBUG] Set field value at (225,173): 5019854501156
+[2026-05-14 16:19:31] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:19:32] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:19:33] [DEBUG] Step 4: pixel at product row = BAE2E1 (reference CCCCFF)
+[2026-05-14 16:19:33] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:19:36] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:19:38] [DEBUG] IsCheckboxChecked(234,399): pixel=CFEBEB empty=FFFFFF -> CHECKED
+[2026-05-14 16:19:38] [DEBUG] Clicked at (234,399)
+[2026-05-14 16:19:38] [INFO] Unlink: unchecked 'Printable'
+[2026-05-14 16:19:38] [WARN] Unlink: 'Scale download' coordinates are not configured — skipping
+[2026-05-14 16:19:39] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:19:41] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:19:41] [INFO] Unlink: successfully processed item 2 (5019854501156)
+[2026-05-14 16:19:41] [INFO] Unlink: processing item 3/23 (EAN 5019854501170)
+[2026-05-14 16:19:41] [DEBUG] EnsureGoldFocus: wrong window 'Gold Unlink Products Tool', re-activating (1/3)
+[2026-05-14 16:19:43] [DEBUG] EnsureGoldFocus: recovered on attempt #2
+[2026-05-14 16:19:44] [DEBUG] Set field value at (225,173): 5019854501170
+[2026-05-14 16:19:44] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:19:45] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:19:45] [DEBUG] Step 4: pixel at product row = BAE2E1 (reference CCCCFF)
+[2026-05-14 16:19:46] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:22:22] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:22:24] [INFO] Excel session started successfully
+[2026-05-14 16:22:24] [INFO] Row count in 1: 23
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-14 16:22:24] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-14 16:22:24] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-14 16:22:27] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:22:28] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:22:28] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-14 16:22:30] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-14 16:22:30] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:22:30] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-14 16:22:30] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-14 16:22:31] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-14 16:22:31] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:22:34] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:22:36] [DEBUG] IsCheckboxChecked(234,399): pixel=000300 empty=FFFFFF -> CHECKED
+[2026-05-14 16:22:36] [DEBUG] Clicked at (234,399)
+[2026-05-14 16:22:36] [INFO] Unlink: unchecked 'Printable'
+[2026-05-14 16:22:37] [WARN] Unlink: 'Scale download' coordinates are not configured — skipping
+[2026-05-14 16:22:37] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:22:39] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:22:39] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-14 16:22:39] [INFO] Unlink: processing item 2/23 (EAN 5019854501156)
+[2026-05-14 16:22:40] [DEBUG] Set field value at (225,173): 5019854501156
+[2026-05-14 16:22:40] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:22:41] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:22:42] [DEBUG] Step 4: pixel at product row = BAE2E1 (reference CCCCFF)
+[2026-05-14 16:22:42] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:22:46] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:22:47] [INFO] Ending Excel session
+[2026-05-14 16:22:47] [INFO] Excel session ended successfully
+[2026-05-14 16:22:48] [DEBUG] IsCheckboxChecked(234,399): pixel=E6E6E6 empty=FFFFFF -> CHECKED
+[2026-05-14 16:22:48] [DEBUG] Clicked at (234,399)
+[2026-05-14 16:22:48] [INFO] Unlink: unchecked 'Printable'
+[2026-05-14 16:22:48] [WARN] Unlink: 'Scale download' coordinates are not configured — skipping
+[2026-05-14 16:25:39] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:25:41] [INFO] Excel session started successfully
+[2026-05-14 16:25:41] [INFO] Row count in 1: 23
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-14 16:25:41] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-14 16:25:41] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-14 16:25:46] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:25:46] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:25:47] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-14 16:25:48] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-14 16:25:48] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:25:48] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-14 16:25:48] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-14 16:25:49] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-14 16:25:50] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:25:52] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:25:54] [DEBUG] IsCheckboxChecked(233,357): pixel=000000 empty=FFFFFF -> CHECKED
+[2026-05-14 16:25:55] [DEBUG] Clicked at (233,357)
+[2026-05-14 16:25:55] [INFO] Unlink: unchecked 'Scale download'
+[2026-05-14 16:25:56] [DEBUG] IsCheckboxChecked(234,399): pixel=000300 empty=FFFFFF -> CHECKED
+[2026-05-14 16:25:56] [DEBUG] Clicked at (234,399)
+[2026-05-14 16:25:56] [INFO] Unlink: unchecked 'Printable'
+[2026-05-14 16:25:57] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:25:59] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:25:59] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-14 16:25:59] [INFO] Unlink: processing item 2/23 (EAN 5019854501156)
+[2026-05-14 16:26:00] [DEBUG] Set field value at (225,173): 5019854501156
+[2026-05-14 16:26:00] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:26:01] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:26:02] [DEBUG] Step 4: pixel at product row = BAE2E1 (reference CCCCFF)
+[2026-05-14 16:26:02] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:26:05] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:26:06] [INFO] Ending Excel session
+[2026-05-14 16:26:06] [INFO] Excel session ended successfully
+[2026-05-14 16:26:08] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:26:10] [INFO] Excel session started successfully
+[2026-05-14 16:26:10] [INFO] Row count in 1: 23
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-14 16:26:10] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-14 16:26:10] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-14 16:26:10] [DEBUG] IsCheckboxChecked(233,357): pixel=FFFFFF empty=FFFFFF -> empty
+[2026-05-14 16:26:10] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-14 16:26:11] [DEBUG] IsCheckboxChecked(234,399): pixel=FFFFFF empty=FFFFFF -> empty
+[2026-05-14 16:26:11] [DEBUG] Unlink: 'Printable' is already empty — no action
+[2026-05-14 16:26:13] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:26:15] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:26:15] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:26:16] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-14 16:26:17] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-14 16:26:17] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:26:18] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:26:18] [DEBUG] Step 4: pixel at product row = 5AB6B6 (reference CCCCFF)
+[2026-05-14 16:26:19] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:26:21] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:26:23] [DEBUG] IsCheckboxChecked(233,357): pixel=96B4B6 empty=FFFFFF -> CHECKED
+[2026-05-14 16:26:23] [DEBUG] Clicked at (233,357)
+[2026-05-14 16:26:24] [INFO] Unlink: unchecked 'Scale download'
+[2026-05-14 16:26:25] [DEBUG] IsCheckboxChecked(234,399): pixel=94B0B1 empty=FFFFFF -> CHECKED
+[2026-05-14 16:26:25] [DEBUG] Clicked at (234,399)
+[2026-05-14 16:26:25] [INFO] Unlink: unchecked 'Printable'
+[2026-05-14 16:26:26] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:26:28] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:26:28] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-14 16:26:28] [INFO] === Unlink Workflow Completed | Success: 1 | Not found: 0 | Failed: 0 ===
+[2026-05-14 16:26:31] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:26:31] [INFO] Unlink: successfully processed item 2 (5019854501156)
+[2026-05-14 16:26:31] [INFO] === Unlink Workflow Completed | Success: 2 | Not found: 0 | Failed: 0 ===
+[2026-05-14 16:26:36] [INFO] Ending Excel session
+[2026-05-14 16:26:36] [INFO] Excel session ended successfully
+[2026-05-14 16:26:45] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:26:47] [INFO] Excel session started successfully
+[2026-05-14 16:26:47] [INFO] Row count in 1: 23
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-14 16:26:47] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-14 16:26:47] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-14 16:26:50] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:26:51] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:26:51] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-14 16:26:53] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-14 16:26:53] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:26:54] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:26:54] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-14 16:26:54] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:26:57] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:26:59] [DEBUG] IsCheckboxChecked(233,357): pixel=000000 empty=FFFFFF -> CHECKED
+[2026-05-14 16:26:59] [DEBUG] Clicked at (233,357)
+[2026-05-14 16:26:59] [INFO] Unlink: unchecked 'Scale download'
+[2026-05-14 16:27:01] [DEBUG] IsCheckboxChecked(234,399): pixel=000300 empty=FFFFFF -> CHECKED
+[2026-05-14 16:27:01] [DEBUG] Clicked at (234,399)
+[2026-05-14 16:27:01] [INFO] Unlink: unchecked 'Printable'
+[2026-05-14 16:27:02] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:27:04] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:27:04] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-14 16:27:04] [INFO] Unlink: processing item 2/23 (EAN 5019854501156)
+[2026-05-14 16:27:05] [DEBUG] Set field value at (225,173): 5019854501156
+[2026-05-14 16:27:05] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:27:06] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-14 16:27:07] [DEBUG] Step 4: pixel at product row = BAE2E1 (reference CCCCFF)
+[2026-05-14 16:27:07] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:27:09] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:27:11] [DEBUG] IsCheckboxChecked(233,357): pixel=FFFFFF empty=FFFFFF -> empty
+[2026-05-14 16:27:11] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-14 16:27:13] [DEBUG] IsCheckboxChecked(234,399): pixel=FFFFFF empty=FFFFFF -> empty
+[2026-05-14 16:27:13] [DEBUG] Unlink: 'Printable' is already empty — no action
+[2026-05-14 16:27:13] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:27:15] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:27:15] [INFO] Unlink: successfully processed item 2 (5019854501156)
+[2026-05-14 16:27:15] [INFO] === Unlink Workflow Completed | Success: 2 | Not found: 0 | Failed: 0 ===
+[2026-05-14 16:27:27] [INFO] Ending Excel session
+[2026-05-14 16:27:27] [INFO] Excel session ended successfully
+[2026-05-14 16:27:29] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-14 16:27:31] [INFO] Excel session started successfully
+[2026-05-14 16:27:31] [INFO] Row count in 1: 23
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-14 16:27:31] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-14 16:27:31] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-14 16:27:34] [INFO] === Starting Unlink Workflow ===
+[2026-05-14 16:27:34] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-14 16:27:35] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-14 16:27:36] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-14 16:27:36] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-14 16:27:37] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-14 16:27:37] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-14 16:27:38] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-14 16:27:38] [DEBUG] Double-clicked at (366,332)
+[2026-05-14 16:27:41] [DEBUG] Clicked at (174,276)
+[2026-05-14 16:27:43] [DEBUG] IsCheckboxChecked(233,357): pixel=D3EDED empty=FFFFFF -> CHECKED
+[2026-05-14 16:27:43] [DEBUG] Clicked at (233,357)
+[2026-05-14 16:27:43] [INFO] Unlink: unchecked 'Scale download'
+[2026-05-14 16:27:44] [DEBUG] IsCheckboxChecked(234,399): pixel=C3DFE2 empty=FFFFFF -> CHECKED
+[2026-05-14 16:27:45] [DEBUG] Clicked at (234,399)
+[2026-05-14 16:27:45] [INFO] Unlink: unchecked 'Printable'
+[2026-05-14 16:27:46] [DEBUG] Clicked at (270,275)
+[2026-05-14 16:27:48] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-14 16:27:48] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-14 16:27:48] [INFO] === Unlink Workflow Completed | Success: 1 | Not found: 0 | Failed: 0 ===
+[2026-05-14 16:27:50] [INFO] Ending Excel session
+[2026-05-14 16:27:50] [INFO] Excel session ended successfully
+[2026-05-15 10:00:53] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-15 10:00:55] [INFO] Excel session started successfully
+[2026-05-15 10:00:55] [INFO] Row count in 1: 23
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-15 10:00:55] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-15 10:00:55] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-15 10:00:57] [INFO] === Starting Unlink Workflow ===
+[2026-05-15 10:00:58] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-15 10:00:58] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-15 10:00:59] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-15 10:00:59] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:01:00] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:01:00] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:01:01] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:01:01] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:01:04] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:01:08] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:01:08] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:01:09] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:01:10] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:01:10] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:01:11] [DEBUG] Clicked at (270,275)
+[2026-05-15 10:01:13] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-15 10:01:13] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-15 10:01:13] [INFO] Unlink: processing item 2/23 (EAN 5019854501156)
+[2026-05-15 10:01:14] [DEBUG] Set field value at (225,173): 5019854501156
+[2026-05-15 10:01:14] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:01:15] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-15 10:01:15] [DEBUG] Step 4: pixel at product row = 5AB6B5 (reference CCCCFF)
+[2026-05-15 10:01:16] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:01:18] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:01:21] [DEBUG] IsCheckboxChecked(233,357): glyph hit at (236,354) rgb=(0,0,0) -> CHECKED
+[2026-05-15 10:01:21] [DEBUG] Clicked at (233,357)
+[2026-05-15 10:01:21] [INFO] Unlink: unchecked 'Scale download'
+[2026-05-15 10:01:23] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,0,0) -> CHECKED
+[2026-05-15 10:01:23] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:01:23] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:02:07] [DEBUG] Clicked at (270,275)
+[2026-05-15 10:02:09] [WARN] Unlink: 'Article link' coordinates are not configured — skipping
+[2026-05-15 10:02:09] [INFO] Unlink: successfully processed item 2 (5019854501156)
+[2026-05-15 10:02:09] [INFO] === Unlink Workflow Completed | Success: 2 | Not found: 0 | Failed: 0 ===
+[2026-05-15 10:11:31] [INFO] Starting Excel session with file: C:\Users\Backoffice\Downloads\delete.xlsx
+[2026-05-15 10:11:33] [INFO] Excel session started successfully
+[2026-05-15 10:11:33] [INFO] Row count in 1: 23
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[2,1]: 5019854501057.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[3,1]: 5019854501156.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[4,1]: 5019854501170.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[5,1]: 5019854501187.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[6,1]: 5019854501194.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[7,1]: 5019854501231.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[8,1]: 5019854501248.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[9,1]: 5019854501408.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[10,1]: 5019854501422.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[11,1]: 5019854501439.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[12,1]: 5019854501521.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[13,1]: 5019854501897.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[14,1]: 5019854501958.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[15,1]: 5019854502306.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[16,1]: 5019854502719.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[17,1]: 5019854502979.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[18,1]: 5019854503136.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[19,1]: 5019854503419.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[20,1]: 5019854507950.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[21,1]: 5027785801139.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[22,1]: 5390438175025.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[23,1]: 5391523841825.0
+[2026-05-15 10:11:33] [DEBUG] Got value from 1[24,1]: 9770269259648.0
+[2026-05-15 10:11:33] [INFO] Unlink: loaded 23 items from Excel
+[2026-05-15 10:11:35] [INFO] === Starting Unlink Workflow ===
+[2026-05-15 10:11:35] [INFO] Activated window: GOLD PRD - \\Remote
+[2026-05-15 10:11:36] [INFO] Unlink: processing item 1/23 (EAN 5019854501057)
+[2026-05-15 10:11:37] [DEBUG] Set field value at (225,173): 5019854501057
+[2026-05-15 10:11:37] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:11:38] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-15 10:11:38] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:11:39] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:11:41] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:11:45] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:11:45] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:11:47] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:11:47] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:11:47] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:11:48] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=2360102)
+[2026-05-15 10:11:49] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:11:50] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=2360102)
+[2026-05-15 10:11:50] [DEBUG] Unlink: validation dialog acknowledged for 5019854501057
+[2026-05-15 10:11:50] [INFO] Unlink: successfully processed item 1 (5019854501057)
+[2026-05-15 10:11:50] [INFO] Unlink: processing item 2/23 (EAN 5019854501156)
+[2026-05-15 10:11:51] [DEBUG] Set field value at (225,173): 5019854501156
+[2026-05-15 10:11:51] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:11:51] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:11:52] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:11:53] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:11:53] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:11:55] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:12:00] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:12:00] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:12:03] [DEBUG] IsCheckboxChecked(234,399): no dark pixels in 11x11 region (min bright=93) -> empty
+[2026-05-15 10:12:03] [DEBUG] Unlink: 'Printable' is already empty — no action
+[2026-05-15 10:12:03] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=11733250)
+[2026-05-15 10:12:04] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:12:05] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=11733250)
+[2026-05-15 10:12:05] [DEBUG] Unlink: validation dialog acknowledged for 5019854501156
+[2026-05-15 10:12:05] [INFO] Unlink: successfully processed item 2 (5019854501156)
+[2026-05-15 10:12:05] [INFO] Unlink: processing item 3/23 (EAN 5019854501170)
+[2026-05-15 10:12:06] [DEBUG] Set field value at (225,173): 5019854501170
+[2026-05-15 10:12:06] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:12:07] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-15 10:12:07] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:12:08] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:12:10] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:12:14] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:12:14] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:12:16] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:12:16] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:12:16] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:12:17] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=2231310)
+[2026-05-15 10:12:18] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:12:18] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=2231310)
+[2026-05-15 10:12:18] [DEBUG] Unlink: validation dialog acknowledged for 5019854501170
+[2026-05-15 10:12:18] [INFO] Unlink: successfully processed item 3 (5019854501170)
+[2026-05-15 10:12:18] [INFO] Unlink: processing item 4/23 (EAN 5019854501187)
+[2026-05-15 10:12:19] [DEBUG] Set field value at (225,173): 5019854501187
+[2026-05-15 10:12:19] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:12:21] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-15 10:12:21] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:12:21] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:12:24] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:12:28] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:12:28] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:12:29] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:12:30] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:12:30] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:12:30] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=2296794)
+[2026-05-15 10:12:31] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:12:32] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=2296794)
+[2026-05-15 10:12:32] [DEBUG] Unlink: validation dialog acknowledged for 5019854501187
+[2026-05-15 10:12:32] [INFO] Unlink: successfully processed item 4 (5019854501187)
+[2026-05-15 10:12:32] [INFO] Unlink: processing item 5/23 (EAN 5019854501194)
+[2026-05-15 10:12:33] [DEBUG] Set field value at (225,173): 5019854501194
+[2026-05-15 10:12:33] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:12:34] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-15 10:12:35] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:12:35] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:12:37] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:12:42] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:12:42] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:12:43] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:12:44] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:12:44] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:12:44] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1117408)
+[2026-05-15 10:12:45] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:12:46] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1117408)
+[2026-05-15 10:12:46] [DEBUG] Unlink: validation dialog acknowledged for 5019854501194
+[2026-05-15 10:12:46] [INFO] Unlink: successfully processed item 5 (5019854501194)
+[2026-05-15 10:12:46] [INFO] Unlink: processing item 6/23 (EAN 5019854501231)
+[2026-05-15 10:12:47] [DEBUG] Set field value at (225,173): 5019854501231
+[2026-05-15 10:12:47] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:12:47] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:12:47] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:12:48] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:12:49] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:12:51] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:12:55] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:12:55] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:12:57] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:12:57] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:12:57] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:12:58] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1772802)
+[2026-05-15 10:12:59] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:12:59] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1772802)
+[2026-05-15 10:12:59] [DEBUG] Unlink: validation dialog acknowledged for 5019854501231
+[2026-05-15 10:12:59] [INFO] Unlink: successfully processed item 6 (5019854501231)
+[2026-05-15 10:12:59] [INFO] Unlink: processing item 7/23 (EAN 5019854501248)
+[2026-05-15 10:13:00] [DEBUG] Set field value at (225,173): 5019854501248
+[2026-05-15 10:13:00] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:13:01] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:13:01] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:13:02] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:13:02] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:13:05] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:13:09] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:13:09] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:13:10] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:13:11] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:13:11] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:13:11] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1379552)
+[2026-05-15 10:13:12] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:13:13] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1379552)
+[2026-05-15 10:13:13] [DEBUG] Unlink: validation dialog acknowledged for 5019854501248
+[2026-05-15 10:13:13] [INFO] Unlink: successfully processed item 7 (5019854501248)
+[2026-05-15 10:13:13] [INFO] Unlink: processing item 8/23 (EAN 5019854501408)
+[2026-05-15 10:13:14] [DEBUG] Set field value at (225,173): 5019854501408
+[2026-05-15 10:13:14] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:13:15] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:13:15] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:13:16] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:13:16] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:13:19] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:13:23] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:13:23] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:13:24] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:13:25] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:13:25] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:13:25] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=7408172)
+[2026-05-15 10:13:26] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:13:27] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=7408172)
+[2026-05-15 10:13:27] [DEBUG] Unlink: validation dialog acknowledged for 5019854501408
+[2026-05-15 10:13:27] [INFO] Unlink: successfully processed item 8 (5019854501408)
+[2026-05-15 10:13:27] [INFO] Unlink: processing item 9/23 (EAN 5019854501422)
+[2026-05-15 10:13:28] [DEBUG] Set field value at (225,173): 5019854501422
+[2026-05-15 10:13:28] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:13:28] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:13:29] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:13:30] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:13:30] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:13:32] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:13:37] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:13:37] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:13:38] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:13:39] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:13:39] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:13:39] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1641696)
+[2026-05-15 10:13:40] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:13:41] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1641696)
+[2026-05-15 10:13:41] [DEBUG] Unlink: validation dialog acknowledged for 5019854501422
+[2026-05-15 10:13:41] [INFO] Unlink: successfully processed item 9 (5019854501422)
+[2026-05-15 10:13:41] [INFO] Unlink: processing item 10/23 (EAN 5019854501439)
+[2026-05-15 10:13:42] [DEBUG] Set field value at (225,173): 5019854501439
+[2026-05-15 10:13:42] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:13:42] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:13:43] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:13:44] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:13:44] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:13:46] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:13:51] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:13:51] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:13:54] [DEBUG] IsCheckboxChecked(234,399): no dark pixels in 11x11 region (min bright=93) -> empty
+[2026-05-15 10:13:54] [DEBUG] Unlink: 'Printable' is already empty — no action
+[2026-05-15 10:13:54] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=5769700)
+[2026-05-15 10:13:55] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:13:56] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=5769700)
+[2026-05-15 10:13:56] [DEBUG] Unlink: validation dialog acknowledged for 5019854501439
+[2026-05-15 10:13:56] [INFO] Unlink: successfully processed item 10 (5019854501439)
+[2026-05-15 10:13:56] [INFO] Unlink: processing item 11/23 (EAN 5019854501521)
+[2026-05-15 10:13:57] [DEBUG] Set field value at (225,173): 5019854501521
+[2026-05-15 10:13:57] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:13:57] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:13:57] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:13:58] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:13:59] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:14:01] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:14:05] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:14:05] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:14:07] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:14:07] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:14:07] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:14:08] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=12782090)
+[2026-05-15 10:14:09] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:14:09] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=12782090)
+[2026-05-15 10:14:09] [DEBUG] Unlink: validation dialog acknowledged for 5019854501521
+[2026-05-15 10:14:09] [INFO] Unlink: successfully processed item 11 (5019854501521)
+[2026-05-15 10:14:09] [INFO] Unlink: processing item 12/23 (EAN 5019854501897)
+[2026-05-15 10:14:10] [DEBUG] Set field value at (225,173): 5019854501897
+[2026-05-15 10:14:11] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:14:11] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:14:11] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:14:12] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:14:12] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:14:15] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:14:19] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:14:19] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:14:20] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:14:21] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:14:21] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:14:21] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=5180302)
+[2026-05-15 10:14:22] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:14:23] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=5180302)
+[2026-05-15 10:14:23] [DEBUG] Unlink: validation dialog acknowledged for 5019854501897
+[2026-05-15 10:14:23] [INFO] Unlink: successfully processed item 12 (5019854501897)
+[2026-05-15 10:14:23] [INFO] Unlink: processing item 13/23 (EAN 5019854501958)
+[2026-05-15 10:14:24] [DEBUG] Set field value at (225,173): 5019854501958
+[2026-05-15 10:14:24] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:14:25] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:14:25] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:14:26] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:14:26] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:14:29] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:14:33] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:14:33] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:14:34] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:14:35] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:14:35] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:14:36] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=13044234)
+[2026-05-15 10:14:37] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:14:37] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=13044234)
+[2026-05-15 10:14:37] [DEBUG] Unlink: validation dialog acknowledged for 5019854501958
+[2026-05-15 10:14:37] [INFO] Unlink: successfully processed item 13 (5019854501958)
+[2026-05-15 10:14:37] [INFO] Unlink: processing item 14/23 (EAN 5019854502306)
+[2026-05-15 10:14:38] [DEBUG] Set field value at (225,173): 5019854502306
+[2026-05-15 10:14:38] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:14:39] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:14:39] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:14:40] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:14:40] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:14:42] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:14:47] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:14:47] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:14:48] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:14:49] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:14:49] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:14:49] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1314018)
+[2026-05-15 10:14:50] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:14:50] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1314018)
+[2026-05-15 10:14:50] [DEBUG] Unlink: validation dialog acknowledged for 5019854502306
+[2026-05-15 10:14:50] [INFO] Unlink: successfully processed item 14 (5019854502306)
+[2026-05-15 10:14:50] [INFO] Unlink: processing item 15/23 (EAN 5019854502719)
+[2026-05-15 10:14:52] [DEBUG] Set field value at (225,173): 5019854502719
+[2026-05-15 10:14:52] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:14:52] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:14:52] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:14:53] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:14:53] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:14:56] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:15:00] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:15:00] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:15:01] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:15:02] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:15:02] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:15:02] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=4524696)
+[2026-05-15 10:15:03] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:15:04] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=4524696)
+[2026-05-15 10:15:04] [DEBUG] Unlink: validation dialog acknowledged for 5019854502719
+[2026-05-15 10:15:04] [INFO] Unlink: successfully processed item 15 (5019854502719)
+[2026-05-15 10:15:04] [INFO] Unlink: processing item 16/23 (EAN 5019854502979)
+[2026-05-15 10:15:05] [DEBUG] Set field value at (225,173): 5019854502979
+[2026-05-15 10:15:05] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:15:06] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:15:06] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:15:07] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:15:07] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:15:10] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:15:14] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:15:14] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:15:15] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:15:16] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:15:16] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:15:16] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1576162)
+[2026-05-15 10:15:17] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:15:18] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1576162)
+[2026-05-15 10:15:18] [DEBUG] Unlink: validation dialog acknowledged for 5019854502979
+[2026-05-15 10:15:18] [INFO] Unlink: successfully processed item 16 (5019854502979)
+[2026-05-15 10:15:18] [INFO] Unlink: processing item 17/23 (EAN 5019854503136)
+[2026-05-15 10:15:19] [DEBUG] Set field value at (225,173): 5019854503136
+[2026-05-15 10:15:19] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:15:19] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:15:19] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:15:20] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:15:21] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:15:23] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:15:27] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:15:27] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:15:31] [DEBUG] IsCheckboxChecked(234,399): no dark pixels in 11x11 region (min bright=93) -> empty
+[2026-05-15 10:15:31] [DEBUG] Unlink: 'Printable' is already empty — no action
+[2026-05-15 10:15:31] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=4786840)
+[2026-05-15 10:15:32] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:15:32] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=4786840)
+[2026-05-15 10:15:32] [DEBUG] Unlink: validation dialog acknowledged for 5019854503136
+[2026-05-15 10:15:32] [INFO] Unlink: successfully processed item 17 (5019854503136)
+[2026-05-15 10:15:32] [INFO] Unlink: processing item 18/23 (EAN 5019854503419)
+[2026-05-15 10:15:33] [DEBUG] Set field value at (225,173): 5019854503419
+[2026-05-15 10:15:33] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:15:34] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:15:34] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:15:35] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:15:35] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:15:37] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:15:42] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:15:42] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:15:43] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:15:44] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:15:44] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:15:45] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=7801388)
+[2026-05-15 10:15:46] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:15:46] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=7801388)
+[2026-05-15 10:15:46] [DEBUG] Unlink: validation dialog acknowledged for 5019854503419
+[2026-05-15 10:15:46] [INFO] Unlink: successfully processed item 18 (5019854503419)
+[2026-05-15 10:15:46] [INFO] Unlink: processing item 19/23 (EAN 5019854507950)
+[2026-05-15 10:15:47] [DEBUG] Set field value at (225,173): 5019854507950
+[2026-05-15 10:15:47] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:15:48] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:15:48] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:15:49] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:15:49] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:15:52] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:15:56] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:15:56] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:15:57] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:15:58] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:15:58] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:15:58] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1445092)
+[2026-05-15 10:15:59] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:16:00] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1445092)
+[2026-05-15 10:16:00] [DEBUG] Unlink: validation dialog acknowledged for 5019854507950
+[2026-05-15 10:16:00] [INFO] Unlink: successfully processed item 19 (5019854507950)
+[2026-05-15 10:16:00] [INFO] Unlink: processing item 20/23 (EAN 5027785801139)
+[2026-05-15 10:16:01] [DEBUG] Set field value at (225,173): 5027785801139
+[2026-05-15 10:16:01] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:16:01] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:16:02] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:16:03] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:16:03] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:16:05] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:16:10] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:16:10] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:16:11] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:16:11] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:16:11] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:16:12] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1117386)
+[2026-05-15 10:16:13] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:16:13] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1117386)
+[2026-05-15 10:16:13] [DEBUG] Unlink: validation dialog acknowledged for 5027785801139
+[2026-05-15 10:16:13] [INFO] Unlink: successfully processed item 20 (5027785801139)
+[2026-05-15 10:16:13] [INFO] Unlink: processing item 21/23 (EAN 5390438175025)
+[2026-05-15 10:16:15] [DEBUG] Set field value at (225,173): 5390438175025
+[2026-05-15 10:16:15] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:16:15] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:16:15] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:16:16] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:16:16] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:16:19] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:16:23] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:16:23] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:16:25] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:16:25] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:16:25] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:16:26] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1903842)
+[2026-05-15 10:16:27] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:16:27] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1903842)
+[2026-05-15 10:16:27] [DEBUG] Unlink: validation dialog acknowledged for 5390438175025
+[2026-05-15 10:16:27] [INFO] Unlink: successfully processed item 21 (5390438175025)
+[2026-05-15 10:16:27] [INFO] Unlink: processing item 22/23 (EAN 5391523841825)
+[2026-05-15 10:16:28] [DEBUG] Set field value at (225,173): 5391523841825
+[2026-05-15 10:16:28] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:16:29] [DEBUG] Waiting for color CCCCCC to disappear at (623,653)
+[2026-05-15 10:16:29] [DEBUG] Color changed from CCCCCC to E2E8FB — loading complete
+[2026-05-15 10:16:30] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:16:30] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:16:32] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:16:37] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:16:37] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:16:38] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:16:39] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:16:39] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:16:39] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=1379530)
+[2026-05-15 10:16:40] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:16:41] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=1379530)
+[2026-05-15 10:16:41] [DEBUG] Unlink: validation dialog acknowledged for 5391523841825
+[2026-05-15 10:16:41] [INFO] Unlink: successfully processed item 22 (5391523841825)
+[2026-05-15 10:16:41] [INFO] Unlink: processing item 23/23 (EAN 9770269259648)
+[2026-05-15 10:16:42] [DEBUG] Set field value at (225,173): 9770269259648
+[2026-05-15 10:16:42] [DEBUG] Waiting for GOLD spinner to finish at (623,653)
+[2026-05-15 10:16:43] [DEBUG] GOLD spinner did not appear within 1000 ms — continuing
+[2026-05-15 10:16:43] [DEBUG] Step 4: pixel at product row = E1E1FA (reference CCCCFF)
+[2026-05-15 10:16:44] [DEBUG] Double-clicked at (366,332)
+[2026-05-15 10:16:46] [DEBUG] Clicked at (174,276)
+[2026-05-15 10:16:50] [DEBUG] IsCheckboxChecked(233,357): no dark pixels in 11x11 region (min bright=102) -> empty
+[2026-05-15 10:16:50] [DEBUG] Unlink: 'Scale download' is already empty — no action
+[2026-05-15 10:16:52] [DEBUG] IsCheckboxChecked(234,399): glyph hit at (236,396) rgb=(0,11,8) -> CHECKED
+[2026-05-15 10:16:52] [DEBUG] Clicked at (234,399)
+[2026-05-15 10:16:53] [INFO] Unlink: unchecked 'Printable'
+[2026-05-15 10:16:53] [DEBUG] WaitForGoldDialog: dialog appeared (hwnd=2165986)
+[2026-05-15 10:16:54] [DEBUG] Clicked at (132,89)
+[2026-05-15 10:16:55] [DEBUG] WaitForGoldDialogToClose: dialog closed (hwnd=2165986)
+[2026-05-15 10:16:55] [DEBUG] Unlink: validation dialog acknowledged for 9770269259648
+[2026-05-15 10:16:55] [INFO] Unlink: successfully processed item 23 (9770269259648)
+[2026-05-15 10:16:55] [INFO] === Unlink Workflow Completed | Success: 23 | Not found: 0 | Failed: 0 ===
+[2026-05-15 10:17:01] [INFO] Ending Excel session
+[2026-05-15 10:17:04] [INFO] Excel session ended successfully

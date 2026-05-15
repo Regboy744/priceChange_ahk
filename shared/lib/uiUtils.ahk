@@ -53,6 +53,24 @@ ClickAt(x, y) {
 }
 
 /**
+ * Double-click at screen coordinates. Use for list rows / icons that only
+ * react to a double-click (e.g. opening a product from a search result).
+ * @returns true on success
+ */
+DoubleClickAt(x, y) {
+    global CONFIG
+    try {
+        Click(x, y, 2)
+        Sleep(CONFIG.DELAYS.SHORT)
+        LogDebug("Double-clicked at (" . x . "," . y . ")")
+        return true
+    } catch as e {
+        LogError("Failed to double-click at (" . x . "," . y . "): " . e.Message)
+        return false
+    }
+}
+
+/**
  * Click a field and paste a value via clipboard.
  */
 SetFieldValue(x, y, value) {
@@ -570,6 +588,92 @@ WaitForColorToDisappear(x, y, targetColor, timeout := 30000, checkInterval := 10
 
     LogError("Timeout waiting for color to disappear at (" . x . "," . y . ")")
     return false
+}
+
+/**
+ * Wait for a colour to APPEAR at (x, y). Inverse of WaitForColorToDisappear.
+ * Typical use: wait for a list row to highlight before clicking it.
+ *
+ * @param targetColor    Hex without "0x" prefix, e.g. "CCCCFF"
+ * @param timeout        Milliseconds (default 4000)
+ * @param checkInterval  Polling interval ms (default 100)
+ * @returns true if the colour appeared before timeout, false otherwise
+ */
+WaitForColorToAppear(x, y, targetColor, timeout := 4000, checkInterval := 100) {
+    if (SubStr(targetColor, 1, 2) == "0x")
+        targetColor := SubStr(targetColor, 3)
+    targetColor := StrUpper(targetColor)
+
+    LogDebug("Waiting for color " . targetColor . " to appear at (" . x . "," . y . ")")
+    startTime := A_TickCount
+
+    while (A_TickCount - startTime < timeout) {
+        try {
+            currentColor := PixelGetColor(x, y)
+            currentColorHex := StrUpper(SubStr(currentColor, 3))
+
+            if (currentColorHex == targetColor) {
+                LogDebug("Color " . targetColor . " appeared at (" . x . "," . y . ")")
+                return true
+            }
+        } catch as e {
+            LogError("PixelGetColor failed at (" . x . "," . y . "): " . e.Message)
+        }
+        Sleep(checkInterval)
+    }
+
+    LogWarn("Timeout waiting for color " . targetColor . " at (" . x . "," . y . ")")
+    return false
+}
+
+/**
+ * Decide whether a checkbox is currently checked by scanning a small ROI
+ * around (cx, cy) for any near-black pixel (the glyph stroke).
+ *
+ * Why a region scan rather than a single PixelGetColor:
+ *   - GOLD's row striping shifts the empty-box background between products
+ *     (e.g. D2EDED vs CFEBEB vs E6E6E6), so an exact `!= emptyBg` check
+ *     produced false positives on every alternate row.
+ *   - The checkmark glyph is ~1-2 px thick — a single sample can miss the
+ *     stroke and report false negative.
+ * Scanning a small radius for ANY dark pixel is robust to both.
+ *
+ * @param cx, cy         Centre of the checkbox interior
+ * @param radius         Half-size of the scan square in px (default 5 -> 11x11)
+ * @param darkThreshold  Max R, G AND B value considered "dark" (default 80)
+ * @returns true if any pixel in the region is dark enough to be the glyph
+ */
+IsCheckboxChecked(cx, cy, radius := 5, darkThreshold := 80) {
+    try {
+        minBright := 999
+        loop radius * 2 + 1 {
+            py := cy - radius + A_Index - 1
+            loop radius * 2 + 1 {
+                px := cx - radius + A_Index - 1
+                c := PixelGetColor(px, py)
+                r := (c >> 16) & 0xFF
+                g := (c >>  8) & 0xFF
+                b :=  c        & 0xFF
+                bright := (r + g + b) // 3
+                if (bright < minBright)
+                    minBright := bright
+                if (r < darkThreshold && g < darkThreshold && b < darkThreshold) {
+                    LogDebug("IsCheckboxChecked(" . cx . "," . cy . "): glyph hit at ("
+                        . px . "," . py . ") rgb=(" . r . "," . g . "," . b . ") -> CHECKED")
+                    return true
+                }
+            }
+        }
+        LogDebug("IsCheckboxChecked(" . cx . "," . cy . "): no dark pixels in "
+            . (radius * 2 + 1) . "x" . (radius * 2 + 1) . " region (min bright="
+            . minBright . ") -> empty")
+        return false
+    } catch as e {
+        ; Treat read failures as "empty" so the caller does not blindly click
+        ; and accidentally re-CHECK a checkbox we cannot read.
+        LogError("IsCheckboxChecked failed at (" . cx . "," . cy . "): " . e.Message)
+        return false
+    }
 }
 
 /**

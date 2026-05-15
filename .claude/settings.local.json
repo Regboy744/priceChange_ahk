@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"c:/Users/Backoffice/.claude/projects/c--Users-Backoffice-Documents-Gilberto-Hotkey-office-scripts-PriceChange/memory/\" 2>/dev/null || echo \"no memory yet\")",
+      "Read(//c/Users/Backoffice/.claude/projects/c--Users-Backoffice-Documents-Gilberto-Hotkey-office-scripts-PriceChange/memory/**)"
+    ]
+  }
+}
