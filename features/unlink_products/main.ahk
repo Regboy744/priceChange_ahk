@@ -37,9 +37,10 @@ global IsRunning := false
 
 ; ── Hotkey registration ───────────────────────────────────────────────────
 
-RegisterUnlinkProductsHotkeys() {
+RegisterUnlinkProductsHotkeys(skipF1 := false) {
     Hotkey("F4", (*) => TogglePause(), "On")
-    Hotkey("F1", (*) => ShowUnlinkGui(), "On")
+    if (!skipF1)
+        Hotkey("F1", (*) => ShowUnlinkGui(), "On")
     Hotkey("F2", (*) => CloseAllExcelSafely(), "On")
     Hotkey("Esc", (*) => AbortUnlinkAutomation(), "On")
 }

@@ -34,9 +34,10 @@ global IsRunning := false
 
 ; ── Hotkey registration ───────────────────────────────────────────────────
 
-RegisterPriceChangeHotkeys() {
+RegisterPriceChangeHotkeys(skipF1 := false) {
     Hotkey("F4", (*) => TogglePause(), "On")
-    Hotkey("F1", (*) => ShowMainGui(), "On")
+    if (!skipF1)
+        Hotkey("F1", (*) => ShowMainGui(), "On")
     Hotkey("F2", (*) => CloseAllExcelSafely(), "On")
     Hotkey("F3", (*) => HandleMergeLabelHotkey(), "On")
     Hotkey("Esc", (*) => AbortPriceChangeAutomation(), "On")

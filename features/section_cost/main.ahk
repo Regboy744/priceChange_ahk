@@ -24,9 +24,10 @@
 
 ; ── Hotkey registration ───────────────────────────────────────────────────
 
-RegisterSectionCostHotkeys() {
+RegisterSectionCostHotkeys(skipF1 := false) {
     Hotkey("F4", (*) => TogglePause(), "On")
-    Hotkey("F1", (*) => RunSectionCostExport(), "On")
+    if (!skipF1)
+        Hotkey("F1", (*) => RunSectionCostExport(), "On")
 }
 
 ; ── Auto-start when run directly ──────────────────────────────────────────
