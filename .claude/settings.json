@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git rm *)",
+      "Bash(git commit -m 'chore: untrack log and export files *)"
+    ]
+  }
+}
