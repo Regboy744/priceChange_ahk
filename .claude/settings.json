@@ -2,7 +2,39 @@
   "permissions": {
     "allow": [
       "Bash(git rm *)",
-      "Bash(git commit -m 'chore: untrack log and export files *)"
+      "Bash(git commit -m 'chore: untrack log and export files *)",
+      "Bash(ls \"/c/Program Files/AutoHotkey/Compiler/Ahk2Exe.exe\" \"/c/Program Files/AutoHotkey/v2/AutoHotkey64.exe\" \"/c/Program Files/AutoHotkey/v2/Compiler/Ahk2Exe.exe\" 2>&1)",
+      "Read(//c/Program Files/AutoHotkey/Compiler/**)",
+      "Bash(\"/c/Program Files/AutoHotkey/v2/AutoHotkey64.exe\" \"c:/Users/Backoffice/Documents/Gilberto/Hotkey/office_scripts/PriceChange/build.ahk\")",
+      "Bash(break)",
+      "Bash(tasklist //FI \"IMAGENAME eq AutoHotkey64.exe\")",
+      "Bash(taskkill //PID 338812 //F)",
+      "Bash(taskkill //PID 342328 //F)",
+      "Bash(\"c:/Users/Backoffice/Documents/Gilberto/Hotkey/office_scripts/PriceChange/build/GOLD_Tools.exe\")",
+      "Bash(tasklist //FI \"IMAGENAME eq GOLD_Tools.exe\")",
+      "Bash(taskkill //IM GOLD_Tools.exe //F)",
+      "Bash(tasklist //FI \"IMAGENAME eq Ahk2Exe.exe\")",
+      "Bash(tasklist //FI \"IMAGENAME eq robocopy.exe\")",
+      "Bash(taskkill //IM Ahk2Exe.exe //F)",
+      "Bash(taskkill //PID 345196 //F)",
+      "Bash(time \"/c/Program Files/AutoHotkey/Compiler/Ahk2Exe.exe\" /in \"c:/Users/Backoffice/Documents/Gilberto/Hotkey/office_scripts/PriceChange/run_unlink_products.ahk\" /out \"c:/Users/Backoffice/Documents/Gilberto/Hotkey/office_scripts/PriceChange/build/run_unlink_products.exe\" /icon \"c:/Users/Backoffice/Documents/Gilberto/Hotkey/office_scripts/PriceChange/assets/labelPriceChange.ico\" /base \"c:/Program Files/AutoHotkey/v2/AutoHotkey64.exe\" /silent)",
+      "Bash(powershell.exe \"Get-Process Ahk2Exe -ErrorAction SilentlyContinue | Select-Object Id,MainWindowTitle,MainWindowHandle | Format-List\")",
+      "Bash(powershell.exe 'Add-Type @'\\\\'' *)",
+      "Bash(\"/c/Program Files/AutoHotkey/v2/AutoHotkey64.exe\" \"c:/Users/Backoffice/Documents/Gilberto/Hotkey/office_scripts/PriceChange/run_gold_hub.ahk\")",
+      "Bash(awk '{print $2}')",
+      "Bash(powershell.exe 'Get-Process | Where-Object {$_.MainWindowTitle -ne '\\\\'''\\\\''} | Select-Object Id,ProcessName,MainWindowTitle | Format-Table -AutoSize -Wrap')",
+      "Bash(\"/c/Program Files/AutoHotkey/v2/AutoHotkey64.exe\" /script -)",
+      "Bash(powershell.exe \"Get-Process AutoHotkey64 -ErrorAction SilentlyContinue | Select-Object Id,MainWindowTitle | Format-Table -AutoSize\")",
+      "Bash(\"/c/Program Files/AutoHotkey/v2/AutoHotkey64.exe\" /tmp/close_hub.ahk)",
+      "Bash(taskkill //PID 348508 //F)",
+      "Bash(rm -f /tmp/close_hub.ahk)",
+      "Bash(tasklist //FI \"IMAGENAME eq run_price_change.exe\")",
+      "Bash(taskkill //IM run_price_change.exe //F)",
+      "Bash(taskkill //IM AutoHotkey64.exe //F)",
+      "Bash(rm -f /tmp/click_pc.ahk)"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
     ]
   }
 }

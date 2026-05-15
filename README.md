@@ -126,6 +126,55 @@ All tunables live in one place: **[shared/config.ahk](shared/config.ahk)**.
 
 ---
 
+## Build a standalone version (.exe) for other computers
+
+The whole suite can be compiled into standalone `.exe` files so you can
+launch by double-clicking an icon — no AutoHotkey installation required on
+the target PC.
+
+### Build (on a machine with AutoHotkey v2 installed)
+
+1. Double-click **[build.ahk](build.ahk)**.
+2. Wait a few seconds — the script runs `Ahk2Exe` for every runner.
+3. Output lands in [build/](build/):
+
+   ```
+   build/
+     GOLD_Tools.exe          ← launcher (was run_gold_hub.ahk)
+     run_price_change.exe
+     run_unlink_products.exe
+     run_section_cost.exe
+     assets/                 ← icons (copied as-is)
+     dist/                   ← node + pdfParser (copied as-is)
+   ```
+
+The Hub auto-detects the compiled siblings — when `run_price_change.exe`
+exists next to `run_price_change.ahk`, it launches the `.exe`; otherwise it
+falls back to the `.ahk` source via the installed AHK runtime. So the same
+[features/hub/gui.ahk](features/hub/gui.ahk) works for both dev and production.
+
+### Deploy to another computer
+
+1. Zip the entire `build/` folder.
+2. Copy it to the target PC and unzip anywhere (e.g. `C:\GOLD_Tools\`).
+3. Right-click **`GOLD_Tools.exe`** → *Send to* → *Desktop (create shortcut)*.
+4. The desktop shortcut already shows the GOLD icon (it's baked into the `.exe`).
+5. Double-click the shortcut to launch.
+
+> Make sure the target PC has the GOLD PRD client open with the same window
+> title (`GOLD PRD - \\Remote`). If not, update `CONFIG.WINDOW_TITLE` in
+> [shared/config.ahk](shared/config.ahk) **before** building, since
+> compiled `.exe` files bake in the config.
+
+### Tweaking config after deployment
+
+The compiled `.exe` files have `shared/config.ahk` baked in, so changing
+that file on the target PC has no effect. If you need per-machine settings,
+rebuild on the source PC after editing config and re-deploy the `build/`
+folder.
+
+---
+
 ## Troubleshooting
 
 - **F1 doesn't open anything** — another GOLD script may already own F1. The Hub falls back to the system tray icon; right-click it → *Show GOLD Tools*.
@@ -144,6 +193,7 @@ PriceChange/
 ├── run_price_change.ahk      ← standalone Price Change
 ├── run_unlink_products.ahk   ← standalone Unlink Products
 ├── run_section_cost.ahk      ← standalone Section Cost
+├── build.ahk                 ← compile all runners to .exe (see Build section)
 ├── features/
 │   ├── hub/                  ← launcher GUI + process management
 │   ├── price_change/         ← GUI, processing, F3 merge labels

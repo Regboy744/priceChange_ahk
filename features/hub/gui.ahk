@@ -100,7 +100,9 @@ ShowHubGui() {
     closeBtn := HubGui.Add("Button", "xm y" . y . " w290 h26", "Hide (F1)")
     closeBtn.OnEvent("Click", (*) => HubGui.Hide())
 
-    HubGui.OnEvent("Close", (*) => HubGui.Hide())
+    ; X button → fully exit (stops running feature first via ExitHub in main.ahk).
+    ; Use the "Hide (F1)" button or press F1 to keep the script running in the tray.
+    HubGui.OnEvent("Close", (*) => ExitHub())
     HubGui.Show("w310 h" . (y + 40))
 
     RefreshHubButtons()
@@ -125,21 +127,36 @@ OnHubFeatureClick(key, *) {
 }
 
 /**
- * Launch a feature's run_<feature>.ahk with `--from-hub`.
+ * Launch a feature with `--from-hub`.
+ *
+ * Feature runners always sit next to the Hub — A_ScriptDir, NOT the
+ * discovered project root.  Anchoring to A_ScriptDir keeps the compiled
+ * build (build\GOLD_Tools.exe + build\run_*.exe) and the dev tree
+ * (run_gold_hub.ahk + run_*.ahk at the project root) both working with the
+ * same lookup logic.
+ *
  * Records the PID so we can stop it later and so the poller can detect exit.
  */
 LaunchHubFeature(key) {
     global CONFIG, HubFeatures, HubRunningKey, HubRunningPid
 
     feature := HubFeatures[key]
-    runnerPath := ProjectPath(feature.runner)
-    if (!FileExist(runnerPath)) {
-        LogError("Hub: runner not found: " . runnerPath)
+    ahkPath := A_ScriptDir . "\" . feature.runner
+    exePath := A_ScriptDir . "\" . RegExReplace(feature.runner, "i)\.ahk$", ".exe")
+
+    if (FileExist(exePath)) {
+        cmd := '"' . exePath . '" --from-hub'
+    } else if (!A_IsCompiled && FileExist(ahkPath) && A_AhkPath != "" && FileExist(A_AhkPath)) {
+        ; Dev mode only: run the .ahk source through the installed AHK runtime.
+        ; Skipped when running a compiled Hub because A_AhkPath then points at
+        ; the Hub itself, which would re-launch us recursively.
+        cmd := '"' . A_AhkPath . '" "' . ahkPath . '" --from-hub'
+    } else {
+        LogError("Hub: runner not found — looked for " . exePath . " and " . ahkPath)
         SetHubStatus("❌ Cannot find " . feature.runner)
         return
     }
 
-    cmd := '"' . A_AhkPath . '" "' . runnerPath . '" --from-hub'
     LogInfo("Hub: launching " . key . " via " . cmd)
 
     try {

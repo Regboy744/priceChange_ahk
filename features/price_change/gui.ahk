@@ -412,6 +412,7 @@ OnCloseGui(*) {
         EndExcelSession()
 
     MainGui.Destroy()
+    ExitApp()
 }
 
 ; ============================================================================

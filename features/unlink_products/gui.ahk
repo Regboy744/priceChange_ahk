@@ -257,6 +257,7 @@ OnCloseUnlinkGui(*) {
 
     EndExcelSession()
     MainGui.Destroy()
+    ExitApp()
 }
 
 ; ============================================================================

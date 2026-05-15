@@ -1,3 +1,6 @@
 execution.log
 gold_export.csv
 merged_labels.csv
+
+# Compiled output from build.ahk
+build/
