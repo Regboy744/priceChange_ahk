@@ -7,7 +7,7 @@
 ;   1st press → capture Prices Table from clipboard  (EAN → Retail Price, SKU, Units)
 ;   2nd press → capture Changed Labels from clipboard, merge, write merged_labels.csv
 ;
-; Dependencies (already included via main.ahk — do NOT re-include):
+; Dependencies (provided by the includer — main.ahk):
 ;   shared\lib\csvUtils.ahk   — ParseTabDelimited(), WriteCsvFile(), EscapeCsvField()
 ;   shared\lib\logger.ahk     — LogDebug(), LogError()
 ;   shared\paths.ahk          — ProjectPath()
@@ -144,21 +144,37 @@ MergeAndExport(clipText) {
         merged.Push(outRow)
     }
 
-    ; Write output
-    outPath := ProjectPath(MERGE_OUTPUT_FILE)
+    if (merged.Length == 0) {
+        ShowMergeTooltip("❌ No matching rows to merge.`nCheck that the Till codes overlap with the EANs.")
+        return
+    }
+
+    ; Ask the user where to save. Default is project root\merged_labels.csv;
+    ; user can navigate elsewhere or rename. Cancel keeps the prices loaded
+    ; so they can retry with a different labels clipboard.
+    defaultPath := ProjectPath(MERGE_OUTPUT_FILE)
+    outPath := FileSelect("S 8", defaultPath, "Save merged labels", "CSV (*.csv)")
+    if (outPath == "") {
+        ShowMergeTooltip("⚠️ Save cancelled — labels clipboard discarded,`nprices still loaded. Press F3 to retry.")
+        return
+    }
+    if (!RegExMatch(outPath, "i)\.csv$"))
+        outPath .= ".csv"
+
     ok := WriteCsvFile(outPath, MERGE_OUTPUT_HEADERS, merged)
 
-    ; Reset state regardless of outcome
+    ; Reset state regardless of outcome — next F3 starts a fresh prices capture.
     ResetMergeState()
 
+    SplitPath(outPath, &fileName)
     if (ok) {
-        msg := "✅ Merged " . merged.Length . " items → " . MERGE_OUTPUT_FILE
+        msg := "✅ Merged " . merged.Length . " items → " . fileName
         if (skipped > 0)
             msg .= "`n(" . skipped . " unmatched labels skipped)"
         LogDebug("MergeLabels: " . merged.Length . " merged, " . skipped . " skipped → " . outPath)
         ShowMergeTooltip(msg)
     } else {
-        ShowMergeTooltip("❌ Failed to write " . MERGE_OUTPUT_FILE . ". Check log.")
+        ShowMergeTooltip("❌ Failed to write " . fileName . ". Check log.")
     }
 }
 

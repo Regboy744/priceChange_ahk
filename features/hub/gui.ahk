@@ -20,9 +20,10 @@ global HubRunningPid := 0     ; PID of the running feature process
 
 ; Feature registry. `runner` is resolved relative to project root at launch.
 global HubFeatures := Map(
-    "price_change",  { label: "Price Change",   runner: "run_price_change.ahk"   },
+    "price_change",  { label: "Price Change",    runner: "run_price_change.ahk"    },
     "unlink",        { label: "Unlink Products", runner: "run_unlink_products.ahk" },
-    "section_cost",  { label: "Section Cost",   runner: "run_section_cost.ahk"   }
+    "section_cost",  { label: "Section Cost",    runner: "run_section_cost.ahk"    },
+    "merge_labels",  { label: "Merge Labels",    runner: "run_merge_labels.ahk"    }
 )
 ; Per-feature controls (populated by ShowHubGui).
 global HubButtons := Map()    ; key -> { btn, indicator }

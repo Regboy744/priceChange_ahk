@@ -21,7 +21,8 @@ global RUNNERS := [
     { in: "run_gold_hub.ahk",        out: "GOLD_Tools.exe"           },
     { in: "run_price_change.ahk",    out: "run_price_change.exe"     },
     { in: "run_unlink_products.ahk", out: "run_unlink_products.exe"  },
-    { in: "run_section_cost.ahk",    out: "run_section_cost.exe"     }
+    { in: "run_section_cost.ahk",    out: "run_section_cost.exe"     },
+    { in: "run_merge_labels.ahk",    out: "run_merge_labels.exe"     }
 ]
 
 global ICON_PATH := "assets\labelPriceChange.ico"
@@ -110,6 +111,25 @@ Main() {
         else {
             AppendBuildLog("  ✗ " . result.summary)
             failures.Push(folder . "\ — " . result.summary)
+        }
+    }
+
+    ; ── Step 4: create / refresh the desktop shortcut to the hub ───────────
+    ; Only meaningful when the hub exe actually built — otherwise the link
+    ; would point at a missing target.  Idempotent: overwrites any existing
+    ; "GOLD Tools.lnk" on the user's desktop.
+    hubExe := buildDir . "\GOLD_Tools.exe"
+    if (FileExist(hubExe)) {
+        SetBuildStatus("Creating desktop shortcut...")
+        AppendBuildLog("→ desktop shortcut")
+        shortcutPath := A_Desktop . "\GOLD Tools.lnk"
+        try {
+            FileCreateShortcut(hubExe, shortcutPath, buildDir,
+                , "GOLD Tools — launcher", iconPath)
+            AppendBuildLog("  ✓ " . shortcutPath)
+        } catch as e {
+            AppendBuildLog("  ✗ " . e.Message)
+            failures.Push("desktop shortcut — " . e.Message)
         }
     }
 

@@ -27,7 +27,7 @@
 ; ── Feature modules ───────────────────────────────────────────────────────
 #Include processing.ahk
 #Include gui.ahk
-#Include merge_labels.ahk
+#Include ..\merge_labels\logic.ahk
 
 ; ── State ─────────────────────────────────────────────────────────────────
 global IsRunning := false
