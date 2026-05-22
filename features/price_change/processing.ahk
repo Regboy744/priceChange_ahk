@@ -104,20 +104,43 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     }
     WaitIfPaused()
 
-    ; Step 8: Wait for "Immediate Till Download", click No, then confirm it closed
+    ; Step 8: Wait for "Immediate Till Download", click Close, confirm it closed.
+    ; If the pixel click is swallowed by Citrix focus issues, escalate to
+    ; WM_CLOSE then WinKill so the modal never lingers across iterations.
+    ; The item still reports as "error" on the recovery paths — the goal of the
+    ; fallback is solely to keep the workflow from accumulating dead windows.
     tillDlgHwnd := WaitForGoldDialog(, , "IMMEDIATE TILL DOWNLOAD")
     if (!tillDlgHwnd) {
         LogError("Immediate Till Download dialog never appeared for " . item.ean)
         UpdateStatus("❌ Till download dialog missing for " . item.ean)
         return "error"
     }
+
     try WinActivate("ahk_id " . tillDlgHwnd)
     Sleep(CONFIG.DELAYS.SHORT)
-    if (!ClickAt(230, 123))
-        return "error"
-    if (!WaitForGoldDialogToClose(tillDlgHwnd)) {
-        LogError("Immediate Till Download dialog did not close for " . item.ean)
-        UpdateStatus("❌ Till download dialog still open for " . item.ean)
+    ClickAt(230, 123)
+
+    if (!WaitForGoldDialogToClose(tillDlgHwnd, 1500)) {
+        LogWarn("Click on Close did not close IMMEDIATE TILL DOWNLOAD for "
+            . item.ean . " — escalating to WinClose")
+        try WinClose("ahk_id " . tillDlgHwnd, , 2)
+
+        if (WinExist("ahk_id " . tillDlgHwnd)) {
+            LogWarn("WinClose did not close IMMEDIATE TILL DOWNLOAD for "
+                . item.ean . " — escalating to WinKill")
+            try WinKill("ahk_id " . tillDlgHwnd, , 2)
+        }
+
+        if (WinExist("ahk_id " . tillDlgHwnd)) {
+            LogError("Could not close IMMEDIATE TILL DOWNLOAD for " . item.ean
+                . " — modal still open")
+            UpdateStatus("❌ Till download dialog STUCK for " . item.ean)
+            return "error"
+        }
+
+        LogInfo("Force-closed IMMEDIATE TILL DOWNLOAD for " . item.ean
+            . " — item reported as error to flag the missed confirmation")
+        UpdateStatus("⚠️ Recovered Till download dialog: " . item.ean)
         return "error"
     }
 
@@ -127,6 +150,27 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
 
 ClearPriceChangeDialogIfPresent(eanCode, index) {
     global CONFIG
+
+    ; Safety net: if a prior item's Step 8 left an IMMEDIATE TILL DOWNLOAD modal
+    ; open, sweep it before anything else. DismissGoldDialogIfPresent below
+    ; matches a different title pattern and would not catch it.
+    staleTillHwnd := FindGoldWindow("IMMEDIATE TILL DOWNLOAD")
+    if (staleTillHwnd) {
+        LogWarn("Found stale IMMEDIATE TILL DOWNLOAD before item " . index
+            . " (" . eanCode . ") — closing via WinClose")
+        try WinClose("ahk_id " . staleTillHwnd, , 2)
+        if (WinExist("ahk_id " . staleTillHwnd))
+            try WinKill("ahk_id " . staleTillHwnd, , 2)
+        if (WinExist("ahk_id " . staleTillHwnd)) {
+            LogError("Could not clear stale IMMEDIATE TILL DOWNLOAD before "
+                . eanCode)
+            UpdateStatus("❌ Stale Till download dialog stuck before " . eanCode)
+            return false
+        }
+        Sleep(CONFIG.DELAYS.MEDIUM)
+        ActivateTargetWindow()
+        Sleep(CONFIG.DELAYS.MEDIUM)
+    }
 
     coords := CONFIG.COORDS.PRICE_CHANGE_DIALOG_OK
     dismissResult := DismissGoldDialogIfPresent(, coords.x, coords.y)
