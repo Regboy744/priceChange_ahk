@@ -138,12 +138,33 @@ Main() {
 ShowBuildGui() {
     global BuildGui, BuildStatusText, BuildLogText
 
-    BuildGui := Gui("+AlwaysOnTop", "Building GOLD Tools")
+    ; No AlwaysOnTop — the final "open folder?" MsgBox needs to appear on top
+    ; of this window so the user can see and click it.
+    BuildGui := Gui(, "Building GOLD Tools")
+    BuildGui.BackColor := "F0F4F8"
+
+    ; Tray + window icon: use the project's label icon so the taskbar and
+    ; tray entry are recognisable instead of the default AHK "H".
+    iconPath := GetProjectRoot() . "\" . ICON_PATH
+    if FileExist(iconPath) {
+        TraySetIcon(iconPath)
+        hSmall := LoadPicture(iconPath, "w16 h16 Icon1", &t1)
+        hBig   := LoadPicture(iconPath, "w32 h32 Icon1", &t2)
+        SendMessage(0x0080, 0, hSmall, BuildGui)
+        SendMessage(0x0080, 1, hBig,   BuildGui)
+    }
+
     BuildGui.SetFont("s10", "Segoe UI")
-    BuildStatusText := BuildGui.Add("Text", "xm ym w480 h22", "Starting...")
+    BuildStatusText := BuildGui.Add("Text", "xm ym w300 h22", "Starting...")
     BuildGui.SetFont("s9", "Consolas")
-    BuildLogText := BuildGui.Add("Edit", "xm y+8 w480 h240 ReadOnly -Wrap +HScroll", "")
-    BuildGui.Show("w500")
+    BuildLogText := BuildGui.Add("Edit", "xm y+8 w300 h200 ReadOnly -Wrap +HScroll", "")
+
+    BuildGui.SetFont("s10", "Segoe UI")
+    closeBtn := BuildGui.Add("Button", "xm y+8 w300 h26", "Close")
+    closeBtn.OnEvent("Click", (*) => ExitApp())
+    BuildGui.OnEvent("Close", (*) => ExitApp())
+
+    BuildGui.Show("w320")
 }
 
 SetBuildStatus(text) {

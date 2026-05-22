@@ -37,6 +37,7 @@ ShowUnlinkGui() {
     }
 
     MainGui := Gui("+Resize +AlwaysOnTop", "Gold Unlink Products Tool")
+    MainGui.BackColor := "F0F4F8"
 
     ; ── Custom icon (reuse the price-change icon — no need for a new one) ─
     iconPath := ProjectPath("assets\labelPriceChange.ico")

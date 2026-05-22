@@ -42,7 +42,11 @@ ShowMainGui() {
         try MainGui.Destroy()
     }
 
-    MainGui := Gui("+Resize +AlwaysOnTop", "Gold Price Change Tool")
+    ; AlwaysOnTop only during automation — toggled on in OnStartAutomation,
+    ; off when the run finishes. Off while idle so file pickers and MsgBoxes
+    ; can surface normally.
+    MainGui := Gui("+Resize", "Gold Price Change Tool")
+    MainGui.BackColor := "F0F4F8"
 
     ; ── Custom icon ──
     iconPath := ProjectPath("assets\labelPriceChange.ico")
@@ -173,7 +177,6 @@ OnLoadPDFForExcel(*) {
 
     if (result.success) {
         UpdateStatus("✅ Exported " . result.count . " items to Excel!")
-        MainGui.Opt("-AlwaysOnTop")
 
         openResult := MsgBox("Successfully exported " . result.count . " items!`n`n"
             . "File saved to:`n" . result.path . "`n`nOpen the file now?",
@@ -181,8 +184,6 @@ OnLoadPDFForExcel(*) {
 
         if (openResult == "Yes")
             try Run(result.path)
-
-        MainGui.Opt("+AlwaysOnTop")
     } else {
         UpdateStatus("❌ Export failed: " . result.error)
         ShowError("Failed to export to Excel:`n" . result.error)
@@ -315,17 +316,13 @@ OnStartAutomation(*) {
         return
     }
 
-    MainGui.Opt("-AlwaysOnTop")
-
     sourceInfo := LoadedSource == "pdf" ? " (from PDF)" : " (from Excel)"
     result := MsgBox("Start automation for " . PriceData.Length . " items" . sourceInfo
         . "?`n`nMake sure the Gold window is open!",
         "Confirm Start", "YesNo Icon?")
 
-    if (result != "Yes") {
-        MainGui.Opt("+AlwaysOnTop")
+    if (result != "Yes")
         return
-    }
 
     LogInfo("=== Starting Price Change Workflow ===")
     IsRunning := true
@@ -395,7 +392,6 @@ OnStartAutomation(*) {
     MainGui.Opt("-AlwaysOnTop")
     MsgBox("Price change completed!`n`n✅ Success: " . successCount
         . "`n⚠️ Not found: " . notFoundCount . "`n❌ Failed: " . failCount)
-    MainGui.Opt("+AlwaysOnTop")
 }
 
 ; ── Close ─────────────────────────────────────────────────────────────────

@@ -60,6 +60,7 @@ ShowHubGui() {
     }
 
     HubGui := Gui("+AlwaysOnTop", "GOLD Tools")
+    HubGui.BackColor := "F0F4F8"
     HubGui.SetFont("s10", "Segoe UI")
 
     ; ── Custom icon ──
@@ -92,10 +93,30 @@ ShowHubGui() {
         y += 32
     }
 
+    ; ── Hotkeys reference ──
+    ; Shown here because the hub minimises as soon as a tool launches — this
+    ; panel is the user's last chance to see the shortcuts before that.
+    y += 12
+    HubGui.SetFont("s9", "Consolas")
+    HubGui.Add("Text", "xm y" . y . " w290 cGray",
+        "F1   show / hide this window")
+    y += 16
+    HubGui.Add("Text", "xm y" . y . " w290 cGray",
+        "F4   pause / resume")
+    y += 16
+    HubGui.Add("Text", "xm y" . y . " w290 cGray",
+        "Esc  abort the current run")
+    y += 16
+    HubGui.Add("Text", "xm y" . y . " w290 cGray",
+        "F2   close all Excel")
+    y += 16
+    HubGui.Add("Text", "xm y" . y . " w290 cGray",
+        "F3   merge labels")
+    y += 22
+
     ; ── Status + close ──
-    y += 8
-    HubStatusText := HubGui.Add("Text", "xm y" . y . " w290 h22 cGray",
-        "Idle — F1 toggles this window.")
+    HubGui.SetFont("s10", "Segoe UI")
+    HubStatusText := HubGui.Add("Text", "xm y" . y . " w290 h22 cGray", "Idle.")
     y += 30
     closeBtn := HubGui.Add("Button", "xm y" . y . " w290 h26", "Hide (F1)")
     closeBtn.OnEvent("Click", (*) => HubGui.Hide())
@@ -171,6 +192,10 @@ LaunchHubFeature(key) {
     HubRunningPid := pid
     SetHubStatus("▶ Running: " . HubFeatures[key].label . "  (PID " . pid . ")")
     RefreshHubButtons()
+
+    ; Get out of the user's way — the picked tool's window is the one they
+    ; want to interact with. F1 brings the hub back when they need it.
+    try HubGui.Minimize()
 }
 
 /**
@@ -215,7 +240,7 @@ ClearHubRunningState() {
  * GUI, or the script ExitApp'd) so the hub's indicator stays accurate.
  */
 PollHubProcess() {
-    global HubRunningKey, HubRunningPid, HubFeatures
+    global HubRunningKey, HubRunningPid, HubFeatures, HubGui
     if (HubRunningKey == "" || HubRunningPid == 0)
         return
     if (ProcessExist(HubRunningPid))
@@ -225,6 +250,15 @@ PollHubProcess() {
     LogInfo("Hub: feature '" . HubRunningKey . "' exited (PID " . HubRunningPid . ")")
     SetHubStatus("● Exited: " . label)
     ClearHubRunningState()
+
+    ; Tool closed → bring the hub back so the user can pick the next workflow
+    ; without hunting for the taskbar entry. Restore in case it was minimised
+    ; (LaunchHubFeature minimises it); Show then handles the hidden case too.
+    try {
+        if (WinExist("ahk_id " . HubGui.Hwnd))
+            WinRestore("ahk_id " . HubGui.Hwnd)
+        HubGui.Show()
+    }
 }
 
 RefreshHubButtons() {
