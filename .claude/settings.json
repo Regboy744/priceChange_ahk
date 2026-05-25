@@ -31,7 +31,18 @@
       "Bash(tasklist //FI \"IMAGENAME eq run_price_change.exe\")",
       "Bash(taskkill //IM run_price_change.exe //F)",
       "Bash(taskkill //IM AutoHotkey64.exe //F)",
-      "Bash(rm -f /tmp/click_pc.ahk)"
+      "Bash(rm -f /tmp/click_pc.ahk)",
+      "Bash(\"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/dist/node/node.exe\" --version)",
+      "Bash(\"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/dist/node/node.exe\" dist/index.js)",
+      "Bash(\"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/dist/node/node.exe\" \"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/tools/pdfParser/dist/index.js\" \"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/PC3.pdf\" \"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/tools/pdfParser/temp_output.json\")",
+      "Bash(node dist/index.js \"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/PC3.pdf\" \"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/tools/pdfParser/temp_output.json\")",
+      "Bash(\"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/dist/node-v24.16.0-win-x64/node-v24.16.0-win-x64/node.exe\" --version)",
+      "Bash(\"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/dist/node-v24.16.0-win-x64/node-v24.16.0-win-x64/node.exe\" dist/index.js \"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/PC3.pdf\" \"c:/Users/Backoffice/Documents/Coding/Hotkey/office_scripts/PriceChange/tools/pdfParser/temp_output.json\")",
+      "Bash(rm -rf node)",
+      "Bash(mkdir node *)",
+      "Bash(cp \"node-v24.16.0-win-x64/node-v24.16.0-win-x64/node.exe\" \"node/node.exe\")",
+      "Bash(cp \"node-v24.16.0-win-x64/node-v24.16.0-win-x64/LICENSE\" \"node/LICENSE\")",
+      "Bash(rm -rf \"node-v24.16.0-win-x64\")"
     ],
     "additionalDirectories": [
       "\\tmp"

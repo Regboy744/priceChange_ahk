@@ -114,6 +114,45 @@ Main() {
         }
     }
 
+    ; ── Step 3b: assemble the PDF parser into build\dist\pdfParser\ ────────
+    ; The runtime expects ONE folder containing the compiled JS, runtime
+    ; node_modules, and package.json.  Source tree splits these across
+    ; tools\pdfParser\{dist,node_modules,package.json}, so we recombine
+    ; them here.  Must run AFTER the dist\ robocopy above, otherwise /MIR
+    ; would wipe what we just placed.
+    parserSrc := root . "\tools\pdfParser"
+    parserDst := buildDir . "\dist\pdfParser"
+
+    if (DirExist(parserSrc . "\dist") && DirExist(parserSrc . "\node_modules")) {
+        SetBuildStatus("Assembling PDF parser...")
+        AppendBuildLog("→ pdfParser\")
+
+        ; Mirror the compiled JS first.  /MIR cleans up renamed/removed files.
+        compiled := SyncFolderRobocopy(parserSrc . "\dist", parserDst)
+        if (!compiled.success) {
+            AppendBuildLog("  ✗ compiled JS — " . compiled.summary)
+            failures.Push("pdfParser dist — " . compiled.summary)
+        }
+
+        ; Mirror runtime node_modules (~100 MB, robocopy keeps it incremental).
+        modules := SyncFolderRobocopy(parserSrc . "\node_modules", parserDst . "\node_modules")
+        if (!modules.success) {
+            AppendBuildLog("  ✗ node_modules — " . modules.summary)
+            failures.Push("pdfParser node_modules — " . modules.summary)
+        }
+
+        ; package.json is referenced by some Node module-resolution paths.
+        if (FileExist(parserSrc . "\package.json"))
+            try FileCopy(parserSrc . "\package.json", parserDst . "\package.json", 1)
+
+        if (compiled.success && modules.success)
+            AppendBuildLog("  ✓ parser ready at " . parserDst)
+    } else {
+        AppendBuildLog("→ pdfParser\")
+        AppendBuildLog("  ✗ source not built — run 'npm install && npm run build' in tools\pdfParser")
+        failures.Push("pdfParser — source not built (run npm install && npm run build in tools\pdfParser)")
+    }
+
     ; ── Step 4: create / refresh the desktop shortcut to the hub ───────────
     ; Only meaningful when the hub exe actually built — otherwise the link
     ; would point at a missing target.  Idempotent: overwrites any existing
