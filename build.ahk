@@ -17,12 +17,7 @@
 
 #Include shared\paths.ahk
 
-global RUNNERS := [
-    { in: "run_gold_hub.ahk",        out: "GOLD_Tools.exe"           },
-    { in: "run_price_change.ahk",    out: "run_price_change.exe"     },
-    { in: "run_unlink_products.ahk", out: "run_unlink_products.exe"  },
-    { in: "run_section_cost.ahk",    out: "run_section_cost.exe"     },
-    { in: "run_merge_labels.ahk",    out: "run_merge_labels.exe"     }
+global RUNNERS := [{ in: "run_gold_hub.ahk", out: "GOLD_Tools.exe" }, { in: "run_price_change.ahk", out: "run_price_change.exe" }, { in: "run_unlink_products.ahk", out: "run_unlink_products.exe" }, { in: "run_section_cost.ahk", out: "run_section_cost.exe" }, { in: "run_merge_labels.ahk", out: "run_merge_labels.exe" }
 ]
 
 global ICON_PATH := "assets\labelPriceChange.ico"
@@ -208,9 +203,9 @@ ShowBuildGui() {
     if FileExist(iconPath) {
         TraySetIcon(iconPath)
         hSmall := LoadPicture(iconPath, "w16 h16 Icon1", &t1)
-        hBig   := LoadPicture(iconPath, "w32 h32 Icon1", &t2)
+        hBig := LoadPicture(iconPath, "w32 h32 Icon1", &t2)
         SendMessage(0x0080, 0, hSmall, BuildGui)
-        SendMessage(0x0080, 1, hBig,   BuildGui)
+        SendMessage(0x0080, 1, hBig, BuildGui)
     }
 
     BuildGui.SetFont("s10", "Segoe UI")
@@ -246,7 +241,7 @@ AppendBuildLog(line) {
 /**
  * Mirror src → dst with robocopy.  Only changed files are copied.
  * Returns { success: bool, summary: "copied=N skipped=M ..." }.
- *
+ * 
  * Robocopy exit codes 0-7 are success (0 = nothing copied, all OK; 1 = some
  * files copied; 2 = extra files in dst; etc.).  Codes 8+ are real failures.
  */

@@ -23,11 +23,12 @@ global ProgressBar := ""
 global StartBtn := ""
 global LoadPdfBtn := ""
 global LoadExcelBtn := ""
+global LoadPasteBtn := ""
 global StartDateEdit := ""
 global EndDateEdit := ""
 global ReasonCodeDDL := ""
 global PriceData := []    ; Array of {row, ean, price, description?, status}
-global LoadedSource := ""    ; "pdf" | "excel"
+global LoadedSource := ""    ; "pdf" | "excel" | "paste"
 
 ; ============================================================================
 ; SHOW MAIN GUI
@@ -35,7 +36,7 @@ global LoadedSource := ""    ; "pdf" | "excel"
 
 ShowMainGui() {
     global MainGui, DataListView, StatusText, ProgressBar
-    global StartBtn, LoadPdfBtn, LoadExcelBtn, StartDateEdit, EndDateEdit, CONFIG
+    global StartBtn, LoadPdfBtn, LoadExcelBtn, LoadPasteBtn, StartDateEdit, EndDateEdit, CONFIG
 
     ; Destroy previous instance if still open
     if (MainGui != "") {
@@ -69,19 +70,22 @@ ShowMainGui() {
 
     MainGui.SetFont("s10 norm", "Segoe UI")
     MainGui.Add("Text", "xm y48 w410 Center BackgroundTrans",
-        "Load a PDF or Excel file, review the data, then start")
+        "Load a PDF, Excel file, or paste a list, review the data, then start")
 
     ; ── Buttons ──
-    LoadPdfBtn := MainGui.Add("Button", "x25 y95 w90 h28", "📄 PDF ▼")
+    LoadPdfBtn := MainGui.Add("Button", "x25 y95 w80 h28", "📄 PDF ▼")
     LoadPdfBtn.OnEvent("Click", OnPdfButtonClick)
 
-    LoadExcelBtn := MainGui.Add("Button", "x+5 y95 w90 h28", "📊 Excel")
+    LoadExcelBtn := MainGui.Add("Button", "x+4 y95 w70 h28", "📊 Excel")
     LoadExcelBtn.OnEvent("Click", OnLoadExcel)
 
-    StartBtn := MainGui.Add("Button", "x+5 y95 w105 h28 Disabled", "▶️ Start")
+    LoadPasteBtn := MainGui.Add("Button", "x+4 y95 w72 h28", "📋 Paste")
+    LoadPasteBtn.OnEvent("Click", OnLoadPaste)
+
+    StartBtn := MainGui.Add("Button", "x+4 y95 w90 h28 Disabled", "▶️ Start")
     StartBtn.OnEvent("Click", OnStartAutomation)
 
-    MainGui.Add("Button", "x+5 y95 w70 h28", "❌ Close").OnEvent("Click", OnCloseGui)
+    MainGui.Add("Button", "x+4 y95 w60 h28", "❌ Close").OnEvent("Click", OnCloseGui)
 
     ; ── Data table ──
     MainGui.SetFont("s9", "Segoe UI")
@@ -105,7 +109,7 @@ ShowMainGui() {
 
     ; ── Status ──
     StatusText := MainGui.Add("Text", "xm y460 w280 h25 cGray",
-        "Ready. Load a PDF or Excel file to begin.")
+        "Ready. Load a PDF, Excel file, or paste a list to begin.")
 
     ; ── Info ──
     MainGui.SetFont("s8", "Segoe UI")
@@ -306,17 +310,60 @@ OnLoadExcel(*) {
     LogInfo("Loaded " . PriceData.Length . " items from Excel")
 }
 
+; ── Load from copy & paste ────────────────────────────────────────────────
+
+OnLoadPaste(*) {
+    global DataListView, PriceData, StartBtn, LoadedSource, MainGui
+
+    instructions := "Paste your list below — one item per line: EAN code then price.`n"
+        . "Columns may be separated by Tab, space, comma or semicolon "
+        . "(e.g. copy two columns straight from Excel)."
+
+    text := ShowPasteInputDialog("Paste EAN + Price List", instructions, MainGui)
+    if (text == "") {
+        UpdateStatus("⚠️ Paste cancelled — no data loaded")
+        return
+    }
+
+    parsed := ParsePastedPriceList(text)
+    if (parsed.items.Length == 0) {
+        UpdateStatus("❌ No valid EAN + price rows found in the pasted text")
+        ShowError("Could not find any 'EAN  price' rows in the pasted text.`n`n"
+            . "Make sure each line has an EAN code followed by its price.")
+        return
+    }
+
+    ; Only reset the loaded data once we know the paste is usable.
+    DataListView.Delete()
+    PriceData := []
+    LoadedSource := "paste"
+
+    rowNum := 0
+    for entry in parsed.items {
+        rowNum++
+        PriceData.Push({ row: rowNum, ean: entry.ean, price: entry.price, status: "pending" })
+        DataListView.Add("", "⏳", rowNum, entry.ean, entry.price)
+    }
+
+    StartBtn.Enabled := true
+    skippedNote := parsed.skipped > 0 ? " (" . parsed.skipped . " line(s) skipped)" : ""
+    UpdateStatus("✅ Loaded " . PriceData.Length . " items from paste" . skippedNote
+        . ". Ready to start!")
+    LogInfo("Loaded " . PriceData.Length . " items from paste" . skippedNote)
+}
+
 ; ── Start automation ──────────────────────────────────────────────────────
 
 OnStartAutomation(*) {
     global IsRunning, PriceData, CONFIG, MainGui, LoadedSource
 
     if (PriceData.Length == 0) {
-        UpdateStatus("❌ No data loaded. Please load a PDF or Excel file first.")
+        UpdateStatus("❌ No data loaded. Please load a PDF, Excel file, or paste a list first.")
         return
     }
 
-    sourceInfo := LoadedSource == "pdf" ? " (from PDF)" : " (from Excel)"
+    sourceInfo := LoadedSource == "pdf" ? " (from PDF)"
+        : LoadedSource == "paste" ? " (from paste)" : " (from Excel)"
     result := MsgBox("Start automation for " . PriceData.Length . " items" . sourceInfo
         . "?`n`nMake sure the Gold window is open!",
         "Confirm Start", "YesNo Icon?")
@@ -439,10 +486,11 @@ UpdateListViewStatus(rowIndex, status) {
 }
 
 EnableButtons(enable) {
-    global StartBtn, LoadPdfBtn, LoadExcelBtn
+    global StartBtn, LoadPdfBtn, LoadExcelBtn, LoadPasteBtn
     StartBtn.Enabled := enable
     LoadPdfBtn.Enabled := enable
     LoadExcelBtn.Enabled := enable
+    LoadPasteBtn.Enabled := enable
 }
 
 /** Move GUI to bottom-right corner during automation. */

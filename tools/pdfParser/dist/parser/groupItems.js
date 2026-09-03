@@ -13,7 +13,11 @@ function groupItemsIntoLines(items, yTolerance = DEFAULT_Y_TOLERANCE) {
         else {
             target.items.push(item);
             target.items.sort((a, b) => a.x - b.x);
-            target.text = target.items.map((i) => i.text).join(" ").replace(/\s+/g, " ").trim();
+            target.text = target.items
+                .map((i) => i.text)
+                .join(' ')
+                .replace(/\s+/g, ' ')
+                .trim();
         }
     }
     return lines.sort((a, b) => b.y - a.y);

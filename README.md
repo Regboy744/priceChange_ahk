@@ -5,8 +5,8 @@ workflows behind a single launcher (the **Hub**) so you only need to remember on
 
 | Feature           | What it does                                                                                       |
 | ----------------- | -------------------------------------------------------------------------------------------------- |
-| Price Change      | Reads a PDF or Excel of EAN + new price, drives GOLD's price-change screen item by item.           |
-| Unlink Products   | Reads an Excel of EANs and unticks **Scale download**, **Printable**, and **Article link**.       |
+| Price Change      | Reads a PDF, Excel, or pasted list of EAN + new price, drives GOLD's price-change screen item by item. |
+| Unlink Products   | Reads an Excel or pasted list of EANs and unticks **Scale download**, **Printable**, and **Article link**. |
 | Section Cost      | Iterates every department / section / family group and exports cost data to CSV via clipboard.    |
 
 ---
@@ -64,6 +64,7 @@ Source file: [features/price_change/](features/price_change/)
    - **PDF ▼ → Parse for Price Change** — pick a price-change PDF from GOLD.
    - **PDF ▼ → Export to Excel File** — same parse, but writes the data to a new `.xlsx` instead of loading it.
    - **Excel** — opens the most recent `.xlsx` and reads sheet `IMPULSE`, column A = EAN, column B = New price.
+   - **📋 Paste** — opens a box (prefilled from the clipboard) where you paste an `EAN  price` list, one item per line. Columns may be separated by Tab, space, comma, or semicolon — so copying two columns straight from Excel works. Comma decimals (`1,99`) are accepted.
 3. Optionally set **Start Date**, **End Date**, and **Reason Code** (bottom-right of the GUI).
 4. Click **▶️ Start**. Confirm the prompt — the script then drives GOLD for every row.
 5. Each row shows ✅ success, ⚠️ not found, or ❌ failed in the preview table. A summary message appears at the end.
@@ -85,7 +86,9 @@ export and need them joined by EAN. See [features/price_change/merge_labels.ahk]
 Source file: [features/unlink_products/](features/unlink_products/)
 
 1. Open the Hub, click **Start** next to *Unlink Products*.
-2. Click **📊 Excel** and pick a workbook whose **first sheet, column A** lists EANs (row 1 = header).
+2. Load EANs one of two ways:
+   - **📊 Excel** — pick a workbook whose **first sheet, column A** lists EANs (row 1 = header).
+   - **📋 Paste** — paste a list of EAN codes, one per line (any trailing columns are ignored). The box is prefilled from the clipboard.
 3. Make sure GOLD is on the unlink screen, then click **▶️ Start**.
 4. For each EAN the script:
    - pastes the code into the EAN field,

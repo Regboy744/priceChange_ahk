@@ -12,10 +12,10 @@ function resolveCliOptions() {
     const outputArg = args[1];
     const input = inputArg
         ? node_path_1.default.resolve(process.cwd(), inputArg)
-        : node_path_1.default.resolve(process.cwd(), "pdfParser", "pricechange.pdf");
+        : node_path_1.default.resolve(process.cwd(), 'pdfParser', 'pricechange.pdf');
     const output = outputArg
         ? node_path_1.default.resolve(process.cwd(), outputArg)
-        : node_path_1.default.resolve(process.cwd(), "pdfParser", "output.json");
+        : node_path_1.default.resolve(process.cwd(), 'pdfParser', 'output.json');
     return { input, output };
 }
 async function main() {
@@ -32,10 +32,10 @@ async function main() {
         labels,
     };
     node_fs_1.default.mkdirSync(node_path_1.default.dirname(output), { recursive: true });
-    node_fs_1.default.writeFileSync(output, JSON.stringify(payload, null, 2), "utf8");
+    node_fs_1.default.writeFileSync(output, JSON.stringify(payload, null, 2), 'utf8');
     console.log(`Parsed ${labels.length} labels -> ${output}`);
 }
 main().catch((error) => {
-    console.error("Parsing failed:", error);
+    console.error('Parsing failed:', error);
     process.exitCode = 1;
 });

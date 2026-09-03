@@ -42,7 +42,16 @@
       "Bash(mkdir node *)",
       "Bash(cp \"node-v24.16.0-win-x64/node-v24.16.0-win-x64/node.exe\" \"node/node.exe\")",
       "Bash(cp \"node-v24.16.0-win-x64/node-v24.16.0-win-x64/LICENSE\" \"node/LICENSE\")",
-      "Bash(rm -rf \"node-v24.16.0-win-x64\")"
+      "Bash(rm -rf \"node-v24.16.0-win-x64\")",
+      "PowerShell(node -e \"const {extractPrice}=require\\('./dist/parser/heuristics.js'\\); const accept=[['? 4.25',4.25],['4.25',4.25],['4,25',4.25],['?4.25',4.25],['\\(2.95\\)',2.95],['? 6.00',6]]; const reject=['CLUB ORANGE BOTTLE 1.75LTR','BOTTLE 1.25LTR','1.75LTR','BOTTLE 1.75 LTR','1.75 LTR','67.20 GRM','? 2.43 per LTR','67.2GRM','1.5LTR']; let ok=true; for\\(const [t,v] of accept\\){const r=extractPrice\\(t\\); if\\(r!==v\\){ok=false; console.log\\('ACCEPT FAIL',JSON.stringify\\(t\\),'=>',r,'expected',v\\);} else console.log\\('ok accept',JSON.stringify\\(t\\),'=>',r\\);} for\\(const t of reject\\){const r=extractPrice\\(t\\); if\\(r!==null\\){ok=false; console.log\\('REJECT FAIL',JSON.stringify\\(t\\),'=>',r\\);} else console.log\\('ok reject',JSON.stringify\\(t\\)\\);} console.log\\(ok?'ALL PASS':'FAILURES'\\);\")",
+      "PowerShell(node --version)",
+      "PowerShell(node dist/index.js ../../docs/Charlemont.pdf ./verify_output.json 2>&1)",
+      "PowerShell(cd tools/pdfParser; npx tsc --version; Write-Output '--- typecheck \\(noEmit\\) ---'; npx tsc -p tsconfig.json --noEmit; Write-Output \"exit=$LASTEXITCODE\")",
+      "PowerShell(cd tools/pdfParser; npx tsc -p tsconfig.json --noEmit; Write-Output \"exit=$LASTEXITCODE\")",
+      "PowerShell(npx tsc -p tsconfig.json --noEmit; Write-Output \"typecheck exit=$LASTEXITCODE\")",
+      "PowerShell(npm run build 2>&1 | Select-String -Pattern 'error','Parsed' -SimpleMatch; Write-Output \"build exit=$LASTEXITCODE\"; node dist/index.js ../../docs/Charlemont.pdf ./verify_output.json; Write-Output \"run exit=$LASTEXITCODE\")",
+      "Read(//c/Program Files/AutoHotkey/**)",
+      "Read(//x//**)"
     ],
     "additionalDirectories": [
       "\\tmp"

@@ -21,6 +21,7 @@ global StatusText := ""
 global ProgressBar := ""
 global StartBtn := ""
 global LoadExcelBtn := ""
+global LoadPasteBtn := ""
 global UnlinkData := []    ; Array of { row, ean, status }
 
 ; ============================================================================
@@ -29,7 +30,7 @@ global UnlinkData := []    ; Array of { row, ean, status }
 
 ShowUnlinkGui() {
     global MainGui, DataListView, StatusText, ProgressBar
-    global StartBtn, LoadExcelBtn, CONFIG
+    global StartBtn, LoadExcelBtn, LoadPasteBtn, CONFIG
 
     ; Destroy previous instance if still open
     if (MainGui != "") {
@@ -57,17 +58,20 @@ ShowUnlinkGui() {
     MainGui.Add("Text", "xm yp+15 cBlack BackgroundTrans", "Gold Unlink Products")
 
     MainGui.SetFont("s9 norm", "Segoe UI")
-    MainGui.Add("Text", "xm y45 cGray BackgroundTrans",
-        "Load an Excel of EANs, then start to unlink scale / print / article links")
+    MainGui.Add("Text", "xm y45 w320 cGray BackgroundTrans",
+        "Load an Excel of EANs (or paste a list), then start to unlink scale / print / article links")
 
     ; ── Buttons ──
-    LoadExcelBtn := MainGui.Add("Button", "xm y85 w105 h28", "📊 Excel")
+    LoadExcelBtn := MainGui.Add("Button", "xm y85 w78 h28", "📊 Excel")
     LoadExcelBtn.OnEvent("Click", OnLoadExcelUnlink)
 
-    StartBtn := MainGui.Add("Button", "x+5 y85 w105 h28 Disabled", "▶️ Start")
+    LoadPasteBtn := MainGui.Add("Button", "x+5 y85 w78 h28", "📋 Paste")
+    LoadPasteBtn.OnEvent("Click", OnLoadPasteUnlink)
+
+    StartBtn := MainGui.Add("Button", "x+5 y85 w88 h28 Disabled", "▶️ Start")
     StartBtn.OnEvent("Click", OnStartUnlink)
 
-    MainGui.Add("Button", "x+5 y85 w70 h28", "❌ Close").OnEvent("Click", OnCloseUnlinkGui)
+    MainGui.Add("Button", "x+5 y85 w60 h28", "❌ Close").OnEvent("Click", OnCloseUnlinkGui)
 
     ; ── Data table ──
     MainGui.SetFont("s9 norm", "Segoe UI")
@@ -154,6 +158,46 @@ OnLoadExcelUnlink(*) {
     StartBtn.Enabled := true
     UpdateStatus("✅ Loaded " . UnlinkData.Length . " items. Ready to start!")
     LogInfo("Unlink: loaded " . UnlinkData.Length . " items from Excel")
+}
+
+; ── Load from copy & paste ────────────────────────────────────────────────
+
+OnLoadPasteUnlink(*) {
+    global DataListView, UnlinkData, StartBtn, MainGui
+
+    instructions := "Paste your EAN codes below — one per line.`n"
+        . "Extra columns (Tab / space / comma separated) are ignored; only the EAN is used."
+
+    text := ShowPasteInputDialog("Paste EAN List", instructions, MainGui)
+    if (text == "") {
+        UpdateStatus("⚠️ Paste cancelled — no data loaded")
+        return
+    }
+
+    parsed := ParsePastedEanList(text)
+    if (parsed.items.Length == 0) {
+        UpdateStatus("❌ No valid EAN codes found in the pasted text")
+        ShowError("Could not find any EAN codes in the pasted text.`n`n"
+            . "Make sure each line starts with a numeric EAN code.")
+        return
+    }
+
+    ; Only reset the loaded data once we know the paste is usable.
+    DataListView.Delete()
+    UnlinkData := []
+
+    rowNum := 0
+    for ean in parsed.items {
+        rowNum++
+        UnlinkData.Push({ row: rowNum, ean: ean, status: "pending" })
+        DataListView.Add("", "⏳", rowNum, ean)
+    }
+
+    StartBtn.Enabled := true
+    skippedNote := parsed.skipped > 0 ? " (" . parsed.skipped . " line(s) skipped)" : ""
+    UpdateStatus("✅ Loaded " . UnlinkData.Length . " items from paste" . skippedNote
+        . ". Ready to start!")
+    LogInfo("Unlink: loaded " . UnlinkData.Length . " items from paste" . skippedNote)
 }
 
 ; ── Start automation ──────────────────────────────────────────────────────
@@ -289,9 +333,10 @@ UpdateListViewStatus(rowIndex, status) {
 }
 
 EnableButtons(enable) {
-    global StartBtn, LoadExcelBtn
+    global StartBtn, LoadExcelBtn, LoadPasteBtn
     StartBtn.Enabled := enable
     LoadExcelBtn.Enabled := enable
+    LoadPasteBtn.Enabled := enable
 }
 
 /** Move GUI to bottom-right corner during automation. */

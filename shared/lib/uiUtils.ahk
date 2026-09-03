@@ -483,6 +483,75 @@ global WarningOverlay := ""
 global ProgressOverlay := ""
 global ProgressOverlayText := ""
 
+/**
+ * Show a modal-style multi-line paste dialog and return the entered text.
+ * Pre-fills with the current clipboard text so a "copy → open dialog" flow
+ * needs no extra Ctrl+V. Blocks until the user confirms or cancels.
+ *
+ * @param title         Window caption.
+ * @param instructions  Help line shown above the edit box.
+ * @param ownerGui       Optional owner Gui object (keeps the dialog on top and
+ *                       disables the owner for true modal behaviour).
+ * @returns The entered text, or "" if the user cancelled / closed the dialog.
+ */
+ShowPasteInputDialog(title, instructions, ownerGui := "") {
+    dlgResult := ""
+    dlgDone := false
+
+    opts := "+AlwaysOnTop +ToolWindow"
+    if (ownerGui != "")
+        opts .= " +Owner" . ownerGui.Hwnd
+
+    pasteGui := Gui(opts, title)
+    pasteGui.BackColor := "F0F4F8"
+    pasteGui.SetFont("s9", "Segoe UI")
+    pasteGui.Add("Text", "xm ym w400", instructions)
+
+    editCtl := pasteGui.Add("Edit", "xm y+8 w400 r14 +Multi +WantReturn +HScroll")
+
+    ; Prefill from the clipboard so the common copy → paste flow is one click.
+    prefill := ""
+    try prefill := A_Clipboard
+    if (prefill != "")
+        editCtl.Value := prefill
+
+    loadBtn := pasteGui.Add("Button", "xm y+10 w120 h30 Default", "✅ Load List")
+    loadBtn.OnEvent("Click", OnPasteLoad)
+    pasteGui.Add("Button", "x+10 yp w120 h30", "❌ Cancel").OnEvent("Click", OnPasteCancel)
+    pasteGui.OnEvent("Close", OnPasteCancel)
+    pasteGui.OnEvent("Escape", OnPasteCancel)
+
+    if (ownerGui != "")
+        ownerGui.Opt("+Disabled")
+
+    pasteGui.Show("AutoSize Center")
+
+    ; Focus + select-all only after the dialog is visible, so the keystroke
+    ; lands in this edit box (not whatever had focus before Show).
+    editCtl.Focus()
+    if (prefill != "")
+        Send("^a")
+
+    while (!dlgDone)
+        Sleep(30)
+
+    if (ownerGui != "")
+        ownerGui.Opt("-Disabled")
+
+    return dlgResult
+
+    OnPasteLoad(*) {
+        dlgResult := editCtl.Value
+        dlgDone := true
+        pasteGui.Destroy()
+    }
+    OnPasteCancel(*) {
+        dlgResult := ""
+        dlgDone := true
+        pasteGui.Destroy()
+    }
+}
+
 /** Show a full-width red "AUTOMATION IN PROGRESS" banner at the top of the screen. */
 ShowWorkingOverlay() {
     global WarningOverlay

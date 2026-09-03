@@ -3,7 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.extractPrice = extractPrice;
 exports.extractEan = extractEan;
 exports.normalizeDescription = normalizeDescription;
-const PRICE_REGEX = /(\d{1,4})[.,](\d{2})/;
+// A standalone price token, optionally wrapped in currency / punctuation (€, parentheses…),
+// but never containing letters — so a glued volume like "1.75LTR" is rejected while
+// "€4.25", "€ 4.25", "4.25" and "4,25" are accepted. NOTE: trailing letters are intentionally
+// NOT stripped; stripping them would turn "1.75LTR" back into "1.75".
+const PRICE_TOKEN_REGEX = /^[^\dA-Za-z]*(\d{1,4})[.,](\d{2})[^\dA-Za-z]*$/;
+// A line carrying a (spaced) unit or per-unit word is a description / sub-price line,
+// not the product price line — catches "BOTTLE 1.75 LTR", "€ 2.43 per LTR", "67.20 GRM".
+// (The real price line is always a bare "€ X.XX" with no unit word in this data.)
+const UNIT_WORD_REGEX = /\b(?:LTR|LTRS|LITRE|LITRES|ML|MLS|CL|GRM|GRMS|KG|KGM|KGS|PER|EACH|PCE|PCS|PK)\b/i;
 const DATE_TOKEN_REGEX = /\b\d{1,2}\.\d{2}\b/;
 const DIGITS_ONLY_REGEX = /^\d+$/;
 function isValidEan13(code) {
@@ -34,12 +42,17 @@ function isValidUpcA(code) {
     return calc === checkDigit;
 }
 function extractPrice(text) {
-    const match = text.match(PRICE_REGEX);
-    if (!match)
+    if (UNIT_WORD_REGEX.test(text))
         return null;
-    const normalized = `${match[1]}.${match[2]}`;
-    const value = Number.parseFloat(normalized);
-    return Number.isFinite(value) ? value : null;
+    for (const token of text.trim().split(/\s+/)) {
+        const match = token.match(PRICE_TOKEN_REGEX);
+        if (!match)
+            continue;
+        const value = Number.parseFloat(`${match[1]}.${match[2]}`);
+        if (Number.isFinite(value))
+            return value;
+    }
+    return null;
 }
 function extractEan(text) {
     // Important: some pages show spaced digit groups on the same line as dates (e.g. "454 799 864 473 30.01 ...").
