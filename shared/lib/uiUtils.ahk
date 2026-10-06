@@ -176,17 +176,26 @@ FocusAndReplaceField(x, y, value, settleDelay := 0) {
 ; ── GOLD-specific field helpers ───────────────────────────────────────────
 
 /**
- * Set the start-date field in GOLD.
- * @param startDate  "DD/MM/YY" format
+ * Set the start-date field in GOLD (click once, select, paste, Tab).
+ * Must be called AFTER Alt+R — Alt+R clears the form, date included.
+ * @param startDate  "DD/MM/YY" format. Empty string = skip.
  */
 SetStartDate(startDate) {
     global CONFIG
+
+    if (startDate == "") {
+        LogDebug("Start date is empty, skipping")
+        return true
+    }
+
     try {
         coords := CONFIG.COORDS.START_DATE
-        result := SetFieldValue(coords.x, coords.y, startDate)
-        if (result)
-            LogInfo("Start date set to: " . startDate)
-        return result
+        if (!SetFieldValue(coords.x, coords.y, startDate))
+            return false
+        Send("{Tab}")
+        Sleep(CONFIG.DELAYS.MEDIUM)
+        LogInfo("Start date set to: " . startDate)
+        return true
     } catch as e {
         LogError("Failed to set start date: " . e.Message)
         ShowError("Failed to set start date: " . e.Message)
@@ -244,9 +253,11 @@ SetReasonCode(reasonCode) {
 
 
 /**
- * Enter an EAN code and trigger search (Alt+R → type → Alt+T).
+ * Enter an EAN code and trigger search
+ * (Alt+R → start date → type EAN → Alt+T).
+ * The start date goes in right after Alt+R, because Alt+R clears the form.
  */
-EnterArticleCode(eanCode) {
+EnterArticleCode(eanCode, startDate := "") {
     global CONFIG
     try {
         focusResult := EnsureGoldFocus()
@@ -260,7 +271,9 @@ EnterArticleCode(eanCode) {
         }
 
         Send("!r")
-        Sleep 100
+        Sleep(CONFIG.DELAYS.LONG)
+        if (!SetStartDate(startDate))
+            return false
         coords := CONFIG.COORDS.ARTICLE_CODE
         ClickAndType(coords.x, coords.y, eanCode)
         Sleep(CONFIG.DELAYS.LONG)

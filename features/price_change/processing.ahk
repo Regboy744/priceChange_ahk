@@ -38,13 +38,10 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     startDate := (StartDateEdit != "") ? StartDateEdit.Text : ""
     endDate := (EndDateEdit != "") ? EndDateEdit.Text : ""
 
-    ; Step 1: Set start date (first item only). SetStartDate already settles internally.
-    if (index == 1 && !SetStartDate(startDate))
-        return "error"
-    WaitIfPaused()
-
-    ; Step 2: Enter article code and search
-    if (!EnterArticleCode(item.ean))
+    ; Step 1+2: Alt+R → start date → article code → search, every item.
+    ; The date is entered inside EnterArticleCode, right after Alt+R
+    ; (Alt+R clears the form, so a date entered before it is lost).
+    if (!EnterArticleCode(item.ean, startDate))
         return "error"
     WaitIfPaused()
     if (!WaitForGoldSpinnerToFinish())
@@ -85,6 +82,15 @@ ProcessSinglePriceChangeFromGui(item, index, total) {
     if (!SaveNewPrice())
         return "error"
     WaitIfPaused()
+
+    ; With a start date set, the price change is for a later day: GOLD saves
+    ; it without the "Till download lot number" / "Immediate Till Download"
+    ; windows, so there is nothing to confirm — go straight to the next item.
+    if (startDate != "") {
+        LogInfo("Saved with start date " . startDate
+            . " — no till download windows expected, item " . index . " done")
+        return "success"
+    }
 
     ; Step 7: Wait for "Till download lot number", click OK, then confirm it closed
     lotDlgHwnd := WaitForGoldDialog()
